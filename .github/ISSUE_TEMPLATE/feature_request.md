@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Enhancement
+about: Hold the enhancement flow
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
