@@ -13,15 +13,13 @@ assignees: hadrien-toma
 
 | key | value |
 | ----| ----- |
-| name | feature name goes here |
+| name | feature name |
 
 ## Description
 
-Description of the feature goes here.
+Description of the feature.
 
 ## Linked issues
 
 - Linked
 - issues
-- go
-- here
