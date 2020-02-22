@@ -11,9 +11,9 @@ assignees: hadrien-toma
 
 ## Metadata
 
-| key | value  |
-| -------- | --------- |
-| name     | countdown |
+| key | value |
+| ----| ----- |
+| name | feature name goes here |
 
 ## Description
 
