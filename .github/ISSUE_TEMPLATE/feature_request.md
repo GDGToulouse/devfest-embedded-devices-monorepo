@@ -13,13 +13,8 @@ assignees: ''
 
 | key | value |
 | ----| ----- |
-| name | enhancement name |
+| name | enhancement-name |
 
 ## Description
 
 Description of the enhancement.
-
-## Linked issues
-
-- Linked
-- issues
