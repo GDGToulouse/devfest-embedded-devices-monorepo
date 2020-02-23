@@ -13,13 +13,29 @@ assignees: ''
 
 | key | value |
 | ----| ----- |
-| name | proof of concept name |
+| name | proof-of-concept-name |
 
 ## Description
 
-Description of the Proof Of Concept.
+Proof of concept description
 
-## Linked issues
+## Tasks
 
-- Linked
-- issues
+- [x] Proof
+- [ ] of
+- [x] context
+- [ ] tasks
+
+## Inputs
+
+- Proof
+- Of
+- Concept
+- Inputs
+
+## References
+
+- Proof
+- Of
+- Concept
+- References
