@@ -13,13 +13,14 @@ assignees: hadrien-toma
 
 | key | value |
 | ----| ----- |
-| name | feature name |
+| name | business-feature-name |
 
 ## Description
 
 Description of the feature.
 
-## Linked issues
+## Issues
 
-- Linked
+- Business
+- feature
 - issues
