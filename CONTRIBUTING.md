@@ -2,7 +2,7 @@
 
 ## Workflow
 
-- This repository use a [GitHub project](https://github.com/GDGToulouse/devfest-embedded-devices-monorepo/projects/1) for development concerns.
+- This repository uses a [GitHub project](https://github.com/GDGToulouse/devfest-embedded-devices-monorepo/projects/1) for development concerns.
 
 ## Working on an issue
 
