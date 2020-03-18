@@ -1,0 +1,26 @@
+import { ToggleScreenOrientationActionsLandscape, ToggleScreenOrientationActionsPortrait } from '../actions';
+import { featureName } from '../feature.config';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Injectable } from '@angular/core';
+import { createEffect } from '@ngrx/effects';
+import { map } from 'rxjs/operators';
+
+const effects = 'handset-landscape';
+
+@Injectable()
+export class HandsetLandscapeEffects {
+	main$ = createEffect(
+		() =>
+			this.breakpointObserver
+				.observe([Breakpoints.HandsetLandscape])
+				.pipe(
+					map(({matches}) =>
+						matches
+							? ToggleScreenOrientationActionsLandscape()
+							: ToggleScreenOrientationActionsPortrait()
+					)
+				),
+		{ dispatch: true }
+	);
+	constructor(private breakpointObserver: BreakpointObserver) {}
+}

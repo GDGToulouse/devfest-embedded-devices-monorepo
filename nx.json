@@ -1,0 +1,55 @@
+{
+	"npmScope": "gdgtoulouse",
+	"implicitDependencies": {
+		"angular.json": "*",
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		"tsconfig.json": "*",
+		"tslint.json": "*",
+		"nx.json": "*"
+	},
+	"projects": {
+		"embedded-device-manager": {
+			"tags": ["app", "web"]
+		},
+		"embedded-device-manager-api-nest": {
+			"tags": ["app", "api", "node"]
+		},
+		"embedded-device-manager-api-couchdb-cloud": {
+			"tags": ["app", "db", "cloud"]
+		},
+		"embedded-device-manager-api-couchdb-device": {
+			"tags": ["app", "db", "device"]
+		},
+		"embedded-device-manager-e2e": {
+			"tags": ["app", "e2e"],
+			"implicitDependencies": ["embedded-device-manager"]
+		},
+		"apis-child-processes": {
+			"tags": ["api"]
+		},
+		"apps-embedded-device-manager-routes-route": {
+			"tags": ["route"]
+		},
+		"components-css-grid-3-3": {
+			"tags": ["component"]
+		},
+		"features-processings": {
+			"tags": ["feature"]
+		},
+		"structures-tree": {
+			"tags": ["structure"]
+		},
+		"types": {
+			"tags": ["types"]
+		},
+		"dbs-pouchdb-langs": {
+			"tags": []
+		},
+		"dbs-pouchdb-texts-langs": {
+			"tags": []
+		}
+	}
+}

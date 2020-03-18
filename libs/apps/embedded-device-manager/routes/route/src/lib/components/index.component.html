@@ -1,0 +1,115 @@
+<ng-container
+  *ngIf="{
+		gridTemplateAreas: gridTemplateAreas$ | async,
+		gridTemplateColumns: gridTemplateColumns$ | async,
+		gridTemplateRows: gridTemplateRows$ | async,
+		langMenuItem: langMenuItem$ | async,
+		langMenuList: langMenuList$ | async,
+		leftSidenavItemList: leftSidenavItemList$ | async,
+		rightSidenavItemList: rightSidenavItemList$ | async,
+		menuEndTogglerTooltip: menuEndTogglerTooltip$ | async,
+		menuEndTree: menuEndTree$ | async,
+		menuLangsTooltip: menuLangsTooltip$ | async,
+		sidenavEndIsOpen: sidenavEndIsOpen$ | async,
+		sidenavEndTogglerTooltip: sidenavEndTogglerTooltip$ | async,
+		sidenavStartIsOpen: sidenavStartIsOpen$ | async,
+		sidenavStartTogglerTooltip: sidenavStartTogglerTooltip$ | async,
+    title: title$ | async
+	} as _"
+>
+  <mat-toolbar
+    [color]="'primary'"
+  >
+    <button
+      (click)="toggleSidenavStart()"
+      [attr.aria-label]="_.sidenavStartTogglerTooltip.ariaLabel?.text	"
+      [matTooltip]="_.sidenavStartTogglerTooltip.tooltip?.text	"
+      mat-icon-button
+    >
+      <mat-icon>
+        {{ 'menu' }}
+      </mat-icon>
+    </button>
+    <h1>
+      {{ _.title?.text }}
+    </h1>
+    <span
+      class="example-spacer"
+    ></span>
+    <button
+      mat-button
+      [matMenuTriggerFor]="menuLangs"
+      [attr.aria-label]="_.menuLangsTooltip.ariaLabel?.text	"
+      [matTooltip]="_.menuLangsTooltip.tooltip?.text	"
+    >
+      {{ _.langMenuItem?.label?.text }}
+    </button>
+    <mat-menu
+      #menuLangs="matMenu"
+    >
+      <button
+        *ngFor="let _langMenuItem of _.langMenuList"
+        [disabled]="_langMenuItem.id === _.langMenuItem?.id"
+        mat-menu-item
+      >{{ _langMenuItem.label?.text }}
+      </button>
+    </mat-menu>
+    <button
+      (click)="toggleSidenavEnd()"
+      [attr.aria-label]="_.sidenavEndTogglerTooltip.ariaLabel?.text		"
+      [matTooltip]="_.sidenavEndTogglerTooltip.tooltip?.text	"
+      mat-icon-button
+    >
+      <mat-icon>
+        {{ 'more' }}
+      </mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    (backdropClick)="closeSidenavs();"
+  >
+    <mat-sidenav
+      (keydown.escape)="closeSidenavStart()"
+      [fixedInViewport]="mobileQuery.matches"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [opened]="_.sidenavStartIsOpen"
+      [position]="'start'"
+    >
+      <mat-nav-list>
+        <a
+          [routerLink]="navLeftItem.routerLink"
+          *ngFor="let navLeftItem of _.leftSidenavItemList"
+          mat-list-item
+        >{{ navLeftItem.label?.text }}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav
+      (keydown.escape)="closeSidenavEnd()"
+      [fixedInViewport]="mobileQuery.matches"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [opened]="_.sidenavEndIsOpen"
+      [position]="'end'"
+    >
+      <mat-nav-list>
+        <a
+          [routerLink]="navRightItem.routerLink"
+          *ngFor="let navRightItem of _.rightSidenavItemList"
+          mat-list-item
+        >{{ navRightItem.label?.text }}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <gdgtoulouse-libs-components-css-grid-3-3-index
+      [ngStyle]="{
+				'grid-template-areas': _.gridTemplateAreas,
+				'grid-template-columns': _.gridTemplateColumns,
+				'grid-template-rows': _.gridTemplateRows
+			}"
+    >
+      <router-outlet>
+      </router-outlet>
+    </gdgtoulouse-libs-components-css-grid-3-3-index>
+  </mat-sidenav-container>
+</ng-container>

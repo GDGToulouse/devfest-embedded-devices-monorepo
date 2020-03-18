@@ -1,0 +1,30 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2015",
+		"module": "esnext",
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["es2017", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@gdgtoulouse/apis/child-processes": ["libs/apis/child-processes/src/index.ts"],
+			"@gdgtoulouse/apps/embedded-device-manager/routes/route": ["libs/apps/embedded-device-manager/routes/route/src/index.ts"],
+			"@gdgtoulouse/components/css-grid-3-3": ["libs/components/css-grid-3-3/src/index.ts"],
+			"@gdgtoulouse/dbs/pouchdb/langs": ["libs/dbs/pouchdb/langs/src/index.ts"],
+			"@gdgtoulouse/features/processings": ["libs/features/processings/src/index.ts"],
+			"@gdgtoulouse/structures/tree": ["libs/structures/tree/src/index.ts"],
+			"@gdgtoulouse/types": ["libs/types/src/index.ts"],
+			"@gdgtoulouse/dbs/pouchdb/texts/langs": ["libs/dbs/pouchdb/texts/langs/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
+}

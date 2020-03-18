@@ -1,0 +1,3 @@
+import { landscape as ToggleScreenOrientationActionsLandscape, portrait as ToggleScreenOrientationActionsPortrait } from './crud.actions';
+
+export { ToggleScreenOrientationActionsLandscape, ToggleScreenOrientationActionsPortrait };

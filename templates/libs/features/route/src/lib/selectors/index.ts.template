@@ -1,0 +1,26 @@
+import {
+	getTemplateAreas as gridGetTemplateAreas,
+	getTemplateColumns as gridGetTemplateColumns,
+	getTemplateRows as gridGetTemplateRows
+	} from './grid.selectors';
+import { getFeatureState } from '../reducers';
+import { createSelector } from '@ngrx/store';
+
+//#region grid
+export const gridSelector = createSelector(
+	getFeatureState,
+	({ grid }) => grid
+);
+export const gridTemplateAreasSelector = createSelector(
+	gridSelector,
+	gridGetTemplateAreas
+);
+export const gridTemplateColumnsSelector = createSelector(
+	gridSelector,
+	gridGetTemplateColumns
+);
+export const gridTemplateRowsSelector = createSelector(
+	gridSelector,
+	gridGetTemplateRows
+);
+//#endregion

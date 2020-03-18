@@ -1,0 +1,9 @@
+{
+	"auth": {
+
+		"clientId": "",
+		"issuer": "",
+		"redirectUri": "",
+		"scope": ""
+	}
+}

@@ -1,0 +1,31 @@
+import { InjectionToken } from '@angular/core';
+import { Params } from '@angular/router';
+import {
+	routerReducer as router,
+	RouterReducerState
+	} from '@ngrx/router-store';
+import {
+	Action,
+	ActionReducerMap,
+	MetaReducer
+	} from '@ngrx/store';
+
+export interface RouterStateSnapshot {
+	url: string;
+	params: Params;
+	queryParams: Params;
+}
+
+export interface State {
+	router: RouterReducerState<RouterStateSnapshot>;
+}
+
+export const reducers = new InjectionToken<ActionReducerMap<State, Action>>('app-reducers', {
+	factory: () => ({
+		router
+	})
+});
+
+export const metaReducers: MetaReducer<State>[] = [];
+
+export const getRouterStoreState = ({ router: { state } }: State) => state;

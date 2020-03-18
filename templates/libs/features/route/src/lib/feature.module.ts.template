@@ -1,0 +1,32 @@
+import { IndexComponent } from './containers/index.component';
+import { Effects } from './effects';
+import { reducers } from './reducers';
+import { RouteResolverService } from './resolvers/route.resolver.service';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ComponentModule } from '@<%= npmScope %>/components/<%= routePath %>/route';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { featureName } from './feature.config';
+export { featureName };
+
+@NgModule({
+	declarations: [IndexComponent],
+	imports: [
+		CommonModule,
+		ComponentModule,
+		RouterModule.forChild([
+			{
+				path: '',
+				component: IndexComponent,
+				resolve: { router: RouteResolverService },
+				children: []
+			}
+		]),
+		StoreModule.forFeature(featureName, reducers),
+		EffectsModule.forFeature(Effects)
+	],
+	providers: [RouteResolverService]
+})
+export class FeatureModule {}

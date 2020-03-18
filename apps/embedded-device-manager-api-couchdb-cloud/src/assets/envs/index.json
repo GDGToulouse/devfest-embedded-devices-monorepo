@@ -1,0 +1,24 @@
+{
+	"admin": {
+		"password": "cloud",
+		"username": "cloud"
+	},
+	"databases": {
+		"langs_local": {
+			"auth": {
+				"username": "cloud-langs",
+				"password": "cloud-langs"
+			},
+			"subPath": ".dbs/cloud/"
+		},
+		"texts_langs_local": {
+			"auth": {
+				"username": "cloud-texts-langs",
+				"password": "cloud-texts-langs"
+			},
+			"subPath": ".dbs/cloud/"
+		}
+	},
+	"port": 4444,
+	"subPath": ".dbs/cloud/"
+}

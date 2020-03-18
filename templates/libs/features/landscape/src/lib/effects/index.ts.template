@@ -1,0 +1,3 @@
+import { HandsetLandscapeEffects } from './handset-landscape.effects';
+
+export const Effects = [HandsetLandscapeEffects];

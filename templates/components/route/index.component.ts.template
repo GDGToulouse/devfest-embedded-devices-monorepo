@@ -1,0 +1,27 @@
+import { State as RouteState } from '../reducers';
+import {
+	gridTemplateAreasSelector,
+	gridTemplateColumnsSelector,
+	gridTemplateRowsSelector
+	} from '../selectors';
+import {
+	ChangeDetectionStrategy,
+	Component
+	} from '@angular/core';
+import {
+	select,
+	Store
+	} from '@ngrx/store';
+
+@Component({
+	selector: '<%= selector %>',
+	templateUrl: './index.component.html',
+	styleUrls: ['./index.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class IndexComponent {
+	gridTemplateAreas$ = this.routeStore.pipe(select(gridTemplateAreasSelector));
+	gridTemplateColumns$ = this.routeStore.pipe(select(gridTemplateColumnsSelector));
+	gridTemplateRows$ = this.routeStore.pipe(select(gridTemplateRowsSelector));
+	constructor(private routeStore: Store<RouteState>) {}
+}

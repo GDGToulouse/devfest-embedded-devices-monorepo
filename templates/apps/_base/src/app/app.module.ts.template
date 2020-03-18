@@ -1,0 +1,70 @@
+import { IndexComponent } from './containers/index.component';
+import {
+	metaReducers,
+	reducers,
+	RouterStateSnapshot
+	} from './reducers';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+	RouterModule,
+	RouterStateSnapshot as AngularRouterStateSnapshot
+	} from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import {
+	RouterStateSerializer as NgrxRouterStateSerializer,
+	StoreRouterConnectingModule
+	} from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+export class RouterStateSerializer implements NgrxRouterStateSerializer<RouterStateSnapshot> {
+	serialize(routerState: AngularRouterStateSnapshot): RouterStateSnapshot {
+		const routerStateSnapshot: RouterStateSnapshot = {
+			url: routerState.url,
+			params: routerState.root.params,
+			queryParams: routerState.root.queryParams
+		};
+
+		return routerStateSnapshot;
+	}
+}
+
+@NgModule({
+	bootstrap: [IndexComponent],
+	declarations: [IndexComponent],
+	imports: [
+		BrowserAnimationsModule,
+		EffectsModule.forRoot([]),
+		RouterModule.forRoot(
+			[
+				{
+					path: '',
+					loadChildren: () => import('@<%= npmScope %>/routes/<%= routePath %>/route').then((module) => module.FeatureModule)
+				}
+			],
+			{ initialNavigation: 'enabled' }
+		),
+		StoreModule.forRoot(reducers, {
+			runtimeChecks: {
+				strictStateImmutability: true,
+				strictActionImmutability: true,
+				strictStateSerializability: true,
+				strictActionSerializability: true
+			},
+			metaReducers
+		}),
+		StoreRouterConnectingModule.forRoot(),
+		StoreDevtoolsModule.instrument({
+			maxAge: 50,
+			name: '<%= routePath.split('/').join('-') %>-route'
+		})
+	],
+	providers: [
+		{
+			provide: NgrxRouterStateSerializer,
+			useClass: RouterStateSerializer
+		}
+	]
+})
+export class AppModule {}

@@ -1,0 +1,67 @@
+{
+	"[html]": {
+		"editor.defaultFormatter": "vscode.html-language-features",
+		"editor.formatOnSave": true
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"breadcrumbs.enabled": true,
+	"editor.formatOnSave": false,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": true
+	},
+	"editor.insertSpaces": false,
+	"editor.renderWhitespace": "all",
+	"editor.showFoldingControls": "always",
+	"emojisense.languages": {
+		"git-commit": false,
+		"json": true,
+		"markdown": true,
+		"plaintext": false,
+		"typescript": true
+	},
+	"files.exclude": {
+		"**/.git": false,
+		"**/.svn": false,
+		"**/.hg": false,
+		"**/CVS": false,
+		"**/.DS_Store": false
+	},
+	"files.trimTrailingWhitespace": true,
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/dist/**": true,
+		"**/doc/**": true,
+		"**/node_modules/*/**": true
+	},
+	"html.format.endWithNewline": true,
+	"html.format.indentInnerHtml": true,
+	"html.format.maxPreserveNewLines": 1,
+	"html.format.wrapAttributes": "force-expand-multiline",
+	"html.format.wrapLineLength": 1,
+	"material-icon-theme.activeIconPack": "angular_ngrx",
+	"prettier.configPath": ".prettierrc",
+	"scm.defaultViewMode": "tree",
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.fontFamily": "'Ubuntu Mono', 'PowerlineSymbols'",
+	"terminal.integrated.fontSize": 16,
+	"typescript.extension.sortImports.enableJavascript": true,
+	"typescript.extension.sortImports.maxNamedImportsInSingleLine": 1,
+	"typescript.extension.sortImports.omitSemicolon": false,
+	"typescript.extension.sortImports.quoteStyle": "single",
+	"typescript.extension.sortImports.sortMethod": "path",
+	"typescript.extension.sortImports.sortOnSave": true,
+	"workbench.iconTheme": "material-icon-theme",
+	"editor.defaultFormatter": "esbenp.prettier-vscode"
+}

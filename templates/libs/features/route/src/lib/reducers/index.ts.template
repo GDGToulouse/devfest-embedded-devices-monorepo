@@ -1,0 +1,27 @@
+import {
+	reducer as grid,
+	State as Grid
+	} from './grid.reducer';
+import { featureName } from '../feature.config';
+import { State as RootState } from '@<%= npmScope %>/<%= routePath.split('/').slice(0, -1).join('/') %>/reducers';
+import {
+	Action,
+	combineReducers,
+	createFeatureSelector
+	} from '@ngrx/store';
+
+export interface RouteState {
+	grid: Grid;
+}
+
+export interface State extends RootState {
+	[featureName]: RouteState;
+}
+
+export function reducers(state: RouteState | undefined, action: Action) {
+	return combineReducers({
+		grid
+	})(state, action);
+}
+
+export const getFeatureState = createFeatureSelector<State, RouteState>(featureName);

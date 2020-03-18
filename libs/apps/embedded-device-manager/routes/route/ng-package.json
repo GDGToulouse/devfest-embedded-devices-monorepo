@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../../../dist/libs/routes/apps/embedded-device-manager/routes/route",
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

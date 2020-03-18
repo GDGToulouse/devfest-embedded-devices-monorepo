@@ -1,0 +1,13 @@
+import { createAction, union } from '@ngrx/store';
+import { featureName } from '../feature.config';
+
+const actions = 'toggle-screen-orientation';
+
+export const landscape = createAction(`[${featureName}][${actions}] landscape`);
+export const portrait = createAction(`[${featureName}][${actions}] portrait`);
+
+const all = union({
+	landscape,
+	portrait
+});
+export type ActionsUnion = typeof all;

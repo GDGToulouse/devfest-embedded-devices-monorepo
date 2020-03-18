@@ -1,0 +1,18 @@
+import { Effects } from './effects';
+import { reducers } from './reducers';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { featureName } from './feature.config.ts';
+export { featureName };
+
+@NgModule({
+	imports: [
+		CommonModule,
+		StoreModule.forFeature(featureName, reducers),
+		EffectsModule.forFeature(Effects)
+	],
+	providers: []
+})
+export class FeatureModule {}

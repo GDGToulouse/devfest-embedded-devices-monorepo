@@ -1,0 +1,553 @@
+{
+	"version": 1,
+	"projects": {
+		"embedded-device-manager": {
+			"projectType": "application",
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "apps/embedded-device-manager",
+			"sourceRoot": "apps/embedded-device-manager/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/apps/embedded-device-manager",
+						"index": "apps/embedded-device-manager/src/index.html",
+						"main": "apps/embedded-device-manager/src/main.ts",
+						"polyfills": "apps/embedded-device-manager/src/polyfills.ts",
+						"tsConfig": "apps/embedded-device-manager/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"apps/embedded-device-manager/src/favicon.ico",
+							"apps/embedded-device-manager/src/assets",
+							{
+								"glob": "**/*",
+								"input": "./libs/apps/embedded-device-manager/routes/route/src/assets/envs",
+								"output": "./assets/envs/route"
+							}
+						],
+						"styles": ["apps/embedded-device-manager/src/styles.scss"],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "6kb",
+									"maximumError": "10kb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "embedded-device-manager:build",
+						"port": 1111,
+						"ssl": true,
+						"sslCert": "undefined",
+						"sslKey": "undefined",
+						"aot": true,
+						"optimization": true,
+						"sourceMap": true,
+						"progress": false
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "embedded-device-manager:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "embedded-device-manager:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-device-manager/tsconfig.app.json", "apps/embedded-device-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-device-manager/jest.config.js",
+						"tsConfig": "apps/embedded-device-manager/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "apps/embedded-device-manager/src/test-setup.ts"
+					}
+				}
+			}
+		},
+		"embedded-device-manager-e2e": {
+			"root": "apps/embedded-device-manager-e2e",
+			"sourceRoot": "apps/embedded-device-manager-e2e/src",
+			"projectType": "application",
+			"architect": {
+				"e2e": {
+					"builder": "@nrwl/cypress:cypress",
+					"options": {
+						"cypressConfig": "apps/embedded-device-manager-e2e/cypress.json",
+						"tsConfig": "apps/embedded-device-manager-e2e/tsconfig.e2e.json",
+						"devServerTarget": "embedded-device-manager:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "embedded-device-manager:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-device-manager-e2e/tsconfig.e2e.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-e2e/**"]
+					}
+				}
+			}
+		},
+		"routes-apps-embedded-device-manager-routes-route": {
+			"projectType": "library",
+			"root": "libs/routes/apps/embedded-device-manager/routes/route",
+			"sourceRoot": "libs/routes/apps/embedded-device-manager/routes/route/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/routes/apps/embedded-device-manager/routes/route/tsconfig.lib.json",
+						"project": "libs/routes/apps/embedded-device-manager/routes/route/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/routes/apps/embedded-device-manager/routes/route/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/routes/apps/embedded-device-manager/routes/route/tsconfig.lib.json", "libs/routes/apps/embedded-device-manager/routes/route/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/routes/apps/embedded-device-manager/routes/route/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/routes/apps/embedded-device-manager/routes/route/jest.config.js",
+						"tsConfig": "libs/routes/apps/embedded-device-manager/routes/route/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/routes/apps/embedded-device-manager/routes/route/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
+				}
+			}
+		},
+		"components-css-grid-3-3": {
+			"projectType": "library",
+			"root": "libs/components/css-grid-3-3",
+			"sourceRoot": "libs/components/css-grid-3-3/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/components/css-grid-3-3/tsconfig.lib.json",
+						"project": "libs/components/css-grid-3-3/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/components/css-grid-3-3/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/components/css-grid-3-3/tsconfig.lib.json", "libs/components/css-grid-3-3/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/components/css-grid-3-3/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/components/css-grid-3-3/jest.config.js",
+						"tsConfig": "libs/components/css-grid-3-3/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/components/css-grid-3-3/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
+				}
+			}
+		},
+		"embedded-device-manager-api-nest": {
+			"root": "apps/embedded-device-manager-api-nest",
+			"sourceRoot": "apps/embedded-device-manager-api-nest/src",
+			"projectType": "application",
+			"prefix": "embedded-device-manager-api-nest",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:build",
+					"options": {
+						"outputPath": "dist/apps/embedded-device-manager-api-nest",
+						"main": "apps/embedded-device-manager-api-nest/src/main.ts",
+						"tsConfig": "apps/embedded-device-manager-api-nest/tsconfig.app.json",
+						"assets": ["apps/embedded-device-manager-api-nest/src/assets"]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false
+						}
+					}
+				},
+				"serve": {
+					"builder": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "embedded-device-manager-api-nest:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-device-manager-api-nest/tsconfig.app.json", "apps/embedded-device-manager-api-nest/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-api-nest/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-device-manager-api-nest/jest.config.js",
+						"tsConfig": "apps/embedded-device-manager-api-nest/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"types": {
+			"root": "libs/types",
+			"sourceRoot": "libs/types/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/types/tsconfig.lib.json", "libs/types/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/types/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/types/jest.config.js",
+						"tsConfig": "libs/types/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"features-processings": {
+			"projectType": "library",
+			"root": "libs/features/processings",
+			"sourceRoot": "libs/features/processings/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/processings/tsconfig.lib.json", "libs/features/processings/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/processings/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/processings/jest.config.js",
+						"tsConfig": "libs/features/processings/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/processings/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
+				}
+			}
+		},
+		"structures-tree": {
+			"root": "libs/structures/tree",
+			"sourceRoot": "libs/structures/tree/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/structures/tree/tsconfig.lib.json", "libs/structures/tree/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/structures/tree/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/structures/tree/jest.config.js",
+						"tsConfig": "libs/structures/tree/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/structures/tree",
+						"tsConfig": "libs/structures/tree/tsconfig.lib.json",
+						"packageJson": "libs/structures/tree/package.json",
+						"main": "libs/structures/tree/src/index.ts",
+						"assets": ["libs/structures/tree/*.md"]
+					}
+				}
+			}
+		},
+		"routes-api-nests-embedded-device-manager-commands": {
+			"root": "libs/routes/apis/embedded-device-manager/commands",
+			"sourceRoot": "libs/routes/apis/embedded-device-manager/commands/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/routes/apis/embedded-device-manager/commands/tsconfig.lib.json", "libs/routes/apis/embedded-device-manager/commands/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/routes/apis/embedded-device-manager/commands/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/routes/apis/embedded-device-manager/commands/jest.config.js",
+						"tsConfig": "libs/routes/apis/embedded-device-manager/commands/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"embedded-device-manager-api-couchdb-cloud": {
+			"root": "apps/embedded-device-manager-api-couchdb-cloud",
+			"sourceRoot": "apps/embedded-device-manager-api-couchdb-cloud/src",
+			"projectType": "application",
+			"prefix": "embedded-device-manager-api-couchdb-cloud",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:build",
+					"options": {
+						"outputPath": "dist/apps/embedded-device-manager-api-couchdb-cloud",
+						"main": "apps/embedded-device-manager-api-couchdb-cloud/src/main.ts",
+						"tsConfig": "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.app.json",
+						"assets": ["apps/embedded-device-manager-api-couchdb-cloud/src/assets"]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false
+						}
+					}
+				},
+				"serve": {
+					"builder": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "embedded-device-manager-api-couchdb-cloud:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-device-manager-api-couchdb-cloud/tsconfig.app.json", "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-api-couchdb-cloud/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-device-manager-api-couchdb-cloud/jest.config.js",
+						"tsConfig": "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"apis-child-processes": {
+			"root": "libs/apis/child-processes",
+			"sourceRoot": "libs/apis/child-processes/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apis/child-processes/tsconfig.lib.json", "libs/apis/child-processes/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apis/child-processes/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apis/child-processes/jest.config.js",
+						"tsConfig": "libs/apis/child-processes/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"embedded-device-manager-api-couchdb-device": {
+			"root": "apps/embedded-device-manager-api-couchdb-device",
+			"sourceRoot": "apps/embedded-device-manager-api-couchdb-device/src",
+			"projectType": "application",
+			"prefix": "embedded-device-manager-api-couchdb-device",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:build",
+					"options": {
+						"outputPath": "dist/apps/embedded-device-manager-api-couchdb-device",
+						"main": "apps/embedded-device-manager-api-couchdb-device/src/main.ts",
+						"tsConfig": "apps/embedded-device-manager-api-couchdb-device/tsconfig.app.json",
+						"assets": ["apps/embedded-device-manager-api-couchdb-device/src/assets"]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false
+						}
+					}
+				},
+				"serve": {
+					"builder": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "embedded-device-manager-api-couchdb-device:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-device-manager-api-couchdb-device/tsconfig.app.json", "apps/embedded-device-manager-api-couchdb-device/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-api-couchdb-device/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-device-manager-api-couchdb-device/jest.config.js",
+						"tsConfig": "apps/embedded-device-manager-api-couchdb-device/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"dbs-pouchdb-langs": {
+			"root": "libs/dbs/pouchdb/langs",
+			"sourceRoot": "libs/dbs/pouchdb/langs/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/dbs/pouchdb/langs/tsconfig.lib.json", "libs/dbs/pouchdb/langs/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/dbs/pouchdb/langs/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/dbs/pouchdb/langs/jest.config.js",
+						"tsConfig": "libs/dbs/pouchdb/langs/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"dbs-pouchdb-texts-langs": {
+			"root": "libs/dbs/pouchdb/texts/langs",
+			"sourceRoot": "libs/dbs/pouchdb/texts/langs/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/dbs/pouchdb/texts/langs/tsconfig.lib.json", "libs/dbs/pouchdb/texts/langs/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/dbs/pouchdb/texts/langs/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/dbs/pouchdb/texts/langs/jest.config.js",
+						"tsConfig": "libs/dbs/pouchdb/texts/langs/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/dbs/pouchdb/texts/langs",
+						"tsConfig": "libs/dbs/pouchdb/texts/langs/tsconfig.lib.json",
+						"packageJson": "libs/dbs/pouchdb/texts/langs/package.json",
+						"main": "libs/dbs/pouchdb/texts/langs/src/index.ts",
+						"assets": ["libs/dbs/pouchdb/texts/langs/*.md"]
+					}
+				}
+			}
+		}
+	},
+	"cli": {
+		"defaultCollection": "@nrwl/angular"
+	},
+	"schematics": {
+		"@nrwl/angular:application": {
+			"unitTestRunner": "jest",
+			"e2eTestRunner": "cypress"
+		},
+		"@nrwl/angular:library": {
+			"unitTestRunner": "jest"
+		}
+	},
+	"defaultProject": "embedded-device-manager"
+}

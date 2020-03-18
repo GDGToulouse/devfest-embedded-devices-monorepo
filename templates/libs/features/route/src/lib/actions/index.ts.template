@@ -1,0 +1,8 @@
+import {
+	resetToInitialState as GridActionsResetToInitialState,
+	setTemplateAreas as GridActionsSetTemplateAreas,
+	setTemplateColumns as GridActionsSetTemplateColumns,
+	setTemplateRows as GridActionsSetTemplateRows
+	} from './grid.actions';
+
+export { GridActionsResetToInitialState, GridActionsSetTemplateAreas, GridActionsSetTemplateColumns, GridActionsSetTemplateRows };

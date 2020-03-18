@@ -1,0 +1,23 @@
+{
+	"recommendations": [
+		"abusaidm.html-snippets",
+		"angular.ng-template",
+		"bierner.emojisense",
+		"bierner.markdown-emoji",
+		"davidanson.vscode-markdownlint",
+		"eamodio.gitlens",
+		"ghaschel.vscode-angular-html",
+		"jithurjacob.nbpreviewer",
+		"miclo.sort-typescript-imports",
+		"ms-azuretools.vscode-docker",
+		"ms-kubernetes-tools.vscode-kubernetes-tools",
+		"ms-python.python",
+		"ms-vscode.vscode-typescript-tslint-plugin",
+		"nrwl.angular-console",
+		"pkief.material-icon-theme",
+		"prettier.prettier-vscode",
+		"tyriar.sort-lines",
+		"vangware.dark-plus-material",
+		"zengxingxin.sort-js-object-keys"
+	]
+}

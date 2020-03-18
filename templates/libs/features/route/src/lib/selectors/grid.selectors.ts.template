@@ -1,0 +1,5 @@
+import { State as Grid } from '../reducers/grid.reducer';
+
+export const getTemplateAreas = (grid: Grid) => grid.templateAreas;
+export const getTemplateColumns = (grid: Grid) => grid.templateColumns;
+export const getTemplateRows = (grid: Grid) => grid.templateRows;
