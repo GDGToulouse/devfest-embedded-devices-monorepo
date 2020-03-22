@@ -82,23 +82,29 @@ You can also specify which parts you want to run (you can also repeat this opera
 - Front-End only:
 
 ```sh
-npm run start:front
+npm run front
+```
+
+- Back-End only:
+
+```sh
+npm run back
 ```
 
 - Back-End Flask only:
 
 ```sh
-npm run start:back:flask
+npm run back:flask
 ```
 
 - Back-End Nest.js only:
 
 ```sh
-npm run start:back:nest
+npm run back:nest
 ```
 
 - Databases only (for the moment you can not separate the two databases because the embedded one will be pre-synced with the cloud one, this feature will eventually come in the future):
 
 ```sh
-npm run start:dbs
+npm run dbs
 ```

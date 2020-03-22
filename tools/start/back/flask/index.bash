@@ -11,4 +11,15 @@ projectUnderscorified=`echo ${project} | sed 's/-/_/g'`
 pip install -e .
 pip install --requirement ${repoDir}/requirement.txt
 
-python ${repoDir}/python/apps/"${projectUnderscorified}_api_flask/app/app.py"
+echo "const execution = require('child_process').exec('python ${repoDir}/python/apps/${projectUnderscorified}_api_flask/app/app.py', (err, stdout, stderr) => {
+	process.stdout.write(stdout)
+});
+execution.stderr.on('data', function(error) {
+    console.error(error);
+});
+execution.stdout.on('data', function(data) {
+    console.log(data);
+});
+" \
+| \
+node
