@@ -35,3 +35,5 @@ branchName="feature/${issueId}__"`echo ${issueName} \
 	| sed 's@_\+@_@g' \
 	| tr '[:upper:]' '[:lower:]' \
 `
+
+git checkout -b ${branchName}
