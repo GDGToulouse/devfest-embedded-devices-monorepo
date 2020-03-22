@@ -16,7 +16,9 @@ The second milestone will be to be able to estimate the number of people in the 
 
 ## Architecture
 
-[Here](./docs/architecture/general-schema.png) is a global schema of the architecture.
+[Here](./docs/architecture/general-schema.png) is a global schema of the architecture:
+
+![image.png](./docs/architecture/general-schema.png)
 
 ## Technologies
 
@@ -40,7 +42,7 @@ The second milestone will be to be able to estimate the number of people in the 
 
 ### Platforms
 
-For project is currently developped and tested under the following platforms (do not hesitate to contribute, adding the platform you use and submitting issues under your platform in case of troubles).
+The project is currently developped and tested under the following platforms (do not hesitate to contribute, adding the platform you use and submitting issues under your platform in case of troubles).
 
 #### Ubuntu 18.04
 

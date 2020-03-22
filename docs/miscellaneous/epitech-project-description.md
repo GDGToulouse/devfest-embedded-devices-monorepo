@@ -40,9 +40,9 @@ Epitech students:
 - [Guillaume BONNET](https://github.com/MrSquaare) (@MrSquaare)
 - [Guillaume MAILHOL](https://github.com/Arcahub) (@Arcahub)
 - [Jad CHAHED](https://github.com/Jad31) (@Jad31)
-- [Lucas MATHIEUX]() ()
+- [Lucas MATHIEUX](https://github.com/Madfish5415) (@madfish5415)
+- [Mathias RESSORT](https://github.com/Ydos2) (@Ydos2)
 - [Mattéo FAUCHON](https://github.com/matteofauchon) (@matteofauchon)
-- [Quentin MURATORIO]() ()
 
 ### Organisation and tools
 
