@@ -8,10 +8,10 @@ defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f
 project=${1:-"${defaultProject}"}
 projectUnderscorified=`echo ${project} | sed 's/-/_/g'`
 
-pip install -e .
-pip install --requirement ${repoDir}/requirement.txt
+pip3 install -e .
+pip3 install --requirement ${repoDir}/requirement.txt
 
-echo "const execution = require('child_process').exec('python ${repoDir}/python/apps/${projectUnderscorified}_api_flask/app/app.py', (err, stdout, stderr) => {
+echo "const execution = require('child_process').exec('python3 ${repoDir}/python/apps/${projectUnderscorified}_api_flask/app/app.py', (err, stdout, stderr) => {
 	process.stdout.write(stdout)
 });
 execution.stderr.on('data', function(error) {
