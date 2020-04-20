@@ -16,9 +16,11 @@ import { RouterModule } from '@angular/router';
 import { ComponentModule as CssGrid3_3Module } from '@gdgtoulouse/components/css-grid-3-3';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ExpansionPanelTreeComponent } from './components/expansion-panel-tree/expansion-panel-tree.component';
 
 @NgModule({
-	declarations: [IndexComponent],
+	declarations: [IndexComponent, ExpansionPanelTreeComponent],
 	imports: [
 		CommonModule,
 		CssGrid3_3Module,
@@ -38,8 +40,10 @@ import { StoreModule } from '@ngrx/store';
 			}
 		]),
 		StoreModule.forFeature(featureName, reducers),
-		EffectsModule.forFeature(Effects)
+		EffectsModule.forFeature(Effects),
+		MatExpansionModule
 	],
-	providers: [router]
+	providers: [router],
+	exports: [ExpansionPanelTreeComponent]
 })
 export class FeatureModule {}
