@@ -11,6 +11,10 @@ import {
 	State as LangMenuListApiGet
 	} from './lang-menu-list/api/get.reducer';
 import {
+	PouchdbBus as MenuDataIndexFlat,
+	reducer as menuDataIndexFlat
+	} from './menu-data-index-flat.reducer';
+import {
 	reducer as menuEndApiGet,
 	State as MenuEndApiGet
 	} from './menus/end/api/get.reducer';
@@ -34,6 +38,7 @@ export interface RouteState {
 	grid: Grid;
 	langMenuListApiGet: LangMenuListApiGet;
 	menuEndApiGet: MenuEndApiGet;
+	menuDataIndexFlat: MenuDataIndexFlat;
 	sidenavEnd: SidenavEnd;
 	sidenavStart: SidenavStart;
 }
@@ -48,6 +53,7 @@ export function reducers(state: RouteState | undefined, action: Action) {
 		grid,
 		langMenuListApiGet,
 		menuEndApiGet,
+		menuDataIndexFlat,
 		sidenavEnd,
 		sidenavStart
 	})(state, action);

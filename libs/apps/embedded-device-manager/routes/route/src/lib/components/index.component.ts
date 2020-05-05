@@ -1,3 +1,4 @@
+import { ExpansionPanelTree } from './expansion-panel-tree/expansion-panel-tree.component';
 import { Actions as FeatureActions } from '../actions';
 import { Selectors as RouteSelectors } from '../selectors';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -12,6 +13,7 @@ import {
 	Store
 	} from '@ngrx/store';
 import { of } from 'rxjs';
+
 
 @Component({
 	selector: 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-route-index-c',
@@ -36,6 +38,7 @@ export class IndexComponent implements OnDestroy {
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
+	menuData$ = this.store.pipe(select(RouteSelectors.menuData$));
 
 	private _mobileQueryListener: () => void;
 

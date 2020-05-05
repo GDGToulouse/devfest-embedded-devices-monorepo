@@ -1,21 +1,32 @@
-<ng-container *ngTemplateOutlet="templateRef; context: {$implicit: TREE_DATA}"></ng-container>
+<ng-container *ngTemplateOutlet="templateRef; context: {$implicit: inputTree}">
+</ng-container>
 <ng-template #templateRef let-list>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let element of list">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    {{element.data.header.title}}
-                </mat-panel-title>
-                <mat-panel-description>
-                    {{element.data.header.description}}
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <ng-container *ngIf = "hasChild(element)">
+            <ng-container *ngIf="hasChild(element); else noChild">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{element.data.header.title}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{element.data.header.description}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
                 <ng-container *ngTemplateOutlet="templateRef; context: {$implicit: element.childList}">
                 </ng-container>
             </ng-container>
-            <ng-container *ngIf="!hasChild(element)">
-                <mat-toolbar>Je fais un test</mat-toolbar>
+            <ng-container #noChild>
+                <mat-toolbar>
+                    <a
+                        [routerLink]="['./index.html']"
+                        [queryParams]="element.data?.routerLink.queryParams"
+                        [fragment]="element.data?.routerLink.fragment"
+                        [queryParamsHandling]="element.data?.routerLink.queryParamsHandling"
+                        [preserveFragment]="element.data?.routerLink.preserveFragment"
+                        [skipLocationChange]="element.data?.routerLink.replaceUrl"
+                        [state]="element.data?.routerLink.state"
+                    >{{element.data?.routerLink.text}}</a>
+                </mat-toolbar>
             </ng-container>
         </mat-expansion-panel>
     </mat-accordion>

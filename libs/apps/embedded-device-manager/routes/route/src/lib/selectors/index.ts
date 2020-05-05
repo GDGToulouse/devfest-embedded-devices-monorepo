@@ -64,6 +64,73 @@ export const sidenavStart$ = createSelector(getFeatureState, ({ sidenavStart }) 
 export const sidenavStartIsOpen$ = createSelector(sidenavStart$, ({ isOpen }) => isOpen);
 //#endregion
 
+//#region menuData
+export const menuDataIndexFlat$ = createSelector(getFeatureState, ({ menuDataIndexFlat }) => menuDataIndexFlat);
+export const menuDataIndex$ = createSelector(menuDataIndexFlat$, (menuDataIndexFlat) => {
+	let list: {data: {id: string, pid: string}}[]; list = [];
+    for (let idx in menuDataIndexFlat.databases["local-hardware-menu-db"].findRequests) {
+		for (let fidx in menuDataIndexFlat.databases["local-hardware-menu-db"].findRequests[idx].findResponses.docList) {
+			list.push({data: { id: menuDataIndexFlat.databases["local-hardware-menu-db"].findRequests[idx].findResponses.docList[fidx].id,
+				pid: menuDataIndexFlat.databases["local-hardware-menu-db"].findRequests[idx].findResponses.docList[fidx].pid}})
+		}
+	}
+	console.log(list);
+	let nest = (items, id = null, link = 'pid') => items
+    .filter(item => item.data[link] === id)
+	.map(item => ({ ...item, childList: nest(items, item.data.id) }));
+	return nest(list);
+});
+
+export const menuData$ = createSelector(menuDataIndex$, ({ }) => ([
+	{
+		data: {
+			header: {
+				description: 'description1',
+				title: 'test1'
+			},
+		},
+		childList: []
+	},
+	{
+		data: {
+			header: {
+				description: 'description2',
+				title: 'test2'
+			},
+		},
+		childList: [
+			{
+				data: {
+					header: {
+						description: 'description2.1',
+						title: 'test2.1'
+					},
+				},
+				childList: []
+			}, {
+				data: {
+					header: {
+						description: 'description2.2',
+						title: 'test2.2'
+					},
+				},
+				childList: [
+					{
+						data: {
+							header: {
+								description: 'description2.2.1',
+								title: 'test2.2.1'
+							},
+						},
+						childList: []
+					}
+				]
+			},
+		]
+	},
+]))
+//#endregion
+
 export const Selectors = {
 	grid$,
 	gridTemplateAreas$,
@@ -78,6 +145,7 @@ export const Selectors = {
 	langMenuList$,
 	menuEndApiGetResponseTree$,
 	menuEndTree$,
+	menuData$,
 	router$,
 	sidenavEnd$,
 	sidenavEndIsOpen$,
