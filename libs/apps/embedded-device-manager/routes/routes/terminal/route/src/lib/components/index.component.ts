@@ -24,14 +24,9 @@ export class IndexComponent implements AfterViewInit {
 	ngAfterViewInit() {
 		console.log(this.child);
 		this.child.keyEventInput.subscribe((e) => {
-			// TODO dispatch an action here with e as props
+			// TODO dispatch an action here with {keycode: type of e.domEvent.keyCode, key: typeof e.key} as props
 			// TODO in the reducer the state will be kind of:
 			// export interface State {
-			//  historySize: number;
-			// 	keyEventInputList: {
-			// 		key: string;
-			// 		domEvent: KeyboardEvent;
-			// 	}[]
 			// }
 			// TODO in the reducer, rotate the stored keyEventInput according to a historySize length
 			// TODO create a selector for extracting the last characters typed since the last "enter" typed (keycode 13)
