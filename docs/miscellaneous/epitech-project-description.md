@@ -31,18 +31,18 @@ DevFest Toulouse's organizers:
 
 Epitech managers:
 
-- [Florian DAVASSE](https://github.com/aimbot31) (@aimbot31)
-- [Noé HEUILLET](https://github.com/nheuillet) (@nheuillet)
+- [Florian DAVASSE](https://github.com/aimbot31) (@aimbot31 - Tek 3)
+- [Noé HEUILLET](https://github.com/nheuillet) (@nheuillet - Tek 2)
 
 Epitech students:
 
-- [Gianni SALINIERE-COURSY](https://github.com/giannisalinierecoursy) (@giannisalinierecoursy)
-- [Guillaume BONNET](https://github.com/MrSquaare) (@MrSquaare)
-- [Guillaume MAILHOL](https://github.com/Arcahub) (@Arcahub)
-- [Jad CHAHED](https://github.com/Jad31) (@Jad31)
-- [Lucas MATHIEUX](https://github.com/Madfish5415) (@madfish5415)
-- [Mathias RESSORT](https://github.com/Ydos2) (@Ydos2)
-- [Mattéo FAUCHON](https://github.com/matteofauchon) (@matteofauchon)
+- [Gianni SALINIERE-COURSY](https://github.com/giannisalinierecoursy) (@giannisalinierecoursy - Tek 2)
+- [Guillaume BONNET](https://github.com/MrSquaare) (@MrSquaare - Tek 2)
+- [Guillaume MAILHOL](https://github.com/Arcahub) (@Arcahub - Tek 1)
+- [Jad CHAHED](https://github.com/Jad31) (@Jad31 - Tek 1)
+- [Lucas MATHIEUX](https://github.com/Madfish5415) (@madfish5415 - Tek 2)
+- [Mathias RESSORT](https://github.com/Ydos2) (@Ydos2 - Tek 1)
+- [Mattéo FAUCHON](https://github.com/matteofauchon) (@matteofauchon - Tek 2)
 
 ### Organisation and tools
 
