@@ -48,6 +48,6 @@ export class IndexComponent implements AfterViewInit {
 				this.child.write(e.key);
 			}
 		});
-		// TODO do the same as keyEventInput for this.child.keyInput
+		// TODO do the same as keyEventInput for keyInput
 	}
 }
