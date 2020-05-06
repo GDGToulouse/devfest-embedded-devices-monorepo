@@ -34,7 +34,12 @@ import { StoreModule } from '@ngrx/store';
 				path: '',
 				component: IndexComponent,
 				resolve: { router },
-				children: []
+				children: [
+					{
+						path: 'terminal',
+						loadChildren: () => import('@gdgtoulouse/apps/embedded-device-manager/routes/routes/terminal/route').then((module) => module.FeatureModule)
+					}
+				]
 			}
 		]),
 		StoreModule.forFeature(featureName, reducers),

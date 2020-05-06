@@ -2632,6 +2632,13 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular-resizable-element@^3.2.6:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-3.3.0.tgz#7927f72ed2b782961e1837b9a5a9566924ad2013"
+  integrity sha512-rnyeT2/kdJcDzkSAYCecjiBtP75WMI8TF2a63pRSIFWbE3x3kTZmnhIDxW+RFqIlg+MyHfRFXYiGBhjzgkvb+Q==
+  dependencies:
+    tslib "^1.9.0"
+
 ansi-align@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-3.0.0.tgz#b536b371cf687caaef236c18d3e21fe3797467cb"
@@ -9717,6 +9724,16 @@ ng-packagr@^9.0.0:
     terser "^4.3.8"
     update-notifier "^4.0.0"
 
+ng-terminal@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/ng-terminal/-/ng-terminal-2.4.0.tgz#498d29ab7e475cdd155a3f7c4c2afc6287d66bf7"
+  integrity sha512-T/MMWP+KQ9xUqXrIap9hgDw86Cd44wSHr0hkKPw22OSGYv2ArpTY60kSQ0Bj1fs9lSKuoD324/SIMmHkM0S+QA==
+  dependencies:
+    angular-resizable-element "^3.2.6"
+    tslib "^1.9.0"
+    xterm "^4.2.0"
+    xterm-addon-fit "^0.3.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -14968,6 +14985,16 @@ xmlhttprequest@>=1.8.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
+
+xterm-addon-fit@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/xterm-addon-fit/-/xterm-addon-fit-0.3.0.tgz#341710741027de9d648a9f84415a01ddfdbbe715"
+  integrity sha512-kvkiqHVrnMXgyCH9Xn0BOBJ7XaWC/4BgpSWQy3SueqximgW630t/QOankgqkvk11iTOCwWdAY9DTyQBXUMN3lw==
+
+xterm@^4.2.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/xterm/-/xterm-4.5.0.tgz#c7fd145c6cf91c9f2ef07011a9b35026cf4bfecc"
+  integrity sha512-4t12tsvtYnv13FBJwewddxdI/j4kSonmbQQv50j34R/rPIFbUNGtptbprmuUlTDAKvHLMDZ/Np2XcpNimga/HQ==
 
 xxhashjs@^0.2.1:
   version "0.2.2"

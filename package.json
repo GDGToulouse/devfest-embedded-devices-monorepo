@@ -63,6 +63,7 @@
 		"express-pouchdb": "^4.2.0",
 		"faker": "^4.1.0",
 		"moment": "^2.24.0",
+		"ng-terminal": "^2.4.0",
 		"pouchdb": "^7.2.1",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "^6.5.0",

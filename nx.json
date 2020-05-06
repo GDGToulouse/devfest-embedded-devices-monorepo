@@ -50,6 +50,9 @@
 		},
 		"dbs-pouchdb-texts-langs": {
 			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-terminal-route": {
+			"tags": []
 		}
 	}
 }

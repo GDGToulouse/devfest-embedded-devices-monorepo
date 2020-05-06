@@ -3,10 +3,6 @@ import {
 	State as EnvsApiGet
 	} from './envs/api/get.reducer';
 import {
-	reducer as grid,
-	State as Grid
-	} from './grid.reducer';
-import {
 	reducer as langMenuListApiGet,
 	State as LangMenuListApiGet
 	} from './lang-menu-list/api/get.reducer';
@@ -31,7 +27,6 @@ import {
 
 export interface RouteState {
 	envsApiGet: EnvsApiGet;
-	grid: Grid;
 	langMenuListApiGet: LangMenuListApiGet;
 	menuEndApiGet: MenuEndApiGet;
 	sidenavEnd: SidenavEnd;
@@ -45,7 +40,6 @@ export interface State {
 export function reducers(state: RouteState | undefined, action: Action) {
 	return combineReducers({
 		envsApiGet,
-		grid,
 		langMenuListApiGet,
 		menuEndApiGet,
 		sidenavEnd,

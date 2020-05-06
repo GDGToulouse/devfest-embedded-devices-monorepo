@@ -1,8 +1,5 @@
 <ng-container
   *ngIf="{
-		gridTemplateAreas: gridTemplateAreas$ | async,
-		gridTemplateColumns: gridTemplateColumns$ | async,
-		gridTemplateRows: gridTemplateRows$ | async,
 		langMenuItem: langMenuItem$ | async,
 		langMenuList: langMenuList$ | async,
 		leftSidenavItemList: leftSidenavItemList$ | async,
@@ -100,16 +97,12 @@
         >{{ navRightItem.label?.text }}</a>
       </mat-nav-list>
     </mat-sidenav>
-
-    <gdgtoulouse-libs-components-css-grid-3-3-index
-      [ngStyle]="{
-				'grid-template-areas': _.gridTemplateAreas,
-				'grid-template-columns': _.gridTemplateColumns,
-				'grid-template-rows': _.gridTemplateRows
-			}"
+    <!-- TODO ask for help to remove the following style attribute, the need is to handle the case when the route height is 0 in order to have at least the full screen occupied by the mat-sidenav-content -->
+    <div
+      style="min-height: 50vh;"
     >
       <router-outlet>
       </router-outlet>
-    </gdgtoulouse-libs-components-css-grid-3-3-index>
+    </div>
   </mat-sidenav-container>
 </ng-container>

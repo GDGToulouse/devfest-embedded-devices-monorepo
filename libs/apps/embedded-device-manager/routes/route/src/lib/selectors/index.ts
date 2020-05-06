@@ -8,13 +8,6 @@ import {
 	createSelector
 	} from '@ngrx/store';
 
-//#region grid
-export const grid$ = createSelector(getFeatureState, ({ grid }) => grid);
-export const gridTemplateAreas$ = createSelector(grid$, ({ templateAreas }) => templateAreas);
-export const gridTemplateColumns$ = createSelector(grid$, ({ templateColumns }) => templateColumns);
-export const gridTemplateRows$ = createSelector(grid$, ({ templateRows }) => templateRows);
-//#endregion
-
 //#region menus
 export const menuEndApiGetResponseTree$ = createSelector(
 	getFeatureState,
@@ -65,10 +58,6 @@ export const sidenavStartIsOpen$ = createSelector(sidenavStart$, ({ isOpen }) =>
 //#endregion
 
 export const Selectors = {
-	grid$,
-	gridTemplateAreas$,
-	gridTemplateColumns$,
-	gridTemplateRows$,
 	langIdQueryParam$,
 	langIdIsInQueryParams$,
 	langIdIsNotInQueryParams$,

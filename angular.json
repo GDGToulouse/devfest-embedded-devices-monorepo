@@ -28,6 +28,11 @@
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/route/src/assets/envs",
 								"output": "./assets/envs/route"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/apps/embedded-device-manager/routes/routes/terminal/route/src/assets/envs",
+								"output": "./assets/envs/routes/terminal/route"
 							}
 						],
 						"styles": ["apps/embedded-device-manager/src/styles.scss"],
@@ -533,6 +538,47 @@
 						"main": "libs/dbs/pouchdb/texts/langs/src/index.ts",
 						"assets": ["libs/dbs/pouchdb/texts/langs/*.md"]
 					}
+				}
+			}
+		},
+		"apps-embedded-device-manager-routes-routes-terminal-route": {
+			"projectType": "library",
+			"root": "libs/apps/embedded-device-manager/routes/routes/terminal/route",
+			"sourceRoot": "libs/apps/embedded-device-manager/routes/routes/terminal/route/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/terminal/route/tsconfig.lib.json",
+						"project": "libs/apps/embedded-device-manager/routes/routes/terminal/route/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/apps/embedded-device-manager/routes/routes/terminal/route/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apps/embedded-device-manager/routes/routes/terminal/route/tsconfig.lib.json", "libs/apps/embedded-device-manager/routes/routes/terminal/route/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apps/embedded-device-manager/routes/routes/terminal/route/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apps/embedded-device-manager/routes/routes/terminal/route/jest.config.js",
+						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/terminal/route/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/apps/embedded-device-manager/routes/routes/terminal/route/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
 				}
 			}
 		}

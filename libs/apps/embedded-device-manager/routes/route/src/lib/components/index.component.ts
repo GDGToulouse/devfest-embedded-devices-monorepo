@@ -1,5 +1,5 @@
 import { Actions as FeatureActions } from '../actions';
-import { Selectors as RouteSelectors } from '../selectors';
+import { Selectors as FeatureSelectors } from '../selectors';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
 	ChangeDetectionStrategy,
@@ -20,18 +20,15 @@ import { of } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IndexComponent implements OnDestroy {
-	gridTemplateAreas$ = this.store.pipe(select(RouteSelectors.gridTemplateAreas$));
-	gridTemplateColumns$ = this.store.pipe(select(RouteSelectors.gridTemplateColumns$));
-	gridTemplateRows$ = this.store.pipe(select(RouteSelectors.gridTemplateRows$));
-	langMenuItem$ = this.store.pipe(select(RouteSelectors.langMenuItem$));
-	langMenuList$ = this.store.pipe(select(RouteSelectors.langMenuList$));
+	langMenuList$ = this.store.pipe(select(FeatureSelectors.langMenuList$));
+	langMenuItem$ = this.store.pipe(select(FeatureSelectors.langMenuItem$));
 	mobileQuery: MediaQueryList;
 	menuEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	menuLangsTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
-	menuEndTree$ = this.store.pipe(select(RouteSelectors.menuEndTree$));
-	sidenavEndIsOpen$ = this.store.pipe(select(RouteSelectors.sidenavEndIsOpen$));
+	menuEndTree$ = this.store.pipe(select(FeatureSelectors.menuEndTree$));
+	sidenavEndIsOpen$ = this.store.pipe(select(FeatureSelectors.sidenavEndIsOpen$));
 	sidenavEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
-	sidenavStartIsOpen$ = this.store.pipe(select(RouteSelectors.sidenavStartIsOpen$));
+	sidenavStartIsOpen$ = this.store.pipe(select(FeatureSelectors.sidenavStartIsOpen$));
 	sidenavStartTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);

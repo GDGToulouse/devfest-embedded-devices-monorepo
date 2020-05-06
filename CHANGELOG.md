@@ -29,3 +29,10 @@ yarn run ng generate @nrwl/nest:application embedded-device-manager-api-nest --f
 
 yarn run ng generate @nrwl/nest:library child-process --directory=apis
 ```
+
+### 20200506
+
+
+```
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/terminal
+```
