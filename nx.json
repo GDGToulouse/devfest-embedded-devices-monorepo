@@ -53,6 +53,21 @@
 		},
 		"apps-embedded-device-manager-routes-routes-terminal-route": {
 			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-route": {
+			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-database-configurations-route": {
+			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-configurations-route": {
+			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-feeds-route": {
+			"tags": []
+		},
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-find-selectors-route": {
+			"tags": []
 		}
 	}
 }

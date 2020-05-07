@@ -1,6 +1,6 @@
 import {
 	Actions as FeatureActions,
-	Envs as RouteEnvs
+	Envs as FeatureEnvs
 	} from '../../../actions';
 import { featureName } from '../../../feature.config';
 import {
@@ -54,7 +54,7 @@ export class Effects {
 				delay(20),
 				switchMap(([_]) =>
 					this.httpClient
-						.request<RouteEnvs.Api.Get.Response>('GET', this.endpointGenerator(), {
+						.request<FeatureEnvs.Api.Get.Response>('GET', this.endpointGenerator(), {
 							observe: 'response',
 							headers: new HttpHeaders(this.httpHeadersConfigGenerator()),
 							params: this.httpRequestParamsGenerator()

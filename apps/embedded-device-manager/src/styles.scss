@@ -29,3 +29,5 @@ $embedded-device-manager-theme: mat-light-theme($embedded-device-manager-primary
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import "~@ng-select/ng-select/themes/material.theme.css";

@@ -1,0 +1,7 @@
+{
+	"$schema": "../../../../../../../../../node_modules/ng-packagr/ng-package.schema.json",
+	"dest": "../../../../../../../../../dist/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route",
+	"lib": {
+		"entryFile": "src/index.ts"
+	}
+}

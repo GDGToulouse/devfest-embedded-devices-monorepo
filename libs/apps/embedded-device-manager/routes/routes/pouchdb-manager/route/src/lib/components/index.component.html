@@ -1,0 +1,47 @@
+<ng-container
+  *ngIf="{
+    childRouteSelectBindLabel: childRouteSelectBindLabel$ | async,
+    childRouteSelectBindValue: childRouteSelectBindValue$ | async,
+    childRouteSelectItemList: childRouteSelectItemList$ | async,
+    childRouteSelectSelectedId: childRouteSelectSelectedId$ | async
+	} as _"
+>
+  <ng-select
+    (add)="childRouteSelect_add($event)"
+    (blur)="childRouteSelect_blur($event)"
+    (change)="childRouteSelect_change($event)"
+    (clear)="childRouteSelect_clear()"
+    (close)="childRouteSelect_close()"
+    (focus)="childRouteSelect_focus($event)"
+    (open)="childRouteSelect_open()"
+    (remove)="childRouteSelect_remove($event)"
+    (scrollToEnd)="childRouteSelect_scrollToEnd($event)"
+    (search)="childRouteSelect_search($event)"
+    [ngModel]="_.childRouteSelectSelectedId"
+    [appendTo]="'body'"
+    [bindLabel]="_.childRouteSelectBindLabel"
+    [bindValue]="_.childRouteSelectBindValue"
+    [clearable]="false"
+    [closeOnSelect]="true"
+    [disabled]="false"
+    [items]="_.childRouteSelectItemList"
+    [maxSelectedItems]="undefined"
+    [multiple]="false"
+    [name]="'childRouteSelect'"
+    [placeholder]="undefined"
+    [required]="true"
+    [searchable]="false"
+    [selectableGroup]="false"
+    [selectableGroupAsModel]="false"
+  >
+    <ng-option
+      [disabled]="childRouteSelectItem.disabled"
+      [value]="childRouteSelectItem.id"
+      *ngFor="let childRouteSelectItem of _.childRouteSelectItemList"
+    >
+      {{childRouteSelectItem.name}}
+    </ng-option>
+  </ng-select>
+  <router-outlet>
+  </router-outlet>
+</ng-container>

@@ -36,8 +36,16 @@ import { StoreModule } from '@ngrx/store';
 				resolve: { router },
 				children: [
 					{
+						path: 'pouchdb-manager',
+						loadChildren: () => import('@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/route').then((module) => module.FeatureModule)
+					},
+					{
 						path: 'terminal',
 						loadChildren: () => import('@gdgtoulouse/apps/embedded-device-manager/routes/routes/terminal/route').then((module) => module.FeatureModule)
+					},
+					{
+						path: '**',
+						redirectTo: ''
 					}
 				]
 			}

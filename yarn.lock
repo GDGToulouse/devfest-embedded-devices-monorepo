@@ -1478,6 +1478,11 @@
     optional "0.1.4"
     tslib "1.11.1"
 
+"@ng-select/ng-select@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-4.0.0.tgz#9a6108a8c10725844c1a61cadd0f673c993a952b"
+  integrity sha512-B6OevKG9/LlbZ9aPHcmiRRQBIIdk41cJ1wn4UHOlm/0225+jtW7IWA/7Q0iv5S6gys1ieyY9+BAqfTz1elBTUw==
+
 "@ngrx/effects@^8.6.0":
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-8.6.0.tgz#a0d7339597a5128c5cf896ddcf93f73406a45860"

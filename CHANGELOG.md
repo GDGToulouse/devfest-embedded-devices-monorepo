@@ -35,4 +35,15 @@ yarn run ng generate @nrwl/nest:library child-process --directory=apis
 
 ```
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/terminal
+
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors
 ```
