@@ -36,14 +36,8 @@
 		"components-css-grid-3-3": {
 			"tags": ["component"]
 		},
-		"features-processings": {
-			"tags": ["feature"]
-		},
 		"structures-tree": {
 			"tags": ["structure"]
-		},
-		"types": {
-			"tags": ["types"]
 		},
 		"dbs-pouchdb-langs": {
 			"tags": []
@@ -60,13 +54,22 @@
 		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-database-configurations-route": {
 			"tags": []
 		},
-		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-configurations-route": {
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-options-route": {
 			"tags": []
 		},
 		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-feeds-route": {
 			"tags": []
 		},
 		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-find-selectors-route": {
+			"tags": []
+		},
+		"features-pouchdb-manager": {
+			"tags": []
+		},
+		"features-processings": {
+			"tags": []
+		},
+		"types": {
 			"tags": []
 		}
 	}

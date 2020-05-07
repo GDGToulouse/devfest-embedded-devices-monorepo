@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { FeatureModule as PouchdbManagerFeatureModule } from '@gdgtoulouse/features/pouchdb-manager';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -22,8 +23,8 @@ import { StoreModule } from '@ngrx/store';
 				resolve: { router },
 				children: [
 					{
-						path: 'changes-configurations',
-						loadChildren: () => import('@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route').then((module) => module.FeatureModule)
+						path: 'changes-options',
+						loadChildren: () => import('@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route').then((module) => module.FeatureModule)
 					},
 					{
 						path: 'changes-feeds',
@@ -47,7 +48,8 @@ import { StoreModule } from '@ngrx/store';
 		StoreModule.forFeature(featureName, reducers),
 		EffectsModule.forFeature(Effects),
 		FormsModule,
-		NgSelectModule
+		NgSelectModule,
+		PouchdbManagerFeatureModule
 	],
 	providers: [router]
 })

@@ -36,8 +36,8 @@
 							},
 							{
 								"glob": "**/*",
-								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/routes/changes-configurations/route"
+								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/src/assets/envs",
+								"output": "./assets/envs/routes/pouchdb-manager/routes/changes-options/route"
 							},
 							{
 								"glob": "**/*",
@@ -284,58 +284,6 @@
 						"tsConfig": "apps/embedded-device-manager-api-nest/tsconfig.spec.json",
 						"passWithNoTests": true
 					}
-				}
-			}
-		},
-		"types": {
-			"root": "libs/types",
-			"sourceRoot": "libs/types/src",
-			"projectType": "library",
-			"schematics": {},
-			"architect": {
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["libs/types/tsconfig.lib.json", "libs/types/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!libs/types/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "libs/types/jest.config.js",
-						"tsConfig": "libs/types/tsconfig.spec.json",
-						"passWithNoTests": true
-					}
-				}
-			}
-		},
-		"features-processings": {
-			"projectType": "library",
-			"root": "libs/features/processings",
-			"sourceRoot": "libs/features/processings/src",
-			"prefix": "gdgtoulouse",
-			"architect": {
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["libs/features/processings/tsconfig.lib.json", "libs/features/processings/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!libs/features/processings/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "libs/features/processings/jest.config.js",
-						"tsConfig": "libs/features/processings/tsconfig.spec.json",
-						"passWithNoTests": true,
-						"setupFile": "libs/features/processings/src/test-setup.ts"
-					}
-				}
-			},
-			"schematics": {
-				"@nrwl/angular:component": {
-					"styleext": "scss"
 				}
 			}
 		},
@@ -666,38 +614,38 @@
 				}
 			}
 		},
-		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-configurations-route": {
+		"apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-options-route": {
 			"projectType": "library",
-			"root": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route",
-			"sourceRoot": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/src",
+			"root": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route",
+			"sourceRoot": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/src",
 			"prefix": "gdgtoulouse",
 			"architect": {
 				"build": {
 					"builder": "@nrwl/angular:package",
 					"options": {
-						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/tsconfig.lib.json",
-						"project": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/ng-package.json"
+						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/tsconfig.lib.json",
+						"project": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/ng-package.json"
 					},
 					"configurations": {
 						"production": {
-							"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/tsconfig.lib.prod.json"
+							"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/tsconfig.lib.prod.json"
 						}
 					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
-						"tsConfig": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/tsconfig.lib.json", "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/**"]
+						"tsConfig": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/tsconfig.lib.json", "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/**"]
 					}
 				},
 				"test": {
 					"builder": "@nrwl/jest:jest",
 					"options": {
-						"jestConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/jest.config.js",
-						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/tsconfig.spec.json",
+						"jestConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/jest.config.js",
+						"tsConfig": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/tsconfig.spec.json",
 						"passWithNoTests": true,
-						"setupFile": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/src/test-setup.ts"
+						"setupFile": "libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/src/test-setup.ts"
 					}
 				}
 			},
@@ -786,6 +734,121 @@
 			"schematics": {
 				"@nrwl/angular:component": {
 					"styleext": "scss"
+				}
+			}
+		},
+		"features-pouchdb-manager": {
+			"projectType": "library",
+			"root": "libs/features/pouchdb-manager",
+			"sourceRoot": "libs/features/pouchdb-manager/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/pouchdb-manager/tsconfig.lib.json",
+						"project": "libs/features/pouchdb-manager/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/pouchdb-manager/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/pouchdb-manager/tsconfig.lib.json", "libs/features/pouchdb-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/pouchdb-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/pouchdb-manager/jest.config.js",
+						"tsConfig": "libs/features/pouchdb-manager/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/pouchdb-manager/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
+				}
+			}
+		},
+		"features-processings": {
+			"projectType": "library",
+			"root": "libs/features/processings",
+			"sourceRoot": "libs/features/processings/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/processings/tsconfig.lib.json",
+						"project": "libs/features/processings/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/processings/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/processings/tsconfig.lib.json", "libs/features/processings/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/processings/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/processings/jest.config.js",
+						"tsConfig": "libs/features/processings/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/processings/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"styleext": "scss"
+				}
+			}
+		},
+		"types": {
+			"root": "libs/types",
+			"sourceRoot": "libs/types/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/types/tsconfig.lib.json", "libs/types/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/types/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/types/jest.config.js",
+						"tsConfig": "libs/types/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/types",
+						"tsConfig": "libs/types/tsconfig.lib.json",
+						"packageJson": "libs/types/package.json",
+						"main": "libs/types/src/index.ts",
+						"assets": ["libs/types/*.md"]
+					}
 				}
 			}
 		}

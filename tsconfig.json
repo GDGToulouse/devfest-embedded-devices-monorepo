@@ -1,6 +1,7 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
 		"rootDir": ".",
 		"sourceMap": true,
 		"declaration": false,
@@ -22,14 +23,15 @@
 			"@gdgtoulouse/dbs/pouchdb/langs": ["libs/dbs/pouchdb/langs/src/index.ts"],
 			"@gdgtoulouse/features/processings": ["libs/features/processings/src/index.ts"],
 			"@gdgtoulouse/structures/tree": ["libs/structures/tree/src/index.ts"],
-			"@gdgtoulouse/types": ["libs/types/src/index.ts"],
 			"@gdgtoulouse/dbs/pouchdb/texts/langs": ["libs/dbs/pouchdb/texts/langs/src/index.ts"],
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/terminal/route": ["libs/apps/embedded-device-manager/routes/routes/terminal/route/src/index.ts"],
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/route/src/index.ts"],
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route/src/index.ts"],
-			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations/route/src/index.ts"],
+			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/src/index.ts"],
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route/src/index.ts"],
-			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route/src/index.ts"]
+			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route/src/index.ts"],
+			"@gdgtoulouse/features/pouchdb-manager": ["libs/features/pouchdb-manager/src/index.ts"],
+			"@gdgtoulouse/types": ["libs/types/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

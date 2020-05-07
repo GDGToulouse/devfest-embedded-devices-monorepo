@@ -42,6 +42,12 @@
       {{childRouteSelectItem.name}}
     </ng-option>
   </ng-select>
+  <button
+    (click)="exec()"
+  >exec</button>
+  <button
+    (click)="sync()"
+  >sync</button>
   <router-outlet>
   </router-outlet>
 </ng-container>

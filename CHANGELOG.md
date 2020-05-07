@@ -7,9 +7,9 @@
 ```sh
 yarn run ng add @angular/material
 
-yarn run ng generate @nrwl/workspace:library --publishable types # This generates a barebone library with only Typescript setup
+yarn run ng generate @nrwl/node:library --publishable types
 
-yarn run ng generate @nrwl/angular:library --publishable processings --directory=features
+yarn run ng generate @nrwl/angular:library --style=scss --publishable processings --directory=features
 
 yarn run ng generate @nrwl/node:library --publishable tree --directory=structures
 
@@ -39,11 +39,13 @@ yarn run ng generate @nrwl/angular:library --style=scss --publishable route --di
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager
 
-yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-configurations
+yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable pouchdb-manager --directory=features
 ```

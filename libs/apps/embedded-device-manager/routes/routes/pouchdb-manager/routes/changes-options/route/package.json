@@ -1,5 +1,5 @@
 {
-	"name": "@gdgtoulouse/apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-configurations-route",
+	"name": "@gdgtoulouse/apps-embedded-device-manager-routes-routes-pouchdb-manager-routes-changes-options-route",
 	"version": "0.0.1",
 	"peerDependencies": {
 		"@angular/common": "^9.0.3",

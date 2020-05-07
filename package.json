@@ -63,6 +63,7 @@
 		"express": "^4.17.1",
 		"express-pouchdb": "^4.2.0",
 		"faker": "^4.1.0",
+		"fast-deep-equal": "^3.1.1",
 		"moment": "^2.24.0",
 		"ng-terminal": "^2.4.0",
 		"pouchdb": "^7.2.1",

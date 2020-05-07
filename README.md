@@ -108,3 +108,9 @@ npm run back:nest
 ```sh
 npm run dbs
 ```
+
+### Run CouchDB in Docker
+
+```sh
+docker run --rm -p 5984:5984 --name couchdb-in-docker -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=admin couchdb:latest
+```
