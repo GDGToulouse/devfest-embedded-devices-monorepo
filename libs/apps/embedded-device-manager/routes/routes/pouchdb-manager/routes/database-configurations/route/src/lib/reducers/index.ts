@@ -9,18 +9,18 @@ import {
 	createFeatureSelector
 	} from '@ngrx/store';
 
-export interface RouteState {
+export interface FeatureState {
 	envsApiGet: EnvsApiGet;
 }
 
 export interface State {
-	[featureName]: RouteState;
+	[featureName]: FeatureState;
 }
 
-export function reducers(state: RouteState | undefined, action: Action) {
+export function reducers(state: FeatureState | undefined, action: Action) {
 	return combineReducers({
 		envsApiGet
 	})(state, action);
 }
 
-export const getFeatureState = createFeatureSelector<State, RouteState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);

@@ -6,7 +6,10 @@ import {
 	Component,
 	OnInit
 	} from '@angular/core';
-import { Actions as PouchdbManagerFeatureActions } from '@gdgtoulouse/features/pouchdb-manager';
+import {
+	Actions as PouchdbManagerFeatureActions,
+	Selectors as PouchdbManagerFeatureSelectors
+	} from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	select,
 	Store
@@ -30,14 +33,17 @@ export class IndexComponent implements OnInit {
 	]);
 	childRouteSelectSelectedId$ = this.store.pipe(select(Selectors.currentChildSegment$));
 
+	testExecSubscriberKey = `${featureName}-index_local-hardware-menu_exec`;
+	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docsOfCompleteInfoBySubscription$(this.testExecSubscriberKey)));
+
 	constructor(private store: Store<{}>) {}
 
 	ngOnInit() {}
 
 	exec() {
 		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Subscribe.exec({
-				subscriber: `${featureName}-index_local-hardware-menu`,
+			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe({
+				subscriber: this.testExecSubscriberKey,
 				databaseConfiguration: {
 					name: 'http://localhost:5984/local-hardware-menu'
 				},
@@ -48,10 +54,11 @@ export class IndexComponent implements OnInit {
 			})
 		);
 	}
+
 	sync() {
 		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Subscribe.sync({
-				subscriber: `${featureName}-index_local-hardware-menu`,
+			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.subscribe({
+				subscriber: `${featureName}-index_local-hardware-menu_sync`,
 				databaseConfiguration: {
 					name: 'http://localhost:5984/local-hardware-menu'
 				},

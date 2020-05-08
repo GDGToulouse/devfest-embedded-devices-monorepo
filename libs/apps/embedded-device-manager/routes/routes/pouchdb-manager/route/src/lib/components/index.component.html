@@ -3,9 +3,13 @@
     childRouteSelectBindLabel: childRouteSelectBindLabel$ | async,
     childRouteSelectBindValue: childRouteSelectBindValue$ | async,
     childRouteSelectItemList: childRouteSelectItemList$ | async,
-    childRouteSelectSelectedId: childRouteSelectSelectedId$ | async
+    childRouteSelectSelectedId: childRouteSelectSelectedId$ | async,
+    testExec: testExec$ | async
 	} as _"
 >
+  <p>
+    {{_.testExec | json}}
+  </p>
   <ng-select
     (add)="childRouteSelect_add($event)"
     (blur)="childRouteSelect_blur($event)"

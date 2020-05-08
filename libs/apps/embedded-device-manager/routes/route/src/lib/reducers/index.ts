@@ -25,7 +25,7 @@ import {
 	createFeatureSelector
 	} from '@ngrx/store';
 
-export interface RouteState {
+export interface FeatureState {
 	envsApiGet: EnvsApiGet;
 	langMenuListApiGet: LangMenuListApiGet;
 	menuEndApiGet: MenuEndApiGet;
@@ -34,10 +34,10 @@ export interface RouteState {
 }
 
 export interface State {
-	[featureName]: RouteState;
+	[featureName]: FeatureState;
 }
 
-export function reducers(state: RouteState | undefined, action: Action) {
+export function reducers(state: FeatureState | undefined, action: Action) {
 	return combineReducers({
 		envsApiGet,
 		langMenuListApiGet,
@@ -47,4 +47,4 @@ export function reducers(state: RouteState | undefined, action: Action) {
 	})(state, action);
 }
 
-export const getFeatureState = createFeatureSelector<State, RouteState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);

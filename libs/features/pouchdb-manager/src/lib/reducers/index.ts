@@ -1,4 +1,8 @@
 import {
+	reducer as changesFeedsSubscriptionsExec,
+	State as ChangesFeedsSubscriptionsExec
+	} from './changes-feeds/subscriptions/exec.reducer';
+import {
 	reducer as envsApiGet,
 	State as EnvsApiGet
 	} from './envs/api/get.reducer';
@@ -9,18 +13,20 @@ import {
 	createFeatureSelector
 	} from '@ngrx/store';
 
-export interface RouteState {
+export interface FeatureState {
+	changesFeedsSubscriptionsExec: ChangesFeedsSubscriptionsExec;
 	envsApiGet: EnvsApiGet;
 }
 
 export interface State {
-	[featureName]: RouteState;
+	[featureName]: FeatureState;
 }
 
-export function reducers(state: RouteState | undefined, action: Action) {
+export function reducers(state: FeatureState | undefined, action: Action) {
 	return combineReducers({
+		changesFeedsSubscriptionsExec,
 		envsApiGet
 	})(state, action);
 }
 
-export const getFeatureState = createFeatureSelector<State, RouteState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);

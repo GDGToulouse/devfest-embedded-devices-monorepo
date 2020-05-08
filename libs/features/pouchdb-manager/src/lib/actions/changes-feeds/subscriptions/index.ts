@@ -1,3 +1,4 @@
-import * as Subscribe from './subscribe.actions';
+import * as Exec from './exec.actions';
+import * as Sync from './sync.actions';
 
-export { Subscribe };
+export { Exec, Sync };
