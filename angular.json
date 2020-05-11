@@ -93,7 +93,7 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
 						"browserTarget": "embedded-device-manager:build",
-						"port": 1111,
+						"port": 2000,
 						"ssl": true,
 						"sslCert": "undefined",
 						"sslKey": "undefined",
@@ -320,52 +320,6 @@
 				}
 			}
 		},
-		"embedded-device-manager-api-couchdb-cloud": {
-			"root": "apps/embedded-device-manager-api-couchdb-cloud",
-			"sourceRoot": "apps/embedded-device-manager-api-couchdb-cloud/src",
-			"projectType": "application",
-			"prefix": "embedded-device-manager-api-couchdb-cloud",
-			"schematics": {},
-			"architect": {
-				"build": {
-					"builder": "@nrwl/node:build",
-					"options": {
-						"outputPath": "dist/apps/embedded-device-manager-api-couchdb-cloud",
-						"main": "apps/embedded-device-manager-api-couchdb-cloud/src/main.ts",
-						"tsConfig": "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.app.json",
-						"assets": ["apps/embedded-device-manager-api-couchdb-cloud/src/assets"]
-					},
-					"configurations": {
-						"production": {
-							"optimization": true,
-							"extractLicenses": true,
-							"inspect": false
-						}
-					}
-				},
-				"serve": {
-					"builder": "@nrwl/node:execute",
-					"options": {
-						"buildTarget": "embedded-device-manager-api-couchdb-cloud:build"
-					}
-				},
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["apps/embedded-device-manager-api-couchdb-cloud/tsconfig.app.json", "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-api-couchdb-cloud/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "apps/embedded-device-manager-api-couchdb-cloud/jest.config.js",
-						"tsConfig": "apps/embedded-device-manager-api-couchdb-cloud/tsconfig.spec.json",
-						"passWithNoTests": true
-					}
-				}
-			}
-		},
 		"apis-child-processes": {
 			"root": "libs/apis/child-processes",
 			"sourceRoot": "libs/apis/child-processes/src",
@@ -385,108 +339,6 @@
 						"jestConfig": "libs/apis/child-processes/jest.config.js",
 						"tsConfig": "libs/apis/child-processes/tsconfig.spec.json",
 						"passWithNoTests": true
-					}
-				}
-			}
-		},
-		"embedded-device-manager-api-couchdb-device": {
-			"root": "apps/embedded-device-manager-api-couchdb-device",
-			"sourceRoot": "apps/embedded-device-manager-api-couchdb-device/src",
-			"projectType": "application",
-			"prefix": "embedded-device-manager-api-couchdb-device",
-			"schematics": {},
-			"architect": {
-				"build": {
-					"builder": "@nrwl/node:build",
-					"options": {
-						"outputPath": "dist/apps/embedded-device-manager-api-couchdb-device",
-						"main": "apps/embedded-device-manager-api-couchdb-device/src/main.ts",
-						"tsConfig": "apps/embedded-device-manager-api-couchdb-device/tsconfig.app.json",
-						"assets": ["apps/embedded-device-manager-api-couchdb-device/src/assets"]
-					},
-					"configurations": {
-						"production": {
-							"optimization": true,
-							"extractLicenses": true,
-							"inspect": false
-						}
-					}
-				},
-				"serve": {
-					"builder": "@nrwl/node:execute",
-					"options": {
-						"buildTarget": "embedded-device-manager-api-couchdb-device:build"
-					}
-				},
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["apps/embedded-device-manager-api-couchdb-device/tsconfig.app.json", "apps/embedded-device-manager-api-couchdb-device/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!apps/embedded-device-manager-api-couchdb-device/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "apps/embedded-device-manager-api-couchdb-device/jest.config.js",
-						"tsConfig": "apps/embedded-device-manager-api-couchdb-device/tsconfig.spec.json",
-						"passWithNoTests": true
-					}
-				}
-			}
-		},
-		"dbs-pouchdb-langs": {
-			"root": "libs/dbs/pouchdb/langs",
-			"sourceRoot": "libs/dbs/pouchdb/langs/src",
-			"projectType": "library",
-			"schematics": {},
-			"architect": {
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["libs/dbs/pouchdb/langs/tsconfig.lib.json", "libs/dbs/pouchdb/langs/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!libs/dbs/pouchdb/langs/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "libs/dbs/pouchdb/langs/jest.config.js",
-						"tsConfig": "libs/dbs/pouchdb/langs/tsconfig.spec.json",
-						"passWithNoTests": true
-					}
-				}
-			}
-		},
-		"dbs-pouchdb-texts-langs": {
-			"root": "libs/dbs/pouchdb/texts/langs",
-			"sourceRoot": "libs/dbs/pouchdb/texts/langs/src",
-			"projectType": "library",
-			"schematics": {},
-			"architect": {
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": ["libs/dbs/pouchdb/texts/langs/tsconfig.lib.json", "libs/dbs/pouchdb/texts/langs/tsconfig.spec.json"],
-						"exclude": ["**/node_modules/**", "!libs/dbs/pouchdb/texts/langs/**"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "libs/dbs/pouchdb/texts/langs/jest.config.js",
-						"tsConfig": "libs/dbs/pouchdb/texts/langs/tsconfig.spec.json",
-						"passWithNoTests": true
-					}
-				},
-				"build": {
-					"builder": "@nrwl/node:package",
-					"options": {
-						"outputPath": "dist/libs/dbs/pouchdb/texts/langs",
-						"tsConfig": "libs/dbs/pouchdb/texts/langs/tsconfig.lib.json",
-						"packageJson": "libs/dbs/pouchdb/texts/langs/package.json",
-						"main": "libs/dbs/pouchdb/texts/langs/src/index.ts",
-						"assets": ["libs/dbs/pouchdb/texts/langs/*.md"]
 					}
 				}
 			}

@@ -59,17 +59,18 @@ After the entire build is successful, you should be able to access the different
 
 Front-End:
 
-- An Angular application served at [https://localhost:1111](https://localhost:1111)
+- An Angular application served at [https://localhost:2000](https://localhost:2000)
 
 Back-End:
 
-- A Flask API served at [http://localhost:2222/api](http://localhost:2222/api)
-- A Nest.js API served at [http://localhost:3333/api](http://localhost:3333/api)
+- A Flask API served at [http://localhost:3000/api](http://localhost:3000/api)
+- A Nest.js API served at [http://localhost:4000/api](http://localhost:4000/api)
 
 Databases:
 
-- A PouchDB server representing the cloud's database, served at [http://localhost:4444/_utils](http://localhost:4444/_utils). Login and password are both _cloud_ by default.
-- A PouchDB server (CouchDB compatible NPM package) representing the embedded device's database, served at [http://localhost:5555/_utils](http://localhost:5555/_utils). Login and password are both _device_ by default.
+- A CouchDB server representing the cloud's database, served at [http://localhost:5000/_utils](http://localhost:5000/_utils). Login and password are both _cloud_ by default.
+- A CouchDB server representing the embedded device's database of the a first device (named Andromeda), served at [http://localhost:7000/_utils](http://localhost:7000/_utils). Login and password are both _andromeda_ by default.
+- A CouchDB server representing the embedded device's database of the a second device (named Aquarius), served at [http://localhost:7001/_utils](http://localhost:7001/_utils). Login and password are both _aquarius_ by default.
 
 **Note(s):**
 

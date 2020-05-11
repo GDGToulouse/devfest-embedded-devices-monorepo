@@ -6,6 +6,7 @@ repoDir=`readlink --canonicalize ${hereDir}/../../..`
 defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f2 | cut -d'"' -f2`
 pids=""
 rc=0
+printf -v currentDate '%(%Y%m%d%H%M%S)T\n' -1
 
 project=${1:-"${defaultProject}"}
 
@@ -19,21 +20,37 @@ sigintTrap() {
 	exit 2
 }
 
-yarn
-
-rm -rf \
-	${repoDir}/log.txt \
-	${repoDir}/config.json  \
-	${repoDir}/.dbs
-
-mkdir ${repoDir}/.dbs
-
-mkdir ${repoDir}/.dbs/cloud
-yarn run ng serve "${project}-api-couchdb-cloud" &
+docker \
+	run \
+		--rm \
+		-p 5000:5984 \
+		--name ${project}-cloud-db-${currentDate} \
+		-e COUCHDB_USER=cloud \
+		-e COUCHDB_PASSWORD=cloud \
+		couchdb:latest \
+&
 pids="${pids} $!"
 
-mkdir ${repoDir}/.dbs/device
-yarn run ng serve "${project}-api-couchdb-device" &
+docker \
+	run \
+		--rm \
+		-p 7000:5984 \
+		--name ${project}-andromeda-db-${currentDate} \
+		-e COUCHDB_USER=andromeda \
+		-e COUCHDB_PASSWORD=andromeda \
+		couchdb:latest \
+&
+pids="${pids} $!"
+
+docker \
+	run \
+		--rm \
+		-p 7001:5984 \
+		--name ${project}-aquarius-db-${currentDate} \
+		-e COUCHDB_USER=aquarius \
+		-e COUCHDB_PASSWORD=aquarius \
+		couchdb:latest \
+&
 pids="${pids} $!"
 
 for pid in ${pids}; do

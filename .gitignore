@@ -30,3 +30,5 @@
 
 __pycache__
 python.egg-info
+
+/**/*-tmp-dump.json

@@ -1,7 +1,7 @@
 import {
-	reducer as changesFeedsSubscriptionsExec,
-	State as ChangesFeedsSubscriptionsExec
-	} from './changes-feeds/subscriptions/exec.reducer';
+	reducer as changesFeedsSubscriptionsSubscribe,
+	State as ChangesFeedsSubscriptionsSubscribe
+	} from './changes-feeds/subscriptions/subscribe.reducer';
 import {
 	reducer as envsApiGet,
 	State as EnvsApiGet
@@ -14,7 +14,7 @@ import {
 	} from '@ngrx/store';
 
 export interface FeatureState {
-	changesFeedsSubscriptionsExec: ChangesFeedsSubscriptionsExec;
+	changesFeedsSubscriptionsSubscribe: ChangesFeedsSubscriptionsSubscribe;
 	envsApiGet: EnvsApiGet;
 }
 
@@ -24,7 +24,7 @@ export interface State {
 
 export function reducers(state: FeatureState | undefined, action: Action) {
 	return combineReducers({
-		changesFeedsSubscriptionsExec,
+		changesFeedsSubscriptionsSubscribe,
 		envsApiGet
 	})(state, action);
 }

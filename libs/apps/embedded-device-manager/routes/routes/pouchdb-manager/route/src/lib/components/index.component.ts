@@ -1,5 +1,4 @@
 import { Actions as FeatureActions } from '../actions';
-import { featureName } from '../feature.config';
 import { Selectors } from '../selectors';
 import {
 	ChangeDetectionStrategy,
@@ -16,8 +15,9 @@ import {
 	} from '@ngrx/store';
 import { of } from 'rxjs';
 // import { Selectors as FeatureSelectors } from '../selectors';
+export const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-routes-terminal-route-index-c';
 @Component({
-	selector: 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-routes-terminal-route-index-c',
+	selector,
 	templateUrl: './index.component.html',
 	styleUrls: ['./index.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,8 +33,11 @@ export class IndexComponent implements OnInit {
 	]);
 	childRouteSelectSelectedId$ = this.store.pipe(select(Selectors.currentChildSegment$));
 
-	testExecSubscriberKey = `${featureName}-index_local-hardware-menu_exec`;
-	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docsOfCompleteInfoBySubscription$(this.testExecSubscriberKey)));
+	testExecSubscriberKey = `${selector}_local-hardware-menu_exec`;
+	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docNotDeletedListOfCompleteInfoBySubscription$(this.testExecSubscriberKey)));
+
+	testSyncSubscriberKey = `${selector}_local-hardware-menu_sync`;
+	testSync$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docNotDeletedListOfCompleteInfoBySubscription$(this.testSyncSubscriberKey)));
 
 	constructor(private store: Store<{}>) {}
 
@@ -42,7 +45,7 @@ export class IndexComponent implements OnInit {
 
 	exec() {
 		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe({
+			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.request({
 				subscriber: this.testExecSubscriberKey,
 				databaseConfiguration: {
 					name: 'http://localhost:5984/local-hardware-menu'
@@ -57,8 +60,8 @@ export class IndexComponent implements OnInit {
 
 	sync() {
 		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-				subscriber: `${featureName}-index_local-hardware-menu_sync`,
+			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.request({
+				subscriber: this.testSyncSubscriberKey,
 				databaseConfiguration: {
 					name: 'http://localhost:5984/local-hardware-menu'
 				},

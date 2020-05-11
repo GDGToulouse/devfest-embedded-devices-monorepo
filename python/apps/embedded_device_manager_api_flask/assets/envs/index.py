@@ -1,7 +1,7 @@
 API_DESCRIPTION = 'Flask API to manage embedded device'
 API_TITLE = 'embedded-device-manager-api-flask'
 API_VERSION = '1.0.0'
-FLASK_SERVER_NAME = 'localhost:2222'
+FLASK_SERVER_NAME = 'localhost:3000'
 FLASK_DEBUG = True
 RESTPLUS_SWAGGER_UI_DOC_EXPANSION = 'list'
 RESTPLUS_VALIDATE = True

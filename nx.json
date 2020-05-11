@@ -17,12 +17,6 @@
 		"embedded-device-manager-api-nest": {
 			"tags": ["app", "api", "node"]
 		},
-		"embedded-device-manager-api-couchdb-cloud": {
-			"tags": ["app", "db", "cloud"]
-		},
-		"embedded-device-manager-api-couchdb-device": {
-			"tags": ["app", "db", "device"]
-		},
 		"embedded-device-manager-e2e": {
 			"tags": ["app", "e2e"],
 			"implicitDependencies": ["embedded-device-manager"]
@@ -38,12 +32,6 @@
 		},
 		"structures-tree": {
 			"tags": ["structure"]
-		},
-		"dbs-pouchdb-langs": {
-			"tags": []
-		},
-		"dbs-pouchdb-texts-langs": {
-			"tags": []
 		},
 		"apps-embedded-device-manager-routes-routes-terminal-route": {
 			"tags": []

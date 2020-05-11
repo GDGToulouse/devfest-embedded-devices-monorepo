@@ -1,7 +1,7 @@
 #!/bin/bash
 
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
-repoDir=`readlink --canonicalize ${hereDir}/../..`
+repoDir=`readlink --canonicalize ${hereDir}/../../../..`
 
 issueId=${1}
 

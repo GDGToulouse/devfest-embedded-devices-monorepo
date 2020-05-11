@@ -4,7 +4,8 @@
     childRouteSelectBindValue: childRouteSelectBindValue$ | async,
     childRouteSelectItemList: childRouteSelectItemList$ | async,
     childRouteSelectSelectedId: childRouteSelectSelectedId$ | async,
-    testExec: testExec$ | async
+    testExec: testExec$ | async,
+    testSync: testSync$ | async
 	} as _"
 >
   <p>
@@ -46,6 +47,9 @@
       {{childRouteSelectItem.name}}
     </ng-option>
   </ng-select>
+  <p>
+    {{_.testSync | json}}
+  </p>
   <button
     (click)="exec()"
   >exec</button>

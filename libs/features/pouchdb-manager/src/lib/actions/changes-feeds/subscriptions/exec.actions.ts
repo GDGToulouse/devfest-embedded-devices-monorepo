@@ -5,36 +5,80 @@ import {
 	union
 	} from '@ngrx/store';
 
-export const topic = 'envs-changes-feeds-subscriptions-exec';
+export const topic = 'changes-feeds-subscriptions-exec';
 
-export const subscribe = createAction(
-	`[${featureName}][${topic}] subscribe`,
+export interface Success {
+	changesOptionsKey: string;
+	databaseConfigurationKey: string;
+	subscriber: string;
+}
+
+export const request = createAction(
+	`[${featureName}][${topic}] request`,
 	props<{
 		changesOptions: PouchDB.Core.ChangesOptions | string;
 		databaseConfiguration: PouchDB.Configuration.DatabaseConfiguration | string;
 		subscriber: string;
 	}>()
 );
-export const change = createAction(
-	`[${featureName}][${topic}] change`,
+export const databaseConfigurationKeyDoesNotExistYet = createAction(
+	`[${featureName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
 	props<{
-		change: PouchDB.Core.ChangesResponseChange<{}>;
-		changesOptionsKey: string;
 		databaseConfigurationKey: string;
-		subscriber: string;
 	}>()
 );
-export const complete = createAction(
-	`[${featureName}][${topic}] complete`,
+export const changesOptionsKeyDoesNotExistYet = createAction(
+	`[${featureName}][${topic}] changesOptionsKeyDoesNotExistYet`,
+	props<{
+		changesOptionsKey: string;
+	}>()
+);
+export const failure = createAction(
+	`[${featureName}][${topic}] failure`,
+	props<{
+		failure: any;
+	}>()
+);
+export const success = createAction(
+	`[${featureName}][${topic}] success`,
+	props<{
+		success: Success;
+	}>()
+);
+
+export const changesChange = createAction(
+	`[${featureName}][${topic}] changesChange`,
+	props<{
+		changesOptionsKey: string;
+		change: PouchDB.Core.ChangesResponseChange<{}>;
+		databaseConfigurationKey: string;
+	}>()
+);
+export const changesComplete = createAction(
+	`[${featureName}][${topic}] changesComplete`,
 	props<{
 		changesOptionsKey: string;
 		completeInfo: PouchDB.Core.ChangesResponse<{}>;
 		databaseConfigurationKey: string;
-		subscriber: string;
+	}>()
+);
+export const changesError = createAction(
+	`[${featureName}][${topic}] changesError`,
+	props<{
+		changesOptionsKey: string;
+		error: any;
+		databaseConfigurationKey: string;
 	}>()
 );
 
 const all = union({
-	subscribe
+	request,
+	databaseConfigurationKeyDoesNotExistYet,
+	changesOptionsKeyDoesNotExistYet,
+	failure,
+	success,
+	changesChange,
+	changesComplete,
+	changesError
 });
 export type ActionsUnion = typeof all;
