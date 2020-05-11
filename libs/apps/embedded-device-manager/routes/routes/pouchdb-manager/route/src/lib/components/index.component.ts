@@ -34,11 +34,13 @@ export class IndexComponent implements OnInit {
 	childRouteSelectSelectedId$ = this.store.pipe(select(Selectors.currentChildSegment$));
 
 	testExecSubscriberKey = `${selector}_local-hardware-menu_exec`;
-	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docNotDeletedListOfCompleteInfoBySubscription$(this.testExecSubscriberKey)));
+	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$(this.testExecSubscriberKey)));
 
 	testSyncSubscriberKey = `${selector}_local-hardware-menu_sync`;
-	testSync$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.docNotDeletedListOfCompleteInfoBySubscription$(this.testSyncSubscriberKey)));
-
+	changesFeedsCompleteInfoResultsDocListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsDocListBySubscription$(this.testSyncSubscriberKey)));
+	changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$(this.testSyncSubscriberKey)));
+	changesFeedsSyncChangeListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncChangeListBySubscription$(this.testSyncSubscriberKey)));
+	changesFeedsSyncDocListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncDocListBySubscription$(this.testSyncSubscriberKey)));
 	constructor(private store: Store<{}>) {}
 
 	ngOnInit() {}

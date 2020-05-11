@@ -5,12 +5,12 @@
     childRouteSelectItemList: childRouteSelectItemList$ | async,
     childRouteSelectSelectedId: childRouteSelectSelectedId$ | async,
     testExec: testExec$ | async,
-    testSync: testSync$ | async
+    changesFeedsCompleteInfoResultsDocListBySubscription: changesFeedsCompleteInfoResultsDocListBySubscription$ | async,
+    changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription: changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$ | async,
+    changesFeedsSyncChangeListBySubscription: changesFeedsSyncChangeListBySubscription$ | async,
+    changesFeedsSyncDocListBySubscription: changesFeedsSyncDocListBySubscription$ | async
 	} as _"
 >
-  <p>
-    {{_.testExec | json}}
-  </p>
   <ng-select
     (add)="childRouteSelect_add($event)"
     (blur)="childRouteSelect_blur($event)"
@@ -47,15 +47,39 @@
       {{childRouteSelectItem.name}}
     </ng-option>
   </ng-select>
-  <p>
-    {{_.testSync | json}}
-  </p>
   <button
     (click)="exec()"
   >exec</button>
+  <p>
+    {{_.testExec | json}}
+  </p>
   <button
     (click)="sync()"
   >sync</button>
+  <p>
+    changesFeedsCompleteInfoResultsDocListBySubscription
+  </p>
+  <p>
+    {{_.changesFeedsCompleteInfoResultsDocListBySubscription | json}}
+  </p>
+  <p>
+    changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription
+  </p>
+  <p>
+    {{_.changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription | json}}
+  </p>
+  <p>
+    changesFeedsSyncChangeListBySubscription
+  </p>
+  <p>
+    {{_.changesFeedsSyncChangeListBySubscription | json}}
+  </p>
+  <p>
+    changesFeedsSyncDocListBySubscription
+  </p>
+  <p>
+    {{_.changesFeedsSyncDocListBySubscription | json}}
+  </p>
   <router-outlet>
   </router-outlet>
 </ng-container>
