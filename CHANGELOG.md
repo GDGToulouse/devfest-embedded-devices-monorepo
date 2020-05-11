@@ -4,7 +4,7 @@
 
 ### 20200318
 
-```sh
+```bash
 yarn run ng add @angular/material
 
 yarn run ng generate @nrwl/node:library --publishable types
@@ -32,8 +32,7 @@ yarn run ng generate @nrwl/nest:library child-process --directory=apis
 
 ### 20200506
 
-
-```
+```bash
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/terminal
 
 
@@ -48,4 +47,12 @@ yarn run ng generate @nrwl/angular:library --style=scss --publishable route --di
 yarn run ng generate @nrwl/angular:library --style=scss --publishable route --directory=apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable pouchdb-manager --directory=features
+```
+
+### 20200511
+
+```bash
+yarn run ng generate @nrwl/angular:library --style=scss --publishable expansion-panel --directory=components
+
+yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --module=component.module.ts --export --project=components-expansion-panel --style=scss --selector=gdgtoulouse-expansion-panel components/index
 ```

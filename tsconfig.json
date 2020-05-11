@@ -31,7 +31,8 @@
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route/src/index.ts"],
 			"@gdgtoulouse/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route": ["libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route/src/index.ts"],
 			"@gdgtoulouse/features/pouchdb-manager": ["libs/features/pouchdb-manager/src/index.ts"],
-			"@gdgtoulouse/types": ["libs/types/src/index.ts"]
+			"@gdgtoulouse/types": ["libs/types/src/index.ts"],
+			"@gdgtoulouse/components/expansion-panel": ["libs/components/expansion-panel/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

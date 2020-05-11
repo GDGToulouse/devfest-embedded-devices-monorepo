@@ -59,6 +59,9 @@
 		},
 		"types": {
 			"tags": []
+		},
+		"components-expansion-panel": {
+			"tags": []
 		}
 	}
 }

@@ -73,13 +73,10 @@
       [opened]="_.sidenavStartIsOpen"
       [position]="'start'"
     >
-      <mat-nav-list>
-        <a
-          [routerLink]="navLeftItem.routerLink"
-          *ngFor="let navLeftItem of _.leftSidenavItemList"
-          mat-list-item
-        >{{ navLeftItem.label?.text }}</a>
-      </mat-nav-list>
+      <gdgtoulouse-expansion-panel
+        [treeList]="treeList"
+      >
+      </gdgtoulouse-expansion-panel>
     </mat-sidenav>
 
     <mat-sidenav

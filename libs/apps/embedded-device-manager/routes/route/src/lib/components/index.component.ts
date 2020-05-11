@@ -7,6 +7,7 @@ import {
 	Component,
 	OnDestroy
 	} from '@angular/core';
+import { Tree } from '@gdgtoulouse/components/expansion-panel';
 import {
 	select,
 	Store
@@ -33,6 +34,61 @@ export class IndexComponent implements OnDestroy {
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
+
+	treeList: Tree[] = [
+		{
+			data: {
+				header: {
+					description: 'description1',
+					title: 'test1'
+				},
+				router: null
+			},
+			treeList: []
+		},
+		{
+			data: {
+				header: {
+					description: 'description2',
+					title: 'test2'
+				},
+				router: null
+			},
+			treeList: [
+				{
+					data: {
+						header: {
+							description: 'description2.1',
+							title: 'test2.1'
+						},
+						router: null
+					},
+					treeList: []
+				},
+				{
+					data: {
+						header: {
+							description: 'description2.2',
+							title: 'test2.2'
+						},
+						router: null
+					},
+					treeList: [
+						{
+							data: {
+								header: {
+									description: 'description2.2.3',
+									title: 'test2.2.3'
+								},
+								router: null
+							},
+							treeList: []
+						}
+					]
+				}
+			]
+		}
+	];
 
 	private _mobileQueryListener: () => void;
 

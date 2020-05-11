@@ -703,6 +703,47 @@
 					}
 				}
 			}
+		},
+		"components-expansion-panel": {
+			"projectType": "library",
+			"root": "libs/components/expansion-panel",
+			"sourceRoot": "libs/components/expansion-panel/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/components/expansion-panel/tsconfig.lib.json",
+						"project": "libs/components/expansion-panel/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/components/expansion-panel/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/components/expansion-panel/tsconfig.lib.json", "libs/components/expansion-panel/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/components/expansion-panel/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/components/expansion-panel/jest.config.js",
+						"tsConfig": "libs/components/expansion-panel/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/components/expansion-panel/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
 		}
 	},
 	"cli": {

@@ -1,0 +1,46 @@
+<ng-container
+	*ngTemplateOutlet="templateRef; context: {$implicit: treeList}"
+>
+</ng-container>
+<ng-template
+	#templateRef
+	let-list
+>
+	<mat-accordion>
+		<mat-expansion-panel
+			*ngFor="let tree of list"
+		>
+			<ng-container
+				*ngIf="hasTree(tree); else noTree"
+			>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						{{tree.data.header.title}}
+					</mat-panel-title>
+					<mat-panel-description>
+						{{tree.data.header.description}}
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<ng-container
+					*ngTemplateOutlet="templateRef; context: {$implicit: tree.treeList}"
+				>
+				</ng-container>
+			</ng-container>
+			<ng-container
+				#noTree
+			>
+				<mat-toolbar>
+					<a
+						[routerLink]="tree.data?.router.routerLink"
+						[queryParams]="tree.data?.router.queryParams"
+						[fragment]="tree.data?.router.fragment"
+						[queryParamsHandling]="tree.data?.router.queryParamsHandling"
+						[preserveFragment]="tree.data?.router.preserveFragment"
+						[skipLocationChange]="tree.data?.router.replaceUrl"
+						[state]="tree.data?.router.state"
+					>{{tree.data?.router.text}}</a>
+				</mat-toolbar>
+			</ng-container>
+		</mat-expansion-panel>
+	</mat-accordion>
+</ng-template>

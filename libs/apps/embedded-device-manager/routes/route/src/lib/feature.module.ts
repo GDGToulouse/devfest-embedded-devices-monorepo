@@ -13,7 +13,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { ComponentModule as CssGrid3_3Module } from '@gdgtoulouse/components/css-grid-3-3';
+import {
+	ComponentModule as CssGrid3_3Module,
+	ComponentModule as ExpansionPanelComponentModule
+	} from '@gdgtoulouse/components/expansion-panel';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -29,6 +32,7 @@ import { StoreModule } from '@ngrx/store';
 		MatSidenavModule,
 		MatToolbarModule,
 		MatTooltipModule,
+		ExpansionPanelComponentModule,
 		RouterModule.forChild([
 			{
 				path: '',
