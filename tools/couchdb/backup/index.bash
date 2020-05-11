@@ -2,7 +2,7 @@
 
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../..`
-printf -v currentDate '%(%Y%m%d%H%M%S)T\n' -1
+printf -v currentDate '%(%Y%m%d%H%M%S)T' -1
 
 database=${1:-"local-hardware-menu"}
 host=${2:-"127.0.0.1"}
@@ -18,5 +18,7 @@ git clone https://github.com/danielebailo/couchdb-dump
 cd couchdb-dump
 
 chmod +x couchdb-dump.sh
+
+echo "/bin/bash ./couchdb-dump.sh -b -P ${port} -H ${host} -d ${database} -f ${path} -u ${username} -p ${password}"
 
 /bin/bash ./couchdb-dump.sh -b -P ${port} -H ${host} -d ${database} -f ${path} -u ${username} -p ${password}
