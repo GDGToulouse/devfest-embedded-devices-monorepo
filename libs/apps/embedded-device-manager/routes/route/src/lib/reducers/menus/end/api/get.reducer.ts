@@ -19,17 +19,17 @@ export const initialState: State = {
 	failure: null,
 	response: {
 		tree: {
-			children: [
+			treeList: [
 				{
-					children: [
+					treeList: [
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '0'
 							}
 						},
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '1'
 							}
@@ -40,7 +40,7 @@ export const initialState: State = {
 					}
 				},
 				{
-					children: [
+					treeList: [
 						{
 							data: {
 								id: '3'
@@ -72,15 +72,15 @@ export const initialState: State = {
 					}
 				},
 				{
-					children: [
+					treeList: [
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '9'
 							}
 						},
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '10'
 							}
@@ -91,15 +91,15 @@ export const initialState: State = {
 					}
 				},
 				{
-					children: [
+					treeList: [
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '12'
 							}
 						},
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '13'
 							}
@@ -110,15 +110,15 @@ export const initialState: State = {
 					}
 				},
 				{
-					children: [
+					treeList: [
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '15'
 							}
 						},
 						{
-							children: [],
+							treeList: [],
 							data: {
 								id: '16'
 							}
