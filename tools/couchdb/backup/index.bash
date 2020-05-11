@@ -20,4 +20,3 @@ cd couchdb-dump
 chmod +x couchdb-dump.sh
 
 /bin/bash ./couchdb-dump.sh -b -P ${port} -H ${host} -d ${database} -f ${path} -u ${username} -p ${password}
-

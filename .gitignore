@@ -31,4 +31,6 @@
 __pycache__
 python.egg-info
 
-/**/*-tmp-dump.json
+/**/dumps/tmp/*.json
+/**/*.log
+/**/couchdb/etc/local.d/docker.ini

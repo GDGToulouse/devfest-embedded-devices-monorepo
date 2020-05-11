@@ -48,7 +48,7 @@ export class IndexComponent implements OnInit {
 			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.request({
 				subscriber: this.testExecSubscriberKey,
 				databaseConfiguration: {
-					name: 'http://localhost:5984/local-hardware-menu'
+					name: 'http://localhost:5000/local-hardware-menu'
 				},
 				changesOptions: {
 					since: 0,
@@ -63,7 +63,7 @@ export class IndexComponent implements OnInit {
 			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.request({
 				subscriber: this.testSyncSubscriberKey,
 				databaseConfiguration: {
-					name: 'http://localhost:5984/local-hardware-menu'
+					name: 'http://localhost:5000/local-hardware-menu'
 				},
 				changesOptions: {
 					include_docs: true
