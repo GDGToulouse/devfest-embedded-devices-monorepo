@@ -1,10 +1,9 @@
 import { NodeHeader } from '../node-header';
 import { NodeRouter } from '../node-router';
+import { Tree as GenericTree } from '@gdgtoulouse/structures/tree';
 
-export interface Tree {
-	data: {
-		header?: NodeHeader;
-		router?: NodeRouter;
-	};
-	treeList: Tree[];
-}
+export type Tree = GenericTree<{
+	_id: string;
+	header?: NodeHeader;
+	router?: NodeRouter;
+}>;

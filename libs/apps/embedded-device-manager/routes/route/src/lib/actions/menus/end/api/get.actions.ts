@@ -10,7 +10,7 @@ import {
 export const actions = 'menus-end-api-get';
 
 export interface TreeData {
-	id: string;
+	_id: string;
 }
 export interface Request {}
 export type Failure = HttpErrorResponse;

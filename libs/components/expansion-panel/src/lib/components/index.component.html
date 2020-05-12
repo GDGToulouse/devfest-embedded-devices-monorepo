@@ -9,6 +9,11 @@
 	<mat-accordion>
 		<mat-expansion-panel
 			*ngFor="let tree of list"
+			(afterCollapse)="afterCollapse.emit(tree.data._id)"
+			(afterExpand)="afterExpand.emit(tree.data._id)"
+			(closed)="closed.emit(tree.data._id)"
+			(destroyed)="destroyed.emit(tree.data._id)"
+			(opened)="opened.emit(tree.data._id)"
 		>
 			<ng-container
 				*ngIf="hasTree(tree); else noTree"
@@ -26,21 +31,25 @@
 				>
 				</ng-container>
 			</ng-container>
-			<ng-container
+			<ng-template
 				#noTree
 			>
-				<mat-toolbar>
-					<a
-						[routerLink]="tree.data.router.routerLink"
-						[queryParams]="tree.data.router.queryParams"
-						[fragment]="tree.data.router.fragment"
-						[queryParamsHandling]="tree.data.router.queryParamsHandling"
-						[preserveFragment]="tree.data.router.preserveFragment"
-						[skipLocationChange]="tree.data.router.replaceUrl"
-						[state]="tree.data.router.state"
-					>{{tree.data.router.text}}</a>
-				</mat-toolbar>
-			</ng-container>
+				<ng-container
+					*ngIf="tree.data.router !== undefined"
+				>
+					<mat-toolbar>
+						<a
+							[routerLink]="tree.data.router.routerLink"
+							[queryParams]="tree.data.router.queryParams"
+							[fragment]="tree.data.router.fragment"
+							[queryParamsHandling]="tree.data.router.queryParamsHandling"
+							[preserveFragment]="tree.data.router.preserveFragment"
+							[skipLocationChange]="tree.data.router.replaceUrl"
+							[state]="tree.data.router.state"
+						>{{tree.data.router.text}}</a>
+					</mat-toolbar>
+				</ng-container>
+			</ng-template>
 		</mat-expansion-panel>
 	</mat-accordion>
 </ng-template>

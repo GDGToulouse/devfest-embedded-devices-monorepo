@@ -11,7 +11,8 @@
 		sidenavEndTogglerTooltip: sidenavEndTogglerTooltip$ | async,
 		sidenavStartIsOpen: sidenavStartIsOpen$ | async,
 		sidenavStartTogglerTooltip: sidenavStartTogglerTooltip$ | async,
-    title: title$ | async
+    title: title$ | async,
+    treeListFromFlatNodeList: treeListFromFlatNodeList$ | async
 	} as _"
 >
   <mat-toolbar
@@ -98,6 +99,9 @@
     <div
       style="min-height: 50vh;"
     >
+      <!-- <p>
+        {{ _.treeListFromFlatNodeList | json }}
+      </p> -->
       <router-outlet>
       </router-outlet>
     </div>
