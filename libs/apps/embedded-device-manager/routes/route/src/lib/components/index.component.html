@@ -11,14 +11,15 @@
 		sidenavEndTogglerTooltip: sidenavEndTogglerTooltip$ | async,
 		sidenavStartIsOpen: sidenavStartIsOpen$ | async,
 		sidenavStartTogglerTooltip: sidenavStartTogglerTooltip$ | async,
-    title: title$ | async
+    title: title$ | async,
+    changesRequest: changesRequest$ | async
 	} as _"
 >
   <mat-toolbar
     [color]="'primary'"
   >
     <button
-      (click)="toggleSidenavStart()"
+      (click)="sidenavStartToggle()"
       [attr.aria-label]="_.sidenavStartTogglerTooltip.ariaLabel?.text	"
       [matTooltip]="_.sidenavStartTogglerTooltip.tooltip?.text	"
       mat-icon-button
@@ -31,7 +32,7 @@
       {{ _.title?.text }}
     </h1>
     <span
-      class="example-spacer"
+      class="toolbar-spacer"
     ></span>
     <button
       mat-button
@@ -52,7 +53,7 @@
       </button>
     </mat-menu>
     <button
-      (click)="toggleSidenavEnd()"
+      (click)="sidenavEndToggle()"
       [attr.aria-label]="_.sidenavEndTogglerTooltip.ariaLabel?.text		"
       [matTooltip]="_.sidenavEndTogglerTooltip.tooltip?.text	"
       mat-icon-button
@@ -64,23 +65,23 @@
   </mat-toolbar>
 
   <mat-sidenav-container
-    (backdropClick)="closeSidenavs();"
+    (backdropClick)="sidenavsClose();"
   >
     <mat-sidenav
-      (keydown.escape)="closeSidenavStart()"
+      (keydown.escape)="sidenavStartClose()"
       [fixedInViewport]="mobileQuery.matches"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [opened]="_.sidenavStartIsOpen"
       [position]="'start'"
     >
-      <gdgtoulouse-expansion-panel
-        [treeList]="treeList"
+      <gdgtoulouse-expansion-panel-pouchdb
+        [changesRequest]="_.changesRequest"
       >
-      </gdgtoulouse-expansion-panel>
+      </gdgtoulouse-expansion-panel-pouchdb>
     </mat-sidenav>
 
     <mat-sidenav
-      (keydown.escape)="closeSidenavEnd()"
+      (keydown.escape)="sidenavEndClose()"
       [fixedInViewport]="mobileQuery.matches"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [opened]="_.sidenavEndIsOpen"
@@ -98,9 +99,6 @@
     <div
       style="min-height: 50vh;"
     >
-      <!-- <p>
-        {{ _.treeListFromFlatNodeList | json }}
-      </p> -->
       <router-outlet>
       </router-outlet>
     </div>

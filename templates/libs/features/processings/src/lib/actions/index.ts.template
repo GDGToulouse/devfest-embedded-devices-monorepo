@@ -1,3 +1,0 @@
-import { createOne as CrudActionsCreateOne, deleteOne as CrudActionsDeleteOne } from './crud.actions';
-
-export { CrudActionsCreateOne, CrudActionsDeleteOne };

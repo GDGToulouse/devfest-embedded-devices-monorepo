@@ -62,6 +62,12 @@
 		},
 		"components-expansion-panel": {
 			"tags": []
+		},
+		"components-expansion-panel-pouchdb": {
+			"tags": []
+		},
+		"components-terminal": {
+			"tags": []
 		}
 	}
 }

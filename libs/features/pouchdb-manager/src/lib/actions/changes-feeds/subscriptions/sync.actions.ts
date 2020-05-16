@@ -1,4 +1,5 @@
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
+import { PouchdbCompleteChangesRequest } from '@gdgtoulouse/types';
 import {
 	createAction,
 	props,
@@ -13,41 +14,34 @@ export interface Success {
 	subscriber: string;
 }
 
-export const request = createAction(
-	`[${featureName}][${topic}] request`,
-	props<{
-		changesOptions: PouchDB.Core.ChangesOptions | string;
-		databaseConfiguration: PouchDB.Configuration.DatabaseConfiguration | string;
-		subscriber: string;
-	}>()
-);
+export const request = createAction(`[${indexName}][${topic}] request`, props<PouchdbCompleteChangesRequest>());
 export const databaseConfigurationKeyDoesNotExistYet = createAction(
-	`[${featureName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
+	`[${indexName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
 	props<{
 		databaseConfigurationKey: string;
 	}>()
 );
 export const changesOptionsKeyDoesNotExistYet = createAction(
-	`[${featureName}][${topic}] changesOptionsKeyDoesNotExistYet`,
+	`[${indexName}][${topic}] changesOptionsKeyDoesNotExistYet`,
 	props<{
 		changesOptionsKey: string;
 	}>()
 );
 export const failure = createAction(
-	`[${featureName}][${topic}] failure`,
+	`[${indexName}][${topic}] failure`,
 	props<{
 		failure: any;
 	}>()
 );
 export const success = createAction(
-	`[${featureName}][${topic}] success`,
+	`[${indexName}][${topic}] success`,
 	props<{
 		success: Success;
 	}>()
 );
 
 export const since0ChangesChange = createAction(
-	`[${featureName}][${topic}] since0ChangesChange`,
+	`[${indexName}][${topic}] since0ChangesChange`,
 	props<{
 		changesOptionsKey: string;
 		change: PouchDB.Core.ChangesResponseChange<{}>;
@@ -55,7 +49,7 @@ export const since0ChangesChange = createAction(
 	}>()
 );
 export const since0ChangesComplete = createAction(
-	`[${featureName}][${topic}] since0ChangesComplete`,
+	`[${indexName}][${topic}] since0ChangesComplete`,
 	props<{
 		changesOptionsKey: string;
 		completeInfo: PouchDB.Core.ChangesResponse<{}>;
@@ -63,7 +57,7 @@ export const since0ChangesComplete = createAction(
 	}>()
 );
 export const since0ChangesError = createAction(
-	`[${featureName}][${topic}] since0ChangesError`,
+	`[${indexName}][${topic}] since0ChangesError`,
 	props<{
 		changesOptionsKey: string;
 		error: any;
@@ -72,7 +66,7 @@ export const since0ChangesError = createAction(
 );
 
 export const liveSinceLastSeqChangesChange = createAction(
-	`[${featureName}][${topic}] liveSinceLastSeqChangesChange`,
+	`[${indexName}][${topic}] liveSinceLastSeqChangesChange`,
 	props<{
 		changesOptionsKey: string;
 		change: PouchDB.Core.ChangesResponseChange<{}>;
@@ -80,7 +74,7 @@ export const liveSinceLastSeqChangesChange = createAction(
 	}>()
 );
 export const liveSinceLastSeqChangesComplete = createAction(
-	`[${featureName}][${topic}] liveSinceLastSeqChangesComplete`,
+	`[${indexName}][${topic}] liveSinceLastSeqChangesComplete`,
 	props<{
 		changesOptionsKey: string;
 		completeInfo: PouchDB.Core.ChangesResponse<{}>;
@@ -88,7 +82,7 @@ export const liveSinceLastSeqChangesComplete = createAction(
 	}>()
 );
 export const liveSinceLastSeqChangesError = createAction(
-	`[${featureName}][${topic}] liveSinceLastSeqChangesError`,
+	`[${indexName}][${topic}] liveSinceLastSeqChangesError`,
 	props<{
 		changesOptionsKey: string;
 		error: any;

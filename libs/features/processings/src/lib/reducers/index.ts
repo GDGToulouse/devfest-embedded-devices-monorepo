@@ -1,5 +1,5 @@
 import { Actions } from '../actions';
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import {
 	Action,
 	combineReducers,
@@ -23,10 +23,14 @@ export const initialState: FeatureState = {
 };
 
 export interface State {
-	[featureName]: FeatureState;
+	[indexName]: FeatureState;
 }
 
-export const reducer = createReducer(initialState.reducer, on(Actions.add, (state, { type, ...item }): ItemsState => ({ ...state, list: [...state.list, item] })), on(Actions.remove, (state, action): ItemsState => ({ ...state, list: state.list.filter(({ label }) => action.label !== label) })));
+export const reducer = createReducer(
+	initialState.reducer,
+	on(Actions.add, (state, { type, ...item }): ItemsState => ({ ...state, list: [...state.list, item] })),
+	on(Actions.remove, (state, action): ItemsState => ({ ...state, list: state.list.filter(({ label }) => action.label !== label) }))
+);
 
 export function reducers(featureState: FeatureState | undefined, action: Action) {
 	return combineReducers({

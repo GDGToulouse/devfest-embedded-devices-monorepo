@@ -1,30 +1,29 @@
-export interface Tree<T> {
-	data?: T & { _id: string };
-	treeList?: Tree<T>[];
-}
+// I is the type used for index, when using CouchDB directly it is {_id: string;}.
+// D is the type used for the real data of the node
+// P is the type used for parentIndex, when using a flatNodeList structure with CouchDB it could be {pid: string;}
 
-export type FlatNode<T> = T & { _id: string; pid: string };
+export type Tree<I, D> = I & D & { treeList?: Tree<I, D>[] };
 
-export const forEachTree = <T>(tree: Tree<T>, command: (tree: Tree<T>, step: number) => T & { _id: string }, step = 0): Tree<T> => ({
-	data: command(tree, step),
-	treeList: Array.isArray(tree.treeList) && tree.treeList.length > 0 ? tree.treeList.map((child) => forEachTree<T>(child, command, step + 1)) : undefined
+export const forEachTree = <I, D>(tree: Tree<I, D>, command: (tree: Tree<I, D>, step: number) => I & D, step = 0): Tree<I, D> => ({
+	...command(tree, step),
+	treeList: Array.isArray(tree.treeList) && tree.treeList.length > 0 ? tree.treeList.map((child) => forEachTree<I, D>(child, command, step + 1)) : undefined
 });
 
 // ref: https://hackernoon.com/you-might-not-need-that-recursive-function-in-javascript-275651522185
-export const treeListFromFlatNodeList = <T>(flatNodeList: FlatNode<T>[]) => {
-	const builtTreeList: Tree<T>[] = [];
-	const map: { [pid: string]: number } = {};
+export const treeListFromFlatNodeList = <I, P, D>(idKey: string, parentIdKey: string, flatNodeList: (I & P & D)[]) => {
+	const builtTreeList: Tree<I, D>[] = [];
+	const map: { [parentId: string]: number } = {};
 	flatNodeList.forEach((flatNode) => {
-		if (!flatNode.pid) return builtTreeList.push(<Tree<T>>flatNode);
-		let pIndex = map[flatNode.pid];
-		if (typeof pIndex !== 'number') {
-			pIndex = flatNodeList.findIndex(({ _id }) => _id === flatNode.pid);
-			map[flatNode.pid] = pIndex;
+		if (!flatNode[parentIdKey]) return builtTreeList.push(<Tree<I, D>>(<any>flatNode));
+		let parentIndex = map[flatNode[parentIdKey]];
+		if (typeof parentIndex !== 'number') {
+			parentIndex = flatNodeList.findIndex((_flatNode) => _flatNode[idKey] === flatNode[parentIdKey]);
+			map[flatNode[parentIdKey]] = parentIndex;
 		}
-		if (!(<Tree<T>>flatNodeList[pIndex]).treeList) {
-			return ((<Tree<T>>flatNodeList[pIndex]).treeList = [<Tree<T>>flatNode]);
+		if (!(<Tree<I, D>>(<any>flatNodeList[parentIndex])).treeList) {
+			return ((<Tree<I, D>>(<any>flatNodeList[parentIndex])).treeList = [<Tree<I, D>>(<any>flatNode)]);
 		}
-		(<Tree<T>>flatNodeList[pIndex]).treeList.push(<Tree<T>>flatNode);
+		(<Tree<I, D>>(<any>flatNodeList[parentIndex])).treeList.push(<Tree<I, D>>(<any>flatNode));
 	});
 	return builtTreeList;
 };

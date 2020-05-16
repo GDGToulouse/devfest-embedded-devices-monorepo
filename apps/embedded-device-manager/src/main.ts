@@ -1,10 +1,9 @@
-import { FeatureModule } from './app/feature.module';
+import { IndexModule } from './app/index.module';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 
 enableProdMode();
 
 platformBrowserDynamic()
-	.bootstrapModule(FeatureModule)
-	.catch(err => console.error(err));
+	.bootstrapModule(IndexModule)
+	.catch((err) => console.error(err));

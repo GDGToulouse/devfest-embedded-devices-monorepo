@@ -19,114 +19,79 @@ export const initialState: State = {
 	failure: null,
 	response: {
 		tree: {
+			_id: null,
 			treeList: [
 				{
 					treeList: [
 						{
 							treeList: [],
-							data: {
-								_id: '0'
-							}
+							_id: '0'
 						},
 						{
 							treeList: [],
-							data: {
-								_id: '1'
-							}
+							_id: '1'
 						}
 					],
-					data: {
-						_id: '2'
-					}
+					_id: '2'
 				},
 				{
 					treeList: [
 						{
-							data: {
-								_id: '3'
-							}
+							_id: '3'
 						},
 						{
-							data: {
-								_id: '4'
-							}
+							_id: '4'
 						},
 						{
-							data: {
-								_id: '5'
-							}
+							_id: '5'
 						},
 						{
-							data: {
-								_id: '6'
-							}
+							_id: '6'
 						},
 						{
-							data: {
-								_id: '7'
-							}
+							_id: '7'
 						}
 					],
-					data: {
-						_id: '8'
-					}
+					_id: '8'
 				},
 				{
 					treeList: [
 						{
 							treeList: [],
-							data: {
-								_id: '9'
-							}
+							_id: '9'
 						},
 						{
 							treeList: [],
-							data: {
-								_id: '10'
-							}
+							_id: '10'
 						}
 					],
-					data: {
-						_id: '11'
-					}
+					_id: '11'
 				},
 				{
 					treeList: [
 						{
 							treeList: [],
-							data: {
-								_id: '12'
-							}
+							_id: '12'
 						},
 						{
 							treeList: [],
-							data: {
-								_id: '13'
-							}
+							_id: '13'
 						}
 					],
-					data: {
-						_id: '14'
-					}
+					_id: '14'
 				},
 				{
 					treeList: [
 						{
 							treeList: [],
-							data: {
-								_id: '15'
-							}
+							_id: '15'
 						},
 						{
 							treeList: [],
-							data: {
-								_id: '16'
-							}
+							_id: '16'
 						}
 					],
-					data: {
-						_id: '17'
-					}
+					_id: '17'
 				}
 			]
 		}
@@ -140,7 +105,7 @@ export const reducer = createReducer(
 			...state,
 			status: 'pending',
 			response: {
-				tree: {}
+				tree: { _id: null }
 			}
 		})
 	),

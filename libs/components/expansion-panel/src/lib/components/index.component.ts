@@ -1,24 +1,25 @@
 import { Tree } from '../models';
 import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-  } from '@angular/core';
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	Output
+	} from '@angular/core';
 
 @Component({
 	selector: 'gdgtoulouse-expansion-panel',
 	templateUrl: './index.component.html',
-	styleUrls: ['./index.component.scss']
+	styleUrls: ['./index.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IndexComponent {
+	@Input() idKey: string;
 	@Input() treeList: Tree[];
 
-	@Output() afterCollapse: EventEmitter<string>;
-	@Output() afterExpand: EventEmitter<string>;
-	@Output() closed: EventEmitter<string>;
-	@Output() destroyed: EventEmitter<string>;
-	@Output() opened: EventEmitter<string>;
-
-	hasTree = (tree: Tree) => !!tree.treeList && tree.treeList.length > 0;
+	@Output() afterCollapse = new EventEmitter<Tree>();
+	@Output() afterExpand = new EventEmitter<Tree>();
+	@Output() closed = new EventEmitter<Tree>();
+	@Output() destroyed = new EventEmitter<Tree>();
+	@Output() opened = new EventEmitter<Tree>();
 }

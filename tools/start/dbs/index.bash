@@ -20,6 +20,9 @@ sigintTrap() {
 }
 
 cloudContainerName="${project}-cloud-db"
+cloudContainerPassword="cloud"
+cloudContainerPort="5000"
+cloudContainerUser="cloud"
 
 docker \
 	stop \
@@ -35,17 +38,46 @@ sudo rm -rf ${hereDir}/cloud/opt/couchdb/log/couch.log
 docker \
 	run \
 		--rm \
-		-p 5000:5984 \
+		-p ${cloudContainerPort}:5984 \
 		--name ${cloudContainerName} \
-		-e COUCHDB_USER=cloud \
-		-e COUCHDB_PASSWORD=cloud \
+		-e COUCHDB_PASSWORD=${cloudContainerPassword} \
+		-e COUCHDB_USER=${cloudContainerUser} \
 		-v ${hereDir}/cloud/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/cloud/opt/couchdb/log:/opt/couchdb/log \
 		couchdb:latest \
 &
 pids="${pids} $!"
 
+while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${cloudContainerPort})" != "200" ]]; do echo "waiting cloud db to be up" && sleep 5; done
+
+for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
+	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
+
+	if [ -f ${dir}/cloud.json ]; then
+		echo "Restoring ${dir}/cloud.json as ${database} in ${cloudContainerName}"
+
+		${repoDir}/tools/couchdb/database/create/index.bash \
+			${database} \
+			'localhost' \
+			${cloudContainerPassword} \
+			${cloudContainerPort} \
+			${cloudContainerUser}
+
+		${repoDir}/tools/couchdb/restore/index.bash \
+			${database} \
+			'localhost' \
+			${cloudContainerPassword} \
+			${dir}/cloud.json \
+			${cloudContainerPort} \
+			${cloudContainerUser}
+	fi
+done;
+
+
 andromedaContainerName="${project}-device-andromeda-db"
+andromedaContainerPassword="andromeda"
+andromedaContainerPort="7000"
+andromedaContainerUser="andromeda"
 
 docker \
 	stop \
@@ -61,17 +93,38 @@ sudo rm -rf ${hereDir}/devices/andromeda/opt/couchdb/log/couch.log
 docker \
 	run \
 		--rm \
-		-p 7000:5984 \
+		-p ${andromedaContainerPort}:5984 \
 		--name ${andromedaContainerName} \
-		-e COUCHDB_USER=andromeda \
-		-e COUCHDB_PASSWORD=andromeda \
+		-e COUCHDB_PASSWORD=${andromedaContainerPassword} \
+		-e COUCHDB_USER=${andromedaContainerUser} \
 		-v ${hereDir}/devices/andromeda/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/devices/andromeda/opt/couchdb/log:/opt/couchdb/log \
 		couchdb:latest \
 &
 pids="${pids} $!"
 
+while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${andromedaContainerPort})" != "200" ]]; do echo "waiting andromeda db to be up" && sleep 5; done
+
+for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
+	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
+
+	if [ -f ${dir}/andromeda.json ]; then
+		echo "Restoring ${dir}/andromeda.json as ${database} in ${andromedaContainerName}"
+		${repoDir}/tools/couchdb/restore/index.bash \
+			${database} \
+			'localhost' \
+			${andromedaContainerPassword} \
+			${andromedaContainerUser} \
+			${dir}/andromeda.json \
+			${andromedaContainerPort}
+	fi
+done;
+
+
 aquariusContainerName="${project}-device-aquarius-db"
+aquariusContainerPassword="aquarius"
+aquariusContainerPort="7001"
+aquariusContainerUser="aquarius"
 
 docker \
 	stop \
@@ -89,13 +142,31 @@ docker \
 		--rm \
 		-p 7001:5984 \
 		--name ${aquariusContainerName} \
-		-e COUCHDB_USER=aquarius \
-		-e COUCHDB_PASSWORD=aquarius \
+		-e COUCHDB_PASSWORD=${aquariusContainerPassword} \
+		-e COUCHDB_USER=${aquariusContainerUser} \
 		-v ${hereDir}/devices/aquarius/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/devices/aquarius/opt/couchdb/log:/opt/couchdb/log \
 		couchdb:latest \
 &
 pids="${pids} $!"
+
+while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${aquariusContainerPort})" != "200" ]]; do echo "waiting aquarius db to be up" && sleep 5; done
+
+for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
+	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
+
+	if [ -f ${dir}/aquarius.json ]; then
+		echo "Restoring ${dir}/aquarius.json as ${database} in ${aquariusContainerName}"
+		${repoDir}/tools/couchdb/restore/index.bash \
+			${database} \
+			'localhost' \
+			${aquariusContainerPassword} \
+			${aquariusContainerUser} \
+			${dir}/aquarius.json \
+			${aquariusContainerPort}
+	fi
+done;
+
 
 for pid in ${pids}; do
 	wait ${pid} || let "rc=1"

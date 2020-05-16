@@ -33,10 +33,10 @@ export class IndexComponent implements OnInit {
 	]);
 	childRouteSelectSelectedId$ = this.store.pipe(select(Selectors.currentChildSegment$));
 
-	testExecSubscriberKey = `${selector}_local-hardware-menu_exec`;
+	testExecSubscriberKey = `${selector}_menu-default_exec`;
 	testExec$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$(this.testExecSubscriberKey)));
 
-	testSyncSubscriberKey = `${selector}_local-hardware-menu_sync`;
+	testSyncSubscriberKey = `${selector}_menu-default_sync`;
 	changesFeedsCompleteInfoResultsDocListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsDocListBySubscription$(this.testSyncSubscriberKey)));
 	changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoResultsNotDeletedDocListBySubscription$(this.testSyncSubscriberKey)));
 	changesFeedsSyncChangeListBySubscription$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncChangeListBySubscription$(this.testSyncSubscriberKey)));
@@ -50,7 +50,11 @@ export class IndexComponent implements OnInit {
 			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.request({
 				subscriber: this.testExecSubscriberKey,
 				databaseConfiguration: {
-					name: 'http://localhost:5000/local-hardware-menu'
+					auth: {
+						password: 'cloud',
+						username: 'cloud'
+					},
+					name: 'http://localhost:5000/menu-default'
 				},
 				changesOptions: {
 					since: 0,
@@ -65,7 +69,11 @@ export class IndexComponent implements OnInit {
 			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.request({
 				subscriber: this.testSyncSubscriberKey,
 				databaseConfiguration: {
-					name: 'http://localhost:5000/local-hardware-menu'
+					auth: {
+						password: 'cloud',
+						username: 'cloud'
+					},
+					name: 'http://localhost:5000/menu-default'
 				},
 				changesOptions: {
 					include_docs: true

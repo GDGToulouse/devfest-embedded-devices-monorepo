@@ -1,4 +1,19 @@
-<ng-terminal
-  #term
+<gdgtoulouse-terminal
+  (deleted)="deleted($event)"
+  (destroyed)="destroyed()"
+  (emptyLineReached)="emptyLineReached($event)"
+  (sent)="sent($event)"
+  (unmatched)="unmatched($event)"
+  (write)="write($event)"
+  [prompt]="prompt$ | async"
+  [toWriteRowList]="toWriteRowList$ | async"
+  [toWriteAndSendRowList]="toWriteAndSendRowList$ | async"
 >
-</ng-terminal>
+</gdgtoulouse-terminal>
+<button
+  (click)="writeAndSendRowList()"
+>writeAndSendRowList</button>
+
+<button
+  (click)="writeRowList()"
+>writedRowList</button>

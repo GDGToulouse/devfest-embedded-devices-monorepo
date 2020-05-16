@@ -1,4 +1,4 @@
-import { featureName } from '../../../../feature.config';
+import { indexName } from '../../../../index.config';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Tree } from '@gdgtoulouse/structures/tree';
 import {
@@ -9,18 +9,21 @@ import {
 
 export const actions = 'menus-end-api-get';
 
-export interface TreeData {
-	_id: string;
-}
+export interface TreeData {}
 export interface Request {}
 export type Failure = HttpErrorResponse;
 export interface Response {
-	tree: Tree<TreeData>;
+	tree: Tree<
+		{
+			_id: string;
+		},
+		TreeData
+	>;
 }
 
-export const request = createAction(`[${featureName}][${actions}] request`, props<{ request: Request }>());
-export const failure = createAction(`[${featureName}][${actions}] failure`, props<{ failure: Failure }>());
-export const response = createAction(`[${featureName}][${actions}] response`, props<{ response: Response }>());
+export const request = createAction(`[${indexName}][${actions}] request`, props<{ request: Request }>());
+export const failure = createAction(`[${indexName}][${actions}] failure`, props<{ failure: Failure }>());
+export const response = createAction(`[${indexName}][${actions}] response`, props<{ response: Response }>());
 
 const all = union({
 	request,

@@ -1,3 +1,0 @@
-export * from './lib/actions';
-export * from './lib/reducers';
-export * from './lib/feature.module';

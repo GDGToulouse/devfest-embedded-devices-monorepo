@@ -1,1 +1,0 @@
-export const featureName = '<%= routePath.split('/').join('-') %>-route';

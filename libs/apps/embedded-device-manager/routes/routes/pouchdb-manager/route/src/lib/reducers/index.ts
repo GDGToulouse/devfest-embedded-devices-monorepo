@@ -2,7 +2,7 @@ import {
 	reducer as envsApiGet,
 	State as EnvsApiGet
 	} from './envs/api/get.reducer';
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import {
 	Action,
 	combineReducers,
@@ -14,7 +14,7 @@ export interface FeatureState {
 }
 
 export interface State {
-	[featureName]: FeatureState;
+	[indexName]: FeatureState;
 }
 
 export function reducers(state: FeatureState | undefined, action: Action) {
@@ -23,4 +23,4 @@ export function reducers(state: FeatureState | undefined, action: Action) {
 	})(state, action);
 }
 
-export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);

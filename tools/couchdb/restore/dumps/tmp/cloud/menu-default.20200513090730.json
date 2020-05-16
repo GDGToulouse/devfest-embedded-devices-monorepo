@@ -1,0 +1,5 @@
+{"new_edits":false,"docs":[
+{"_id":"_design/4f7a49f8ce687fe6c6edb142db27b4a5d7935e89","_rev":"1-5b3ab8fd87c544ef807852de1f71c577","language":"query","views":{"pid-index":{"map":{"fields":{"pid":"asc"},"partial_filter_selector":{}},"reduce":"_count","options":{"def":{"fields":["pid"]}}}}},
+{"_id":"access-point","_rev":"1-6893f6481cf2454ac81f3320f4442c3c","pid":null},
+{"_id":"access-point-configure","_rev":"2-4b5bb673af8eeb68ef643dab7f8b65af","pid":"access-point","router":{"routerLink":["access-point","configure"]}}
+]}

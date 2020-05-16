@@ -1,6 +1,0 @@
-<<%= selector.split('-index-c')[0] %>-index
-	[ngStyle]="{'grid-template-areas': gridTemplateAreas$ | async, 'grid-template-columns': gridTemplateColumns$ | async, 'grid-template-rows': gridTemplateRows$ | async}"
->
-	<router-outlet>
-	</router-outlet>
-</<%= selector.split('-index-c')[0] %>-index>

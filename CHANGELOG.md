@@ -56,3 +56,19 @@ yarn run ng generate @nrwl/angular:library --style=scss --publishable expansion-
 
 yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --module=component.module.ts --export --project=components-expansion-panel --style=scss --selector=gdgtoulouse-expansion-panel components/index
 ```
+
+### 20200512
+
+```bash
+yarn run ng generate @nrwl/angular:library --style=scss --publishable expansion-panel-pouchdb --directory=components
+
+yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --module=component.module.ts --export --project=components-expansion-panel-pouchdb --style=scss --selector=gdgtoulouse-expansion-panel-pouchdb components/index
+```
+
+### 20200516
+
+```bash
+yarn run ng generate @nrwl/angular:library --style=scss --publishable terminal --directory=components
+
+yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --module=index.module.ts --export --project=components-terminal --style=scss --selector=gdgtoulouse-terminal components/index
+```

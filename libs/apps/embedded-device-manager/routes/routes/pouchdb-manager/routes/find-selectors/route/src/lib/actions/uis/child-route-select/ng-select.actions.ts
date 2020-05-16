@@ -1,4 +1,4 @@
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
 import {
 	createAction,
 	props,
@@ -7,16 +7,16 @@ import {
 
 export const topic = 'uis-child-route-select-ng-select';
 
-export const add = createAction(`[${featureName}][${topic}] add`, props<{ event }>()); // TODO type with ng-select $event type
-export const blur = createAction(`[${featureName}][${topic}] blur`, props<{ event }>()); // TODO type with ng-select $event type
-export const clear = createAction(`[${featureName}][${topic}] clear`);
-export const close = createAction(`[${featureName}][${topic}] close`);
-export const change = createAction(`[${featureName}][${topic}] change`, props<{ event }>()); // TODO type with ng-select $event type
-export const focus = createAction(`[${featureName}][${topic}] focus`, props<{ event }>()); // TODO type with ng-select $event type
-export const open = createAction(`[${featureName}][${topic}] open`);
-export const remove = createAction(`[${featureName}][${topic}] remove`, props<{ event }>()); // TODO type with ng-select $event type
-export const scrollToEnd = createAction(`[${featureName}][${topic}] scrollToEnd`, props<{ event }>()); // TODO type with ng-select $event type
-export const search = createAction(`[${featureName}][${topic}] search`, props<{ event }>()); // TODO type with ng-select $event type
+export const add = createAction(`[${indexName}][${topic}] add`, props<{ event }>()); // TODO type with ng-select $event type
+export const blur = createAction(`[${indexName}][${topic}] blur`, props<{ event }>()); // TODO type with ng-select $event type
+export const clear = createAction(`[${indexName}][${topic}] clear`);
+export const close = createAction(`[${indexName}][${topic}] close`);
+export const change = createAction(`[${indexName}][${topic}] change`, props<{ event }>()); // TODO type with ng-select $event type
+export const focus = createAction(`[${indexName}][${topic}] focus`, props<{ event }>()); // TODO type with ng-select $event type
+export const open = createAction(`[${indexName}][${topic}] open`);
+export const remove = createAction(`[${indexName}][${topic}] remove`, props<{ event }>()); // TODO type with ng-select $event type
+export const scrollToEnd = createAction(`[${indexName}][${topic}] scrollToEnd`, props<{ event }>()); // TODO type with ng-select $event type
+export const search = createAction(`[${indexName}][${topic}] search`, props<{ event }>()); // TODO type with ng-select $event type
 
 const all = union({
 	add,

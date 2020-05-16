@@ -1,4 +1,4 @@
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import {
 	createAction,
 	props,
@@ -7,8 +7,8 @@ import {
 
 export const topic = 'index';
 
-export const add = createAction(`[${featureName}][${topic}] add`, props<object & { label: string }>());
-export const remove = createAction(`[${featureName}][${topic}] remove`, props<{ label: string }>());
+export const add = createAction(`[${indexName}][${topic}] add`, props<object & { label: string }>());
+export const remove = createAction(`[${indexName}][${topic}] remove`, props<{ label: string }>());
 
 const all = union({
 	add,

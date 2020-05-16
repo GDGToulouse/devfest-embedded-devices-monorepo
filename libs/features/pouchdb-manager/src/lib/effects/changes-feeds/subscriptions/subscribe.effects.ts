@@ -1,6 +1,6 @@
 import { Actions as FeatureActions } from '../../../actions';
 import { Success as ChangesFeedsSubscriptionsExecSuccess } from '../../../actions/changes-feeds/subscriptions/exec.actions';
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
 import { Injectable } from '@angular/core';
 import { Actions as ProcessingsActions } from '@gdgtoulouse/features/processings';
 import {
@@ -50,7 +50,7 @@ export class Effects {
 	exec$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Exec.request))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${featureName}][${topic}] exec$` }))),
+				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
 				delay(20),
 				switchMap(([{ changesOptions, databaseConfiguration, subscriber }]) => {
 					const success: ChangesFeedsSubscriptionsExecSuccess = {
@@ -137,7 +137,7 @@ export class Effects {
 					}
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Exec.success({ success }));
 				}),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${featureName}][${topic}] exec$` }))),
+				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
 				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Exec.failure({ failure })))
 			),
 		{ dispatch: true }
@@ -146,7 +146,7 @@ export class Effects {
 	sync$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Sync.request))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${featureName}][${topic}] sync$` }))),
+				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] sync$` }))),
 				delay(20),
 				switchMap(([{ changesOptions, databaseConfiguration, subscriber }]) => {
 					const success: ChangesFeedsSubscriptionsExecSuccess = {
@@ -265,7 +265,7 @@ export class Effects {
 					}
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Sync.success({ success }));
 				}),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${featureName}][${topic}] sync$` })))
+				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] sync$` })))
 			),
 		{ dispatch: true }
 	);

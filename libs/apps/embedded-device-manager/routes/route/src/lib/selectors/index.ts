@@ -18,8 +18,8 @@ export const menuEndApiGetResponseTree$ = createSelector(
 	}) => tree
 );
 export const menuEndTree$ = createSelector(menuEndApiGetResponseTree$, (rootTree) =>
-	forEachTree<RouteMenus.End.Api.Get.TreeData>(rootTree, (subTree, step) => ({
-		...subTree.data,
+	forEachTree<{ _id: string }, RouteMenus.End.Api.Get.TreeData>(rootTree, (subTree, step) => ({
+		...subTree,
 		step
 	}))
 );

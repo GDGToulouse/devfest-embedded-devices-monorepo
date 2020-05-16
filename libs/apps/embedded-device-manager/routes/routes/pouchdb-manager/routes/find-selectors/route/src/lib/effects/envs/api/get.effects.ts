@@ -2,7 +2,7 @@ import {
 	Actions as FeatureActions,
 	Envs as FeatureEnvs
 	} from '../../../actions';
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
 import {
 	HttpClient,
 	HttpHeaders
@@ -50,7 +50,7 @@ export class Effects {
 	main$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Envs.Api.Get.request))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${featureName}][${topic}] main$` }))),
+				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
 				switchMap(([_]) =>
 					this.httpClient
@@ -65,7 +65,7 @@ export class Effects {
 							catchError((failure) => of(FeatureActions.Envs.Api.Get.failure({ failure })))
 						)
 				),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${featureName}][${topic}] main$` })))
+				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] main$` })))
 			),
 		{ dispatch: true }
 	);

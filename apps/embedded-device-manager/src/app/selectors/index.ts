@@ -1,4 +1,4 @@
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import {
 	FeatureState,
 	State
@@ -9,7 +9,7 @@ import {
 	} from '@ngrx/store';
 
 //#region feature
-export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);
 //#endregion
 
 export const envsAuthSelector = createSelector(

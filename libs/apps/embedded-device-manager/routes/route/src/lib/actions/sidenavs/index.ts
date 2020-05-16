@@ -1,6 +1,6 @@
 import * as End from './end.actions';
 import * as Start from './start.actions';
-import { featureName } from '../../feature.config';
+import { indexName } from '../../index.config';
 import {
 	createAction,
 	union
@@ -10,7 +10,7 @@ const actions = 'sidenavs';
 
 export { End, Start };
 
-export const close = createAction(`[${featureName}][${actions}] close`);
+export const close = createAction(`[${indexName}][${actions}] close`);
 
 const all = union({
 	close

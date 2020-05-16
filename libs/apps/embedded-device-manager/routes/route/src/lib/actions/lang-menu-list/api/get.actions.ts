@@ -1,4 +1,4 @@
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
 	createAction,
@@ -14,9 +14,9 @@ export interface ResponseItem {
 }
 export type Response = ResponseItem[];
 
-export const request = createAction(`[${featureName}][${topic}] request`);
-export const failure = createAction(`[${featureName}][${topic}] failure`, props<{ failure: Failure }>());
-export const response = createAction(`[${featureName}][${topic}] response`, props<{ response: Response }>());
+export const request = createAction(`[${indexName}][${topic}] request`);
+export const failure = createAction(`[${indexName}][${topic}] failure`, props<{ failure: Failure }>());
+export const response = createAction(`[${indexName}][${topic}] response`, props<{ response: Response }>());
 
 const all = union({
 	request,

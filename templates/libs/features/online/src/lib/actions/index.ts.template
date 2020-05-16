@@ -1,3 +1,0 @@
-import { offline as ToggleLineActionsOffline, online as ToggleLineActionsOnline } from './crud.actions';
-
-export { ToggleLineActionsOffline, ToggleLineActionsOnline };

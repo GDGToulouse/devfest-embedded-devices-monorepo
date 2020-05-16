@@ -2,7 +2,7 @@ import {
 	reducer as appEnvsApiGet,
 	State as AppEnvsApiGet
 	} from './envs/api/get.reducer';
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import { InjectionToken } from '@angular/core';
 import { Params } from '@angular/router';
 import {
@@ -29,7 +29,7 @@ export interface FeatureState {
 }
 
 export interface State {
-	[featureName]: FeatureState;
+	[indexName]: FeatureState;
 }
 
 export const reducers = new InjectionToken<ActionReducerMap<FeatureState, Action>>('root', {

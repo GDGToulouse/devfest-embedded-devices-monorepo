@@ -1,9 +1,0 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	selector: '<%= npmScope %>-<%= name %>',
-	styleUrls: ['./index.component.scss'],
-	template: '<router-outlet></router-outlet>'
-})
-export class IndexComponent { }

@@ -1,3 +1,0 @@
-import { NavigatorOnlineEffects } from './line.effects';
-
-export const Effects = [NavigatorOnlineEffects];

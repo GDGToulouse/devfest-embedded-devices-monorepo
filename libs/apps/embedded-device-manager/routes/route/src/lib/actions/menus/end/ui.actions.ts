@@ -1,4 +1,4 @@
-import { featureName } from '../../../feature.config';
+import { indexName } from '../../../index.config';
 import {
 	createAction,
 	union
@@ -6,9 +6,9 @@ import {
 
 const actions = 'menus-end-ui';
 
-export const close = createAction(`[${featureName}][${actions}] close`);
-export const open = createAction(`[${featureName}][${actions}] open`);
-export const toggle = createAction(`[${featureName}][${actions}] toggle`);
+export const close = createAction(`[${indexName}][${actions}] close`);
+export const open = createAction(`[${indexName}][${actions}] open`);
+export const toggle = createAction(`[${indexName}][${actions}] toggle`);
 
 const all = union({
 	close,

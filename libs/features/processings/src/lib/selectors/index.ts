@@ -1,4 +1,4 @@
-import { featureName } from '../feature.config';
+import { indexName } from '../index.config';
 import {
 	FeatureState,
 	State
@@ -9,7 +9,7 @@ import {
 	} from '@ngrx/store';
 
 //#region feature
-export const getFeatureState = createFeatureSelector<State, FeatureState>(featureName);
+export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);
 //#endregion
 
 //#region reducer
@@ -18,8 +18,5 @@ export const listSelector = createSelector(
 	({ reducer: { list } }) => list
 );
 
-export const listHasAtLeastOneItemSelector = createSelector(
-	listSelector,
-	(list) => list.length > 0
-);
+export const listHasAtLeastOneItemSelector = createSelector(listSelector, (list) => list.length > 0);
 //#endregion

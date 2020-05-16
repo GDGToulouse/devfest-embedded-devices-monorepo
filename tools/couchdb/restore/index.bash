@@ -2,14 +2,13 @@
 
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../..`
-printf -v currentDate '%(%Y%m%d%H%M%S)T\n' -1
 
-database=${1:-"local-hardware-menu"}
+database=${1:-"menu-default"}
 host=${2:-"127.0.0.1"}
-username=${3:-"admin"}
-password=${4:-"admin"}
-port=${5:-"5984"}
-path=${6:-"${hereDir}/dumps/default.json"}
+password=${3:-"cloud"}
+path=${4:-"${hereDir}/../restore/dumps/index.json"}
+port=${5:-"5000"}
+username=${6:-"cloud"}
 
 cd ${hereDir}/..
 
