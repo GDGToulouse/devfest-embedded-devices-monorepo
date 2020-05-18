@@ -31,3 +31,7 @@ post = api.model('Execute a child program in a new process.', {
     'restore_signals': fields.Boolean(required=False, default=True, example=True, description="""If restore_signals is true (the default) all signals that Python has set to SIG_IGN are restored to SIG_DFL in the child process before the exec. Currently this includes the SIGPIPE, SIGXFZ and SIGXFSZ signals. (POSIX only)"""),
     'start_new_session': fields.Boolean(required=False, default=False, example=False, description="""If start_new_session is true the setsid() system call will be made in the child process prior to the execution of the subprocess. (POSIX only)""")
 })
+
+video = api.model('Stream a video which has been treated by opencv to angular.', {
+    'args': fields.List(fields.String, required=True, example=['pwd', '--logical'], description='The args argument as it was passed to Popen – a sequence of program arguments.')
+})
