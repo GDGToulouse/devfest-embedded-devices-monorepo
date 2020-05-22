@@ -1,3 +1,6 @@
 flask-restful==0.3.8
 flask-restplus==0.13.0
 Werkzeug==0.16.1
+numpy
+opencv-contrib-python
+imutils

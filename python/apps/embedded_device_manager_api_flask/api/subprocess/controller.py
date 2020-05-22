@@ -1,11 +1,13 @@
 import logging
 
+from flask import Response
 from flask import request
 from flask_restplus import Resource
 
 from .api import api
 from .dto import popen as popen_dto
 from .service import popen as popen_service
+from .service import generate
 
 log = logging.getLogger(__name__)
 
@@ -23,7 +25,6 @@ class Popen(Resource):
         return popen_service(request.json)
 
 @ns.route('/videofeed')
-
 class Videofeed(Resource):
     @api.response(200, 'Success')
     @api.response(400, 'Validation Error')
@@ -32,3 +33,5 @@ class Videofeed(Resource):
         """
         Stream a video which has been treated by opencv to angular.
         """
+        return Response(generate(),
+		        mimetype = "multipart/x-mixed-replace; boundary=frame")

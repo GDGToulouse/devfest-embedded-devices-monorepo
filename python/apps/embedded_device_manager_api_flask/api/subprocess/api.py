@@ -1,11 +1,11 @@
 import logging
-
 from flask_restplus import Api
 
 from python.apps.embedded_device_manager_api_flask.assets.envs import \
     index as envs
 
 log = logging.getLogger(__name__)
+
 
 api = Api(
     description=envs.API_DESCRIPTION,
