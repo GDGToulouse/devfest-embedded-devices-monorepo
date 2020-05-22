@@ -50,6 +50,39 @@ pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${cloudContainerPort})" != "200" ]]; do echo "waiting cloud db to be up" && sleep 5; done
 
+for dir in `ls -mR ${repoDir}/tools/couchdb/import/files/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
+	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
+
+	if [ -f ${dir}/cloud.json ]; then
+		echo "Importing ${dir}/cloud.json as ${database} in ${cloudContainerName}"
+
+		${repoDir}/tools/couchdb/database/create/index.bash \
+			${database} \
+			'localhost' \
+			${cloudContainerPassword} \
+			${cloudContainerPort} \
+			${cloudContainerUser}
+
+		${repoDir}/tools/couchdb/import/index.bash \
+			${database} \
+			'localhost' \
+			${cloudContainerPassword} \
+			${dir}/cloud.json \
+			${cloudContainerPort} \
+			${cloudContainerUser}
+
+	fi
+done;
+
+#TODO automate indexes creation and use the created file here
+${repoDir}/tools/couchdb/index/create/index.bash \
+	'{"index": { "fields": ["pid"] }, "name" : "pid-index", "type" : "json"}' \
+	'menu-default' \
+	'localhost' \
+	${cloudContainerPassword} \
+	${cloudContainerPort} \
+	${cloudContainerUser}
+
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
 
@@ -72,7 +105,6 @@ for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-dev
 			${cloudContainerUser}
 	fi
 done;
-
 
 andromedaContainerName="${project}-device-andromeda-db"
 andromedaContainerPassword="andromeda"

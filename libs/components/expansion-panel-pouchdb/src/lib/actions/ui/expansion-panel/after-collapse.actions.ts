@@ -1,6 +1,6 @@
 import { indexName } from '../../../index.config';
 import { Tree } from '@gdgtoulouse/components/expansion-panel';
-import { PouchdbCompleteChangesRequest } from '@gdgtoulouse/types';
+import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
 	props,
@@ -12,13 +12,13 @@ export const topic = 'ui-expansion-panel-after-collapse';
 export interface Success {
 	changesOptionsKey: string;
 	databaseConfigurationKey: string;
-	subscriber: string;
+	destinationList: string[];
 }
 
 export const exec = createAction(
 	`[${indexName}][${topic}] exec`,
 	props<{
-		changesRequest?: PouchdbCompleteChangesRequest;
+		subscriptionConfig?: PouchdbManagerSubscriptionConfig;
 		tree: Tree;
 	}>()
 );

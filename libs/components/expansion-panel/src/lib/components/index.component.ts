@@ -22,4 +22,8 @@ export class IndexComponent {
 	@Output() closed = new EventEmitter<Tree>();
 	@Output() destroyed = new EventEmitter<Tree>();
 	@Output() opened = new EventEmitter<Tree>();
+
+	trackByFn(index: number, tree: Tree) {
+		return tree._id;
+	}
 }

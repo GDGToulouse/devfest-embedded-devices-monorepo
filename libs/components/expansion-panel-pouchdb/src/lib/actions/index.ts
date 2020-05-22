@@ -1,5 +1,6 @@
+import * as Pouchdb from './pouchdb';
 import * as Ui from './ui';
 
-export { Ui };
+export { Ui, Pouchdb };
 
-export const Actions = { Ui };
+export const Actions = { Ui, Pouchdb };

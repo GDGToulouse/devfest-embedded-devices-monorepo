@@ -3,15 +3,23 @@
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../../..`
 
-database=${1:-"menu-default"}
-host=${2:-"127.0.0.1"}
-password=${3:-"cloud"}
-port=${4:-"5000"}
-username=${5:-"cloud"}
+data=${1:-"{\"index\":{\"fields\":[\"pid\"]},\"name\":\"pid-index\",\"type\": \"json\"}"}
+database=${2:-"menu-default"}
+host=${3:-"127.0.0.1"}
+password=${4:-"cloud"}
+port=${5:-"5000"}
+username=${6:-"cloud"}
+
+echo "data=${data}"
+echo "database=${database}"
+echo "host=${host}"
+echo "password=${password}"
+echo "port=${port}"
+echo "username=${username}"
 
 curl \
 	--verbose \
 	-H 'Content-Type: application/json' \
 	-X POST \
 	http://${username}:${password}@${host}:${port}/${database}/_index \
-	--data '{"index": { "fields": ["pid"] }, "name" : "pid-index", "type" : "json"}'
+	--data "${data}"

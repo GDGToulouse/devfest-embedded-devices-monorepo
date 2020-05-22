@@ -1,5 +1,6 @@
+import { IndexedKeys } from './exec.actions';
 import { indexName } from '../../../index.config';
-import { PouchdbCompleteChangesRequest } from '@gdgtoulouse/types';
+import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
 	props,
@@ -8,13 +9,10 @@ import {
 
 export const topic = 'changes-feeds-subscriptions-sync';
 
-export interface Success {
-	changesOptionsKey: string;
-	databaseConfigurationKey: string;
-	subscriber: string;
-}
-
-export const request = createAction(`[${indexName}][${topic}] request`, props<PouchdbCompleteChangesRequest>());
+export type Success = IndexedKeys & {
+	destinationList: string[];
+};
+export const subscribe = createAction(`[${indexName}][${topic}] subscribe`, props<{ subscriptionConfig: PouchdbManagerSubscriptionConfig }>());
 export const databaseConfigurationKeyDoesNotExistYet = createAction(
 	`[${indexName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
 	props<{
@@ -91,7 +89,7 @@ export const liveSinceLastSeqChangesError = createAction(
 );
 
 const all = union({
-	request,
+	subscribe,
 	databaseConfigurationKeyDoesNotExistYet,
 	changesOptionsKeyDoesNotExistYet,
 	failure,

@@ -7,7 +7,10 @@ import {
 	Component,
 	OnDestroy
 	} from '@angular/core';
-import { PouchdbCompleteChangesRequest } from '@gdgtoulouse/types';
+import {
+	Selectors as PouchdbManagerFeatureSelectors,
+	SubscriptionConfig as PouchdbManagerSubscriptionConfig
+	} from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	select,
 	Store
@@ -17,7 +20,7 @@ import {
 	of
 	} from 'rxjs';
 
-const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-route-index-c';
+const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-route-index';
 
 @Component({
 	selector,
@@ -39,8 +42,8 @@ export class IndexComponent implements OnDestroy {
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
-	changesRequest$: Observable<PouchdbCompleteChangesRequest> = of({
-		subscriber: `${selector}_default_menu_sync`,
+	subscriptionConfig$: Observable<PouchdbManagerSubscriptionConfig> = of({
+		destinationList: [`${selector}/sidenavs/start/menu`],
 		databaseConfiguration: {
 			auth: {
 				password: 'cloud',
@@ -52,6 +55,9 @@ export class IndexComponent implements OnDestroy {
 			include_docs: true
 		}
 	});
+
+	indexedKeys$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$([`${selector}/sidenavs/start/menu`])));
+	testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$([`${selector}/sidenavs/start/menu`])));
 
 	private _mobileQueryListener: () => void;
 

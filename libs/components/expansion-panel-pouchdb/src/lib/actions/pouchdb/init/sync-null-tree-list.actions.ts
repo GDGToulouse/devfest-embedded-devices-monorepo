@@ -1,5 +1,4 @@
 import { indexName } from '../../../index.config';
-import { Tree } from '@gdgtoulouse/components/expansion-panel';
 import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
@@ -7,19 +6,12 @@ import {
 	union
 	} from '@ngrx/store';
 
-export const topic = 'ui-expansion-panel-opened';
-
-export interface Success {
-	changesOptionsKey: string;
-	databaseConfigurationKey: string;
-	destinationList: string[];
-}
+export const topic = 'pouchdb-init-sync-null-tree-list';
 
 export const exec = createAction(
 	`[${indexName}][${topic}] exec`,
 	props<{
-		subscriptionConfig?: PouchdbManagerSubscriptionConfig;
-		tree: Tree;
+		subscriptionConfig: PouchdbManagerSubscriptionConfig;
 	}>()
 );
 

@@ -1,5 +1,5 @@
 import { indexName } from '../../../index.config';
-import { PouchdbCompleteChangesRequest } from '@gdgtoulouse/types';
+import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
 	props,
@@ -8,13 +8,17 @@ import {
 
 export const topic = 'changes-feeds-subscriptions-exec';
 
-export interface Success {
+//TODO move type elsewhere better
+export interface IndexedKeys {
 	changesOptionsKey: string;
 	databaseConfigurationKey: string;
-	subscriber: string;
 }
 
-export const request = createAction(`[${indexName}][${topic}] request`, props<PouchdbCompleteChangesRequest>());
+export type Success = IndexedKeys & {
+	destinationList: string[];
+};
+
+export const subscribe = createAction(`[${indexName}][${topic}] subscribe`, props<{ subscriptionConfig: PouchdbManagerSubscriptionConfig }>());
 export const databaseConfigurationKeyDoesNotExistYet = createAction(
 	`[${indexName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
 	props<{
@@ -66,7 +70,7 @@ export const changesError = createAction(
 );
 
 const all = union({
-	request,
+	subscribe,
 	databaseConfigurationKeyDoesNotExistYet,
 	changesOptionsKeyDoesNotExistYet,
 	failure,
