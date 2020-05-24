@@ -1,5 +1,5 @@
 import { Actions as FeatureActions } from '../actions';
-import { Selectors } from '../selectors';
+import { indexName } from '../index.config';
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -9,6 +9,7 @@ import {
 	Actions as PouchdbManagerFeatureActions,
 	Selectors as PouchdbManagerFeatureSelectors
 	} from '@gdgtoulouse/features/pouchdb-manager';
+import { Selectors as FeatureRouterSelectors } from '@gdgtoulouse/features/router';
 import {
 	select,
 	Store
@@ -31,7 +32,7 @@ export class IndexComponent implements OnInit {
 		{ id: 'database-configurations', text: 'Database configurations' },
 		{ id: 'find-selectors', text: 'Find selectors' }
 	]);
-	childRouteSelectSelectedId$ = this.store.pipe(select(Selectors.currentChildSegment$));
+	childRouteSelectSelectedId$ = this.store.pipe(select(FeatureRouterSelectors.nextSegment$(indexName.split('route-')[1])));
 
 	testExecDestinationList = [`${selector}/sidenavs/start/menu`];
 	testExecSubscriptionsSubscribeIndexedKeysListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$(this.testExecDestinationList)));
@@ -76,6 +77,7 @@ export class IndexComponent implements OnInit {
 					changesOptions: {
 						since: 0,
 						include_docs: true,
+						limit: 500,
 						selector: {
 							$and: [
 								{
@@ -105,6 +107,7 @@ export class IndexComponent implements OnInit {
 					},
 					changesOptions: {
 						include_docs: true,
+						limit: 500,
 						selector: {
 							$and: [
 								{

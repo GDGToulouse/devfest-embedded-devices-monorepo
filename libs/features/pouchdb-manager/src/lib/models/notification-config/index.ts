@@ -4,7 +4,7 @@ import Pouchdb from 'pouchdb';
 type PouchdbType = typeof Pouchdb;
 
 export interface NotificationConfig {
-	change: PouchDB.Core.ChangesResponseChange<{}>;
+	since0Change: PouchDB.Core.ChangesResponseChange<{}>;
 	changesOptionsAsNotString: PouchDB.Core.ChangesOptions;
 	changesOptionsIsFromString: boolean;
 	changesOptionsKey: string;

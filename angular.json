@@ -826,6 +826,88 @@
 					"style": "scss"
 				}
 			}
+		},
+		"features-router": {
+			"projectType": "library",
+			"root": "libs/features/router",
+			"sourceRoot": "libs/features/router/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/router/tsconfig.lib.json",
+						"project": "libs/features/router/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/router/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/router/tsconfig.lib.json", "libs/features/router/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/router/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/router/jest.config.js",
+						"tsConfig": "libs/features/router/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/router/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"features-lang": {
+			"projectType": "library",
+			"root": "libs/features/lang",
+			"sourceRoot": "libs/features/lang/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/lang/tsconfig.lib.json",
+						"project": "libs/features/lang/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/lang/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/lang/tsconfig.lib.json", "libs/features/lang/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/lang/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/lang/jest.config.js",
+						"tsConfig": "libs/features/lang/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/lang/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
 		}
 	},
 	"cli": {

@@ -23,7 +23,7 @@ export class IndexComponent {
 	@Output() destroyed = new EventEmitter<Tree>();
 	@Output() opened = new EventEmitter<Tree>();
 
-	trackByFn(index: number, tree: Tree) {
+	trackByUnderscoredId(index: number, tree: Tree) {
 		return tree._id;
 	}
 }

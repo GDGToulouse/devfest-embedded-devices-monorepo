@@ -72,3 +72,11 @@ yarn run ng generate @nrwl/angular:library --style=scss --publishable terminal -
 
 yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --module=index.module.ts --export --project=components-terminal --style=scss --selector=gdgtoulouse-terminal components/index
 ```
+
+### 20200523
+
+```bash
+yarn run ng generate @nrwl/angular:library --style=scss --publishable router --directory=features
+
+yarn run ng generate @nrwl/angular:library --style=scss --publishable lang --directory=features
+```

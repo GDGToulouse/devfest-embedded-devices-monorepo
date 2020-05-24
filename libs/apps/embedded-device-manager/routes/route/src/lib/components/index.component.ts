@@ -7,18 +7,12 @@ import {
 	Component,
 	OnDestroy
 	} from '@angular/core';
-import {
-	Selectors as PouchdbManagerFeatureSelectors,
-	SubscriptionConfig as PouchdbManagerSubscriptionConfig
-	} from '@gdgtoulouse/features/pouchdb-manager';
+import { Selectors as PouchdbManagerFeatureSelectors } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	select,
 	Store
 	} from '@ngrx/store';
-import {
-	Observable,
-	of
-	} from 'rxjs';
+import { of } from 'rxjs';
 
 const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-route-index';
 
@@ -30,31 +24,19 @@ const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-route
 })
 export class IndexComponent implements OnDestroy {
 	langMenuList$ = this.store.pipe(select(FeatureSelectors.langMenuList$));
-	langMenuItem$ = this.store.pipe(select(FeatureSelectors.langMenuItem$));
 	mobileQuery: MediaQueryList;
 	menuEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	menuLangsTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	menuEndTree$ = this.store.pipe(select(FeatureSelectors.menuEndTree$));
-	sidenavEndIsOpen$ = this.store.pipe(select(FeatureSelectors.sidenavEndIsOpen$));
+	sidenavEndUiIsOpened$ = this.store.pipe(select(FeatureSelectors.sidenavEndUiIsOpened$));
 	sidenavEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
-	sidenavStartIsOpen$ = this.store.pipe(select(FeatureSelectors.sidenavStartIsOpen$));
+	sidenavStartUiIsOpened$ = this.store.pipe(select(FeatureSelectors.sidenavStartUiIsOpened$));
+	sidenavStartDbLangSubscriptionConfig$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbLangSubscriptionConfig$));
+	sidenavStartDbSubscriptionConfig$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbSubscriptionConfig$));
 	sidenavStartTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
-	subscriptionConfig$: Observable<PouchdbManagerSubscriptionConfig> = of({
-		destinationList: [`${selector}/sidenavs/start/menu`],
-		databaseConfiguration: {
-			auth: {
-				password: 'cloud',
-				username: 'cloud'
-			},
-			name: 'http://localhost:5000/menu-default'
-		},
-		changesOptions: {
-			include_docs: true
-		}
-	});
 
 	indexedKeys$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$([`${selector}/sidenavs/start/menu`])));
 	testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$([`${selector}/sidenavs/start/menu`])));

@@ -34,7 +34,9 @@
 			"@gdgtoulouse/types": ["libs/types/src/index.ts"],
 			"@gdgtoulouse/components/expansion-panel": ["libs/components/expansion-panel/src/index.ts"],
 			"@gdgtoulouse/components/expansion-panel-pouchdb": ["libs/components/expansion-panel-pouchdb/src/index.ts"],
-			"@gdgtoulouse/components/terminal": ["libs/components/terminal/src/index.ts"]
+			"@gdgtoulouse/components/terminal": ["libs/components/terminal/src/index.ts"],
+			"@gdgtoulouse/features/router": ["libs/features/router/src/index.ts"],
+			"@gdgtoulouse/features/lang": ["libs/features/lang/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

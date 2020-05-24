@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { IndexModule as ExpansionPanelPouchdbIndexModule } from '@gdgtoulouse/components/expansion-panel-pouchdb';
+import { IndexModule as FeatureLangIndexModule } from '@gdgtoulouse/features/lang';
 import { IndexModule as PouchdbManagerIndexModule } from '@gdgtoulouse/features/pouchdb-manager';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -33,6 +34,7 @@ import { StoreModule } from '@ngrx/store';
 		MatToolbarModule,
 		MatExpansionModule,
 		PouchdbManagerIndexModule,
+		FeatureLangIndexModule,
 		ExpansionPanelPouchdbIndexModule,
 		RouterModule.forChild([
 			{

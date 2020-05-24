@@ -1,6 +1,6 @@
 import { IndexedKeys } from './exec.actions';
 import { indexName } from '../../../index.config';
-import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
+import { SubscriptionConfig as FeaturePouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
 	props,
@@ -12,7 +12,7 @@ export const topic = 'changes-feeds-subscriptions-sync';
 export type Success = IndexedKeys & {
 	destinationList: string[];
 };
-export const subscribe = createAction(`[${indexName}][${topic}] subscribe`, props<{ subscriptionConfig: PouchdbManagerSubscriptionConfig }>());
+export const subscribe = createAction(`[${indexName}][${topic}] subscribe`, props<{ subscriptionConfig: FeaturePouchdbManagerSubscriptionConfig }>());
 export const databaseConfigurationKeyDoesNotExistYet = createAction(
 	`[${indexName}][${topic}] databaseConfigurationKeyDoesNotExistYet`,
 	props<{

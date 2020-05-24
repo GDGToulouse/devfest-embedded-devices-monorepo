@@ -1,19 +1,12 @@
-import { Params } from '@angular/router';
-import { RouterReducerState } from '@ngrx/router-store';
+import { indexName } from '../index.config';
 import {
-	createFeatureSelector,
-	createSelector
-	} from '@ngrx/store';
+	FeatureState,
+	State
+	} from '../reducers';
+import { createFeatureSelector } from '@ngrx/store';
 
-//#region router
-export const router$ = createFeatureSelector<
-	RouterReducerState<{
-		params: Params;
-		queryParams: Params;
-		url: string;
-	}>
->('appRouter');
+//#region feature
+export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
+//#endregion
 
-export const keyIsInQueryParams$ = (key: string) => createSelector(router$, (router) => (router === undefined ? undefined : Object.keys(router.state.queryParams).includes(key)));
-
-export const Selectors = {};
+export const Selectors = { getFeatureState$ };

@@ -1,16 +1,23 @@
 import { Menus as RouteMenus } from '../actions';
-import { getFeatureState } from '../reducers';
-import { Params } from '@angular/router';
+import { indexName } from '../index.config';
+import {
+	FeatureState,
+	State
+	} from '../reducers';
+import { Selectors as FeatureLangSelectors } from '@gdgtoulouse/features/lang';
 import { forEachTree } from '@gdgtoulouse/structures/tree';
-import { RouterReducerState } from '@ngrx/router-store';
 import {
 	createFeatureSelector,
 	createSelector
 	} from '@ngrx/store';
 
+//#region feature
+export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
+//#endregion
+
 //#region menus
 export const menuEndApiGetResponseTree$ = createSelector(
-	getFeatureState,
+	getFeatureState$,
 	({
 		menuEndApiGet: {
 			response: { tree }
@@ -26,50 +33,44 @@ export const menuEndTree$ = createSelector(menuEndApiGetResponseTree$, (rootTree
 //#endregion
 
 //#region langMenuList
-export const langMenuListApiGet$ = createSelector(getFeatureState, ({ langMenuListApiGet }) => langMenuListApiGet);
+export const langMenuListApiGet$ = createSelector(getFeatureState$, ({ langMenuListApiGet }) => langMenuListApiGet);
 export const langMenuList$ = createSelector(langMenuListApiGet$, ({ response: menuList }) => menuList);
 //#endregion
 
-//#region router
-export const router$ = createFeatureSelector<
-	RouterReducerState<{
-		params: Params;
-		queryParams: Params;
-		url: string;
-	}>
->('appRouter');
-
-export const keyIsInQueryParams$ = (key: string) => createSelector(router$, (router) => (router === undefined ? undefined : Object.keys(router.state.queryParams).includes(key)));
-
-//#region lang
-export const langIdQueryParam$ = createSelector(router$, (router) => (router === undefined ? null : <string>router.state.queryParams['lang']));
-export const langIdIsInQueryParams$ = keyIsInQueryParams$('lang');
-export const langIdIsNotInQueryParams$ = createSelector(langIdIsInQueryParams$, (langIdIsInQueryParams) => !langIdIsInQueryParams);
-export const langId$ = createSelector(langIdIsInQueryParams$, langIdQueryParam$, (langIdIsInQueryParams, langIdQueryParam) => (langIdIsInQueryParams ? langIdQueryParam : 'en'));
-export const langMenuItem$ = createSelector(langId$, langMenuList$, (langId, langMenuList) => langMenuList.find(({ id }) => id === langId));
-//#endregion
-//#endregion
-
 //#region sidenavs
-export const sidenavEnd$ = createSelector(getFeatureState, ({ sidenavEnd }) => sidenavEnd);
-export const sidenavEndIsOpen$ = createSelector(sidenavEnd$, ({ isOpen }) => isOpen);
-export const sidenavStart$ = createSelector(getFeatureState, ({ sidenavStart }) => sidenavStart);
-export const sidenavStartIsOpen$ = createSelector(sidenavStart$, ({ isOpen }) => isOpen);
+//#region sidenavsEnd
+export const sidenavEndDb$ = createSelector(getFeatureState$, ({ sidenavEndDb }) => sidenavEndDb);
+export const sidenavEndUi$ = createSelector(getFeatureState$, ({ sidenavEndUi }) => sidenavEndUi);
+export const sidenavEndUiIsOpened$ = createSelector(sidenavEndUi$, ({ isOpened }) => isOpened);
+//#endregion
+//#region sidenavsStart
+export const sidenavStartDb$ = createSelector(getFeatureState$, ({ sidenavStartDb }) => sidenavStartDb);
+export const sidenavStartDbLangSubscriptionConfigToSuffixWithLangId$ = createSelector(sidenavStartDb$, ({ langSubscriptionConfig }) => langSubscriptionConfig);
+export const sidenavStartDbSubscriptionConfig$ = createSelector(sidenavStartDb$, ({ subscriptionConfig }) => subscriptionConfig);
+export const sidenavStartDbLangSubscriptionConfig$ = createSelector(sidenavStartDbLangSubscriptionConfigToSuffixWithLangId$, <any>FeatureLangSelectors.langId$, (langSubscriptionConfig, langId) => ({
+	...langSubscriptionConfig,
+	databaseConfiguration: {
+		...(<PouchDB.Configuration.DatabaseConfiguration>langSubscriptionConfig.databaseConfiguration),
+		name: `${(<PouchDB.Configuration.DatabaseConfiguration>langSubscriptionConfig.databaseConfiguration).name}-lang-${langId}`
+	}
+}));
+export const sidenavStartUi$ = createSelector(getFeatureState$, ({ sidenavStartUi }) => sidenavStartUi);
+export const sidenavStartUiIsOpened$ = createSelector(sidenavStartUi$, ({ isOpened }) => isOpened);
+//#endregion
 //#endregion
 
 export const Selectors = {
-	langIdQueryParam$,
-	langIdIsInQueryParams$,
-	langIdIsNotInQueryParams$,
-	langId$,
-	langMenuItem$,
 	langMenuListApiGet$,
 	langMenuList$,
 	menuEndApiGetResponseTree$,
 	menuEndTree$,
-	router$,
-	sidenavEnd$,
-	sidenavEndIsOpen$,
-	sidenavStart$,
-	sidenavStartIsOpen$
+	sidenavEndDb$,
+	sidenavEndUi$,
+	sidenavEndUiIsOpened$,
+	sidenavStartDb$,
+	sidenavStartDbLangSubscriptionConfigToSuffixWithLangId$,
+	sidenavStartDbSubscriptionConfig$,
+	sidenavStartDbLangSubscriptionConfig$,
+	sidenavStartUi$,
+	sidenavStartUiIsOpened$
 };

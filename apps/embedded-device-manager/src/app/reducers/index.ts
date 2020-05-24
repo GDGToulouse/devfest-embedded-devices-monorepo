@@ -1,14 +1,10 @@
 import {
-	reducer as appEnvsApiGet,
-	State as AppEnvsApiGet
+	reducer as envsApiGet,
+	State as EnvsApiGet
 	} from './envs/api/get.reducer';
 import { indexName } from '../index.config';
 import { InjectionToken } from '@angular/core';
 import { Params } from '@angular/router';
-import {
-	routerReducer as appRouter,
-	RouterReducerState
-	} from '@ngrx/router-store';
 import {
 	Action,
 	ActionReducer,
@@ -24,16 +20,15 @@ export interface RouterStateSnapshot {
 
 // tslint:disable-next-line: no-empty-interface
 export interface FeatureState {
-	appEnvsApiGet: AppEnvsApiGet;
-	appRouter: RouterReducerState<RouterStateSnapshot>;
+	envsApiGet: EnvsApiGet;
 }
 
 export interface State {
 	[indexName]: FeatureState;
 }
 
-export const reducers = new InjectionToken<ActionReducerMap<FeatureState, Action>>('root', {
-	factory: () => ({ appEnvsApiGet, appRouter })
+export const reducers = new InjectionToken<ActionReducerMap<FeatureState, Action>>(indexName, {
+	factory: () => ({ envsApiGet })
 });
 
 export function failureLogger(reducer: ActionReducer<any>): ActionReducer<any> {

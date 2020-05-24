@@ -1,6 +1,7 @@
+import * as Envs from './envs';
 import * as Pouchdb from './pouchdb';
 import * as Ui from './ui';
 
-export { Ui, Pouchdb };
+export { Envs, Ui, Pouchdb };
 
-export const Actions = { Ui, Pouchdb };
+export const Actions = { Envs, Ui, Pouchdb };

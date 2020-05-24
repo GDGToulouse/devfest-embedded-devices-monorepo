@@ -68,6 +68,12 @@
 		},
 		"components-terminal": {
 			"tags": []
+		},
+		"features-router": {
+			"tags": []
+		},
+		"features-lang": {
+			"tags": []
 		}
 	}
 }

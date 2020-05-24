@@ -1,18 +1,18 @@
 <ng-container
   *ngIf="{
-		langMenuItem: langMenuItem$ | async,
 		langMenuList: langMenuList$ | async,
 		leftSidenavItemList: leftSidenavItemList$ | async,
 		rightSidenavItemList: rightSidenavItemList$ | async,
 		menuEndTogglerTooltip: menuEndTogglerTooltip$ | async,
 		menuEndTree: menuEndTree$ | async,
 		menuLangsTooltip: menuLangsTooltip$ | async,
-		sidenavEndIsOpen: sidenavEndIsOpen$ | async,
+		sidenavEndUiIsOpened: sidenavEndUiIsOpened$ | async,
 		sidenavEndTogglerTooltip: sidenavEndTogglerTooltip$ | async,
-		sidenavStartIsOpen: sidenavStartIsOpen$ | async,
+		sidenavStartUiIsOpened: sidenavStartUiIsOpened$ | async,
 		sidenavStartTogglerTooltip: sidenavStartTogglerTooltip$ | async,
     title: title$ | async,
-    subscriptionConfig: subscriptionConfig$ | async,
+    sidenavStartDbLangSubscriptionConfig: sidenavStartDbLangSubscriptionConfig$ | async,
+    sidenavStartDbSubscriptionConfig: sidenavStartDbSubscriptionConfig$ | async,
     indexedKeys: indexedKeys$ | async,
     testSyncDocList: testSyncDocList$ | async
 	} as _"
@@ -22,8 +22,8 @@
   >
     <button
       (click)="sidenavStartToggle()"
-      [attr.aria-label]="_.sidenavStartTogglerTooltip.ariaLabel?.text	"
-      [matTooltip]="_.sidenavStartTogglerTooltip.tooltip?.text	"
+      [attr.aria-label]="_.sidenavStartTogglerTooltip.ariaLabel?.text"
+      [matTooltip]="_.sidenavStartTogglerTooltip.tooltip?.text"
       mat-icon-button
     >
       <mat-icon>
@@ -36,11 +36,11 @@
     <span
       class="toolbar-spacer"
     ></span>
-    <button
+    <!-- <button
       mat-button
       [matMenuTriggerFor]="menuLangs"
-      [attr.aria-label]="_.menuLangsTooltip.ariaLabel?.text	"
-      [matTooltip]="_.menuLangsTooltip.tooltip?.text	"
+      [attr.aria-label]="_.menuLangsTooltip.ariaLabel?.text"
+      [matTooltip]="_.menuLangsTooltip.tooltip?.text"
     >
       {{ _.langMenuItem?.label?.text }}
     </button>
@@ -53,11 +53,11 @@
         mat-menu-item
       >{{ _langMenuItem.label?.text }}
       </button>
-    </mat-menu>
+    </mat-menu> -->
     <button
       (click)="sidenavEndToggle()"
-      [attr.aria-label]="_.sidenavEndTogglerTooltip.ariaLabel?.text		"
-      [matTooltip]="_.sidenavEndTogglerTooltip.tooltip?.text	"
+      [attr.aria-label]="_.sidenavEndTogglerTooltip.ariaLabel?.text"
+      [matTooltip]="_.sidenavEndTogglerTooltip.tooltip?.text"
       mat-icon-button
     >
       <mat-icon>
@@ -73,11 +73,15 @@
       (keydown.escape)="sidenavStartClose()"
       [fixedInViewport]="mobileQuery.matches"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [opened]="_.sidenavStartIsOpen"
+      [opened]="_.sidenavStartUiIsOpened"
       [position]="'start'"
     >
+      <p>
+        {{_.sidenavStartDbLangSubscriptionConfig | json}}
+      </p>
       <gdgtoulouse-expansion-panel-pouchdb
-        [subscriptionConfig]="_.subscriptionConfig"
+        [langSubscriptionConfig]="_.sidenavStartDbLangSubscriptionConfig"
+        [subscriptionConfig]="_.sidenavStartDbSubscriptionConfig"
       >
       </gdgtoulouse-expansion-panel-pouchdb>
     </mat-sidenav>
@@ -86,7 +90,7 @@
       (keydown.escape)="sidenavEndClose()"
       [fixedInViewport]="mobileQuery.matches"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [opened]="_.sidenavEndIsOpen"
+      [opened]="_.sidenavEndUiIsOpened"
       [position]="'end'"
     >
       <mat-nav-list>

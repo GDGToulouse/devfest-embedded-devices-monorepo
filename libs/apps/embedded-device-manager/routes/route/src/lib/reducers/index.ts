@@ -11,26 +11,35 @@ import {
 	State as MenuEndApiGet
 	} from './menus/end/api/get.reducer';
 import {
-	reducer as sidenavEnd,
-	State as SidenavEnd
-	} from './sidenavs/end.reducer';
+	reducer as sidenavEndDb,
+	State as SidenavEndDb
+	} from './sidenavs/end/db.reducer';
 import {
-	reducer as sidenavStart,
-	State as SidenavStart
-	} from './sidenavs/start.reducer';
+	reducer as sidenavEndUi,
+	State as SidenavEndUi
+	} from './sidenavs/end/ui.reducer';
+import {
+	reducer as sidenavStartDb,
+	State as SidenavStartDb
+	} from './sidenavs/start/db.reducer';
+import {
+	reducer as sidenavStartUi,
+	State as SidenavStartUi
+	} from './sidenavs/start/ui.reducer';
 import { indexName } from '../index.config';
 import {
 	Action,
-	combineReducers,
-	createFeatureSelector
+	combineReducers
 	} from '@ngrx/store';
 
 export interface FeatureState {
 	envsApiGet: EnvsApiGet;
 	langMenuListApiGet: LangMenuListApiGet;
 	menuEndApiGet: MenuEndApiGet;
-	sidenavEnd: SidenavEnd;
-	sidenavStart: SidenavStart;
+	sidenavEndDb: SidenavEndDb;
+	sidenavEndUi: SidenavEndUi;
+	sidenavStartDb: SidenavStartDb;
+	sidenavStartUi: SidenavStartUi;
 }
 
 export interface State {
@@ -42,9 +51,9 @@ export function reducers(state: FeatureState | undefined, action: Action) {
 		envsApiGet,
 		langMenuListApiGet,
 		menuEndApiGet,
-		sidenavEnd,
-		sidenavStart
+		sidenavEndDb,
+		sidenavEndUi,
+		sidenavStartDb,
+		sidenavStartUi
 	})(state, action);
 }
-
-export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);

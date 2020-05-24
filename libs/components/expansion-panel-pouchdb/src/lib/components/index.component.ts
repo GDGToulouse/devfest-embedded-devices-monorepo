@@ -3,11 +3,13 @@ import { Selectors as FeatureSelectors } from '../selectors';
 import {
 	ChangeDetectionStrategy,
 	Component,
+	EventEmitter,
 	Input,
-	OnInit
+	OnInit,
+	Output
 	} from '@angular/core';
 import { Tree } from '@gdgtoulouse/components/expansion-panel';
-import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
+import { SubscriptionConfig as FeaturePouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	select,
 	Store
@@ -21,30 +23,44 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IndexComponent implements OnInit {
-	@Input() subscriptionConfig: PouchdbManagerSubscriptionConfig;
+	@Input() subscriptionConfig: FeaturePouchdbManagerSubscriptionConfig;
+	@Input() langSubscriptionConfig: FeaturePouchdbManagerSubscriptionConfig;
+
+	@Output() afterCollapse = new EventEmitter<{ tree: Tree }>();
+	@Output() afterExpand = new EventEmitter<{ tree: Tree }>();
+	@Output() closed = new EventEmitter<{ tree: Tree }>();
+	@Output() destroyed = new EventEmitter<{ tree: Tree }>();
+	@Output() init = new EventEmitter<void>();
+	@Output() opened = new EventEmitter<{ tree: Tree }>();
 
 	treeList$: Observable<Tree[]>;
 
 	constructor(private store: Store<{}>) {}
 
 	ngOnInit() {
+		this.init.emit();
 		this.treeList$ = this.store.pipe(select(FeatureSelectors.treeList$(this.subscriptionConfig.destinationList)));
-		this.store.dispatch(FeatureActions.Pouchdb.Init.SyncNullTreeList.exec({ subscriptionConfig: this.subscriptionConfig }));
+		this.store.dispatch(FeatureActions.Pouchdb.Init.SyncNullTreeList.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig }));
 	}
 
-	afterCollapse(tree: Tree) {
-		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.AfterCollapse.exec({ subscriptionConfig: this.subscriptionConfig, tree }));
+	_afterCollapse(tree: Tree) {
+		this.afterCollapse.emit({ tree });
+		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.AfterCollapse.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig, tree }));
 	}
-	afterExpand(tree: Tree) {
-		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.AfterExpand.exec({ subscriptionConfig: this.subscriptionConfig, tree }));
+	_afterExpand(tree: Tree) {
+		this.afterExpand.emit({ tree });
+		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.AfterExpand.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig, tree }));
 	}
-	closed(tree: Tree) {
-		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Closed.exec({ subscriptionConfig: this.subscriptionConfig, tree }));
+	_closed(tree: Tree) {
+		this.closed.emit({ tree });
+		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Closed.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig, tree }));
 	}
-	destroyed(tree: Tree) {
-		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Destroyed.exec({ subscriptionConfig: this.subscriptionConfig, tree }));
+	_destroyed(tree: Tree) {
+		this.destroyed.emit({ tree });
+		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Destroyed.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig, tree }));
 	}
-	opened(tree: Tree) {
-		// this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Opened.exec({ subscriptionConfig: this.subscriptionConfig, tree }));
+	_opened(tree: Tree) {
+		this.opened.emit({ tree });
+		this.store.dispatch(FeatureActions.Ui.ExpansionPanel.Opened.exec({ langSubscriptionConfig: this.langSubscriptionConfig, subscriptionConfig: this.subscriptionConfig, tree }));
 	}
 }

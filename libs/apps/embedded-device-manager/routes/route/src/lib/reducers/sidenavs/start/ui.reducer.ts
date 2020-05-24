@@ -1,29 +1,29 @@
-import { Actions as FeatureActions } from '../../actions';
+import { Actions as FeatureActions } from '../../../actions';
 import {
 	createReducer,
 	on
 	} from '@ngrx/store';
 
 export interface State {
-	isOpen: boolean;
+	isOpened: boolean;
 }
 
 export const initialState: State = {
-	isOpen: true
+	isOpened: true
 };
 
 export const reducer = createReducer(
 	initialState,
 	on(FeatureActions.Sidenavs.Start.close, FeatureActions.Sidenavs.close, (state) => ({
 		...state,
-		isOpen: false
+		isOpened: false
 	})),
 	on(FeatureActions.Sidenavs.Start.open, (state) => ({
 		...state,
-		isOpen: true
+		isOpened: true
 	})),
 	on(FeatureActions.Sidenavs.Start.toggle, (state) => ({
 		...state,
-		isOpen: !state.isOpen
+		isOpened: !state.isOpened
 	}))
 );

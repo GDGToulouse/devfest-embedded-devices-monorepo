@@ -9,7 +9,7 @@ import {
 	} from '@ngrx/store';
 
 //#region feature
-export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);
+export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
 //#endregion
 
 //#region reducer

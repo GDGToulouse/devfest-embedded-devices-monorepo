@@ -1,6 +1,6 @@
 import { indexName } from '../../../index.config';
 import { Tree } from '@gdgtoulouse/components/expansion-panel';
-import { SubscriptionConfig as PouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
+import { SubscriptionConfig as FeaturePouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
 	props,
@@ -18,7 +18,8 @@ export interface Success {
 export const exec = createAction(
 	`[${indexName}][${topic}] exec`,
 	props<{
-		subscriptionConfig?: PouchdbManagerSubscriptionConfig;
+		langSubscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
+		subscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
 		tree: Tree;
 	}>()
 );

@@ -1,16 +1,33 @@
-import { NodeRouter } from '@gdgtoulouse/components/expansion-panel';
+import {
+	NodeHeader,
+	NodeRouter
+	} from '@gdgtoulouse/components/expansion-panel';
 import { Selectors as FeaturesPouchdbManagerSelectors } from '@gdgtoulouse/features/pouchdb-manager';
 import { treeListFromFlatNodeList } from '@gdgtoulouse/structures/tree';
 import { createSelector } from '@ngrx/store';
 
 export const treeList$ = (destinationList: string[]) =>
-	createSelector(FeaturesPouchdbManagerSelectors.changesFeedsDocList$<{ pid: string; router?: NodeRouter }>(destinationList), (docList) =>
-		treeListFromFlatNodeList<{ _id: string }, { pid: string }, { router?: NodeRouter }>(
+	createSelector(FeaturesPouchdbManagerSelectors.changesFeedsDocList$<NodeHeader>(destinationList.map((destination) => `langs/${destination}`)), FeaturesPouchdbManagerSelectors.changesFeedsDocList$<{ pid: string; header?: NodeHeader; router?: NodeRouter }>(destinationList), (langDocList, docList) =>
+		treeListFromFlatNodeList<{ _id: string }, { pid: string }, { header?: NodeHeader; router?: NodeRouter }>(
 			'_id',
 			'pid',
 			docList.map((flatNode) => {
-				console.log({ docList, flatNode });
-				return Object.keys(flatNode).includes('router') ? { ...flatNode, router: { ...flatNode.router, text: flatNode._id } } : { ...flatNode, header: { description: new Date().toString(), title: new Date().toString() } };
+				const isNodeRouter = Object.keys(flatNode).includes('router');
+				const langDoc = langDocList.find(({ _id }) => _id === flatNode._id);
+				const hasLangDoc = langDoc !== undefined;
+				if (hasLangDoc) {
+					if (isNodeRouter) {
+						return { ...flatNode, router: { ...flatNode.router, ...langDoc } };
+					} else {
+						return { ...flatNode, header: { ...flatNode.header, ...langDoc } };
+					}
+				} else {
+					if (isNodeRouter) {
+						return { ...flatNode, router: { ...flatNode.router, text: flatNode._id } };
+					} else {
+						return { ...flatNode, header: { ...flatNode.header, description: flatNode._id, title: flatNode._id } };
+					}
+				}
 			})
 		)
 	);

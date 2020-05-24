@@ -9,7 +9,7 @@
 >
 	<mat-accordion>
 		<ng-container
-			*ngFor="let tree of list"
+			*ngFor="let tree of list; trackBy: trackByUnderscoredId"
 		>
 			<ng-container
 				*ngIf="tree.header !== undefined; else noTree"

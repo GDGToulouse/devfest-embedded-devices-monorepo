@@ -9,13 +9,13 @@ import {
 	} from '@ngrx/store';
 
 //#region feature
-export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);
+export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
 //#endregion
 
 export const envsAuthSelector = createSelector(
-	getFeatureState,
+	getFeatureState$,
 	({
-		appEnvsApiGet: {
+		envsApiGet: {
 			response: { auth }
 		}
 	}) => auth

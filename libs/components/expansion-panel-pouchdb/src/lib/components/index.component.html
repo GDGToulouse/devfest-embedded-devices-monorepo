@@ -1,12 +1,12 @@
-<p>{{treeList$ | async | json}}
-</p>
 <gdgtoulouse-expansion-panel
-	(afterCollapse)="afterCollapse($event)"
-	(afterExpand)="afterExpand($event)"
-	(closed)="closed($event)"
-	(destroyed)="destroyed($event)"
-	(opened)="opened($event)"
+	(afterCollapse)="_afterCollapse($event)"
+	(afterExpand)="_afterExpand($event)"
+	(closed)="_closed($event)"
+	(destroyed)="_destroyed($event)"
+	(opened)="_opened($event)"
 	[idKey]="'_id'"
 	[treeList]="treeList$ | async"
 >
 </gdgtoulouse-expansion-panel>
+<p>{{treeList$ | async | json}}
+</p>

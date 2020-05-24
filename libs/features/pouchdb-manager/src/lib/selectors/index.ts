@@ -1,10 +1,21 @@
 import { IndexedKeys } from '../actions/changes-feeds/subscriptions/exec.actions';
-import { getFeatureState } from '../reducers';
+import { indexName } from '../index.config';
+import {
+	FeatureState,
+	State
+	} from '../reducers';
 import {
 	Subscriptions,
 	Sync
 	} from '../reducers/changes-feeds/subscriptions/subscribe.reducer';
-import { createSelector } from '@ngrx/store';
+import {
+	createFeatureSelector,
+	createSelector
+	} from '@ngrx/store';
+
+//#region feature
+export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
+//#endregion
 
 export const grabIndexedKeysList = ({ indexedKeysList, subscriptions }: { indexedKeysList: IndexedKeys[]; subscriptions: Subscriptions | IndexedKeys }): IndexedKeys[] => {
 	const subscriptionsKeyList = Object.keys(subscriptions);
@@ -35,7 +46,7 @@ export const findIndexedKeyList = ({ destinationSegmentList, subscriptions }: { 
 };
 
 //#region changesFeeds
-export const changesFeedsSubscriptionsSubscribe$ = createSelector(getFeatureState, ({ changesFeedsSubscriptionsSubscribe }) => changesFeedsSubscriptionsSubscribe);
+export const changesFeedsSubscriptionsSubscribe$ = createSelector(getFeatureState$, ({ changesFeedsSubscriptionsSubscribe }) => changesFeedsSubscriptionsSubscribe);
 export const changesFeedsSubscriptionsSubscribeDatabases$ = createSelector(changesFeedsSubscriptionsSubscribe$, ({ databases }) => databases);
 export const changesFeedsSubscriptionsSubscribeSubscriptions$ = createSelector(changesFeedsSubscriptionsSubscribe$, ({ subscriptions }) => subscriptions);
 export const changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$ = (destinationList: string[]) =>
@@ -96,14 +107,11 @@ export const changesFeedsSyncChangeList$ = <T>(destinationList: string[]) =>
 
 export const changesFeedsDocList$ = <T>(destinationList: string[]) =>
 	createSelector(changesFeedsCompleteInfoDocNotDeletedList$<T>(destinationList), changesFeedsSyncChangeList$<T>(destinationList), (completeInfoNotDeletedDocList, syncChangeList) => {
-		console.log({ completeInfoNotDeletedDocList, syncChangeList });
 		let syncDocList = [...completeInfoNotDeletedDocList];
 		syncChangeList.forEach((change) => {
-			console.log({ change });
 			const indexOfDocInNotDeletedDocList = syncDocList.map(({ _id }) => _id).indexOf(change.doc._id);
 			const changeIsDelete = Object.keys(change.doc).includes('_deleted') && change.deleted === true;
 			if (changeIsDelete) {
-				console.log({ changeIsDelete });
 				if (indexOfDocInNotDeletedDocList > -1) {
 					syncDocList = [...syncDocList.slice(0, indexOfDocInNotDeletedDocList), ...syncDocList.slice(indexOfDocInNotDeletedDocList + 1)];
 				}
@@ -121,6 +129,7 @@ export const changesFeedsDocList$ = <T>(destinationList: string[]) =>
 //#endregion
 
 export const Selectors = {
+	getFeatureState$,
 	changesFeedsSubscriptionsSubscribe$,
 	changesFeedsSubscriptionsSubscribeDatabases$,
 	changesFeedsSubscriptionsSubscribeSubscriptions$,

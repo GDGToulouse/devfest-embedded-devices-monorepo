@@ -9,8 +9,7 @@ import {
 import { indexName } from '../index.config';
 import {
 	Action,
-	combineReducers,
-	createFeatureSelector
+	combineReducers
 	} from '@ngrx/store';
 
 export interface FeatureState {
@@ -28,5 +27,3 @@ export function reducers(state: FeatureState | undefined, action: Action) {
 		envsApiGet
 	})(state, action);
 }
-
-export const getFeatureState = createFeatureSelector<State, FeatureState>(indexName);

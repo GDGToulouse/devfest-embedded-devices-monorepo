@@ -1,8 +1,6 @@
 import { Actions as FeatureActions } from '../../../actions';
-import { indexName } from '../../../index.config';
 import { NotificationConfig } from '../../../models';
 import { Injectable } from '@angular/core';
-import { Actions as ProcessingsActions } from '@gdgtoulouse/features/processings';
 import {
 	Actions,
 	createEffect,
@@ -20,8 +18,7 @@ import {
 import {
 	catchError,
 	delay,
-	switchMap,
-	tap
+	switchMap
 	} from 'rxjs/operators';
 
 Pouchdb.plugin(PouchAuthentication);
@@ -58,8 +55,8 @@ export class Effects {
 	exec$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
-				delay(20),
+				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
+				delay(500),
 				switchMap(
 					([
 						{
@@ -68,7 +65,7 @@ export class Effects {
 					]) => {
 						const isNotificationsSpecified = notifications !== undefined;
 						const notificationConfig: NotificationConfig = {
-							change: undefined,
+							since0Change: undefined,
 							changesOptionsAsNotString: undefined,
 							changesOptionsIsFromString: undefined,
 							changesOptionsKey: undefined,
@@ -96,8 +93,11 @@ export class Effects {
 								notificationConfig['databaseConfigurationKey'] = notificationConfig['databaseConfigurationKeyFound'];
 							} else {
 								notificationConfig['databaseConfigurationKey'] = this.generateUniqueKey();
+								const databaseInstance = new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] });
+								//todo variabilize maxListeners as databaseConfiguration
+								databaseInstance.setMaxListeners(500);
 								this.databases[notificationConfig['databaseConfigurationKey']] = {
-									database: new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] }),
+									database: databaseInstance,
 									databaseConfiguration: notificationConfig['databaseConfigurationAsNotString'],
 									changesFeeds: {}
 								};
@@ -128,15 +128,16 @@ export class Effects {
 							}
 						}
 						if (notificationConfig['isNotSynced'] !== false) {
-							const isChangeNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('change');
-							const isCompleteNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('complete');
-							const isErrorNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('error');
+							const isChangeListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('changeList');
+							const isCompleteListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('completeList');
+							const isErrorListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('errorList');
+							console.log('lalala', { ...notificationConfig['changesOptionsAsNotString'] });
 							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
 								changesOptions: notificationConfig['changesOptionsAsNotString'],
 								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
 									.on('change', (change) => {
-										console.log('exec', { change });
+										console.log({ change });
 										notificationConfig['change'] = change;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesChange({
@@ -145,12 +146,12 @@ export class Effects {
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isChangeNotificationSpecified) {
-											this.store.dispatch(notifications.change({ notificationConfig: { ...notificationConfig } }));
+										if (isChangeListNotificationSpecified) {
+											notifications.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 									})
 									.on('complete', (completeInfo) => {
-										console.log('exec', { completeInfo });
+										console.log({ completeInfo });
 										notificationConfig['completeInfo'] = completeInfo;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesComplete({
@@ -159,12 +160,12 @@ export class Effects {
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isCompleteNotificationSpecified) {
-											this.store.dispatch(notifications.complete({ notificationConfig: { ...notificationConfig } }));
+										if (isCompleteListNotificationSpecified) {
+											notifications.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 									})
 									.on('error', (error) => {
-										console.log('exec', { error });
+										console.log({ error });
 										notificationConfig['error'] = error;
 										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
 										this.store.dispatch(
@@ -174,8 +175,8 @@ export class Effects {
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isErrorNotificationSpecified) {
-											this.store.dispatch(notifications.error({ notificationConfig: { ...notificationConfig } }));
+										if (isErrorListNotificationSpecified) {
+											notifications.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 									})
 							};
@@ -183,7 +184,7 @@ export class Effects {
 						return of(FeatureActions.ChangesFeeds.Subscriptions.Exec.success({ success: { changesOptionsKey: notificationConfig.changesOptionsKey, databaseConfigurationKey: notificationConfig.databaseConfigurationKey, destinationList: notificationConfig.destinationList } }));
 					}
 				),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
+				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
 				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Exec.failure({ failure })))
 			),
 		{ dispatch: true }
@@ -192,8 +193,8 @@ export class Effects {
 	sync$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Sync.subscribe))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] sync$` }))),
-				delay(20),
+				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] sync$` }))),
+				delay(500),
 				switchMap(
 					([
 						{
@@ -202,7 +203,7 @@ export class Effects {
 					]) => {
 						const isNotificationsSpecified = notifications !== undefined;
 						const notificationConfig: NotificationConfig = {
-							change: undefined,
+							since0Change: undefined,
 							changesOptionsAsNotString: undefined,
 							changesOptionsIsFromString: undefined,
 							changesOptionsKey: undefined,
@@ -229,8 +230,10 @@ export class Effects {
 								notificationConfig['databaseConfigurationKey'] = notificationConfig['databaseConfigurationKeyFound'];
 							} else {
 								notificationConfig['databaseConfigurationKey'] = this.generateUniqueKey();
+								const databaseInstance = new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] });
+								databaseInstance.setMaxListeners(500);
 								this.databases[notificationConfig['databaseConfigurationKey']] = {
-									database: new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] }),
+									database: databaseInstance,
 									databaseConfiguration: notificationConfig['databaseConfigurationAsNotString'],
 									changesFeeds: {}
 								};
@@ -261,54 +264,55 @@ export class Effects {
 							}
 						}
 						if (notificationConfig['isNotSynced'] !== false) {
-							const isChangeNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('change');
-							const isCompleteNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('complete');
-							const isErrorNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('error');
+							const isChangeListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('changeList');
+							const isCompleteListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('completeList');
+							const isErrorListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('errorList');
 
 							const isLiveSinceLastSeqNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('sync');
-							const isLiveSinceLastSeqChangeNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('change');
-							const isLiveSinceLastSeqCompleteNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('complete');
-							const isLiveSinceLastSeqErrorNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('error');
+							const isLiveSinceLastSeqChangeNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('changeList');
+							const isLiveSinceLastSeqCompleteNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('completeList');
+							const isLiveSinceLastSeqErrorNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('errorList');
+							console.log('lalala2', { ...notificationConfig['changesOptionsAsNotString'] });
 							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
 								changesOptions: notificationConfig['changesOptionsAsNotString'],
 								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
-									.on('change', (change) => {
-										console.log('sync', { change });
-										notificationConfig['change'] = change;
+									.on('change', (since0Change) => {
+										console.log({ since0Change });
+										notificationConfig['since0Change'] = since0Change;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesChange({
 												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												change,
+												change: since0Change,
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isChangeNotificationSpecified) {
-											this.store.dispatch(notifications.change({ notificationConfig: { ...notificationConfig } }));
+										if (isChangeListNotificationSpecified) {
+											notifications.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 									})
-									.on('complete', (completeInfo) => {
-										console.log('sync', { completeInfo });
-										notificationConfig['completeInfo'] = completeInfo;
+									.on('complete', (since0CompleteInfo) => {
+										console.log({ since0CompleteInfo });
+										notificationConfig['since0CompleteInfo'] = since0CompleteInfo;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesComplete({
 												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												completeInfo,
+												completeInfo: since0CompleteInfo,
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isCompleteNotificationSpecified) {
-											this.store.dispatch(notifications.complete({ notificationConfig: { ...notificationConfig } }));
+										if (isCompleteListNotificationSpecified) {
+											notifications.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 
-										notificationConfig['changesOptionsLiveSinceLastSeq'] = { ...notificationConfig['changesOptionsAsNotString'], live: true, since: completeInfo.last_seq };
-										console.log('here', { ...notificationConfig['changesOptionsLiveSinceLastSeq'] });
+										notificationConfig['changesOptionsLiveSinceLastSeq'] = { ...notificationConfig['changesOptionsAsNotString'], live: true, since: since0CompleteInfo.last_seq };
+										console.log('lalala3', { ...notificationConfig['changesOptionsLiveSinceLastSeq'] });
 										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].sync = {
 											changesOptions: notificationConfig['changesOptionsLiveSinceLastSeq'],
 											changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 												.changes({ ...notificationConfig['changesOptionsLiveSinceLastSeq'] })
 												.on('change', (liveSinceLastSeqChange) => {
-													console.log('sync', 'live', { liveSinceLastSeqChange });
+													console.log({ liveSinceLastSeqChange });
 													notificationConfig['liveSinceLastSeqChange'] = liveSinceLastSeqChange;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesChange({
@@ -318,11 +322,11 @@ export class Effects {
 														})
 													);
 													if (isLiveSinceLastSeqChangeNotificationSpecified) {
-														this.store.dispatch(notifications.sync.change({ notificationConfig: { ...notificationConfig } }));
+														notifications.sync.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 													}
 												})
 												.on('complete', (liveSinceLastSeqInfo) => {
-													console.log('sync', 'live', { liveSinceLastSeqInfo });
+													console.log({ liveSinceLastSeqInfo });
 													notificationConfig['liveSinceLastSeqInfo'] = liveSinceLastSeqInfo;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesComplete({
@@ -332,11 +336,11 @@ export class Effects {
 														})
 													);
 													if (isLiveSinceLastSeqCompleteNotificationSpecified) {
-														this.store.dispatch(notifications.sync.complete({ notificationConfig: { ...notificationConfig } }));
+														notifications.sync.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 													}
 												})
 												.on('error', (liveSinceLastSeqError) => {
-													console.log('sync', 'live', { liveSinceLastSeqError });
+													console.log({ liveSinceLastSeqError });
 													notificationConfig['liveSinceLastSeqError'] = liveSinceLastSeqError;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesError({
@@ -346,13 +350,13 @@ export class Effects {
 														})
 													);
 													if (isLiveSinceLastSeqErrorNotificationSpecified) {
-														this.store.dispatch(notifications.sync.error({ notificationConfig: { ...notificationConfig } }));
+														notifications.sync.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 													}
 												})
 										};
 									})
 									.on('error', (since0Error) => {
-										console.log('sync', { since0Error });
+										console.log({ since0Error });
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesError({
 												error: since0Error,
@@ -360,16 +364,16 @@ export class Effects {
 												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
 											})
 										);
-										if (isErrorNotificationSpecified) {
-											this.store.dispatch(notifications.error({ notificationConfig: { ...notificationConfig } }));
+										if (isErrorListNotificationSpecified) {
+											notifications.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
 										}
 									})
 							};
 						}
 						return of(FeatureActions.ChangesFeeds.Subscriptions.Sync.success({ success: { changesOptionsKey: notificationConfig.changesOptionsKey, databaseConfigurationKey: notificationConfig.databaseConfigurationKey, destinationList: notificationConfig.destinationList } }));
 					}
-				),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] sync$` })))
+				)
+				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] sync$` })))
 			),
 		{ dispatch: true }
 	);
