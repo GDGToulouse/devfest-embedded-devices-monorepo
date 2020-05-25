@@ -9,6 +9,7 @@ from python.apps.embedded_device_manager_api_flask.api.subprocess.api import \
     api
 from python.apps.embedded_device_manager_api_flask.api.subprocess.controller import \
     ns as subprocess_ns
+from python.apps.embedded_device_manager_api_flask.api.subprocess.opencv import *
 from python.apps.embedded_device_manager_api_flask.assets.envs import \
     index as envs
 
@@ -36,7 +37,8 @@ def initialize_app(flask_app):
 def main():
     initialize_app(app)
     log.info('>>>>> Starting development server at http://{}/api/ <<<<<'.format(app.config['SERVER_NAME']))
-    app.run(debug=envs.FLASK_DEBUG)
+    app.run(debug=envs.FLASK_DEBUG, threaded=True, use_reloader=False)
 
 if __name__ == "__main__":
     main()
+    vs.stop()
