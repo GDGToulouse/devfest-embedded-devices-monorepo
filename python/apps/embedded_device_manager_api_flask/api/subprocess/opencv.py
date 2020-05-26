@@ -2,24 +2,33 @@ import argparse
 import datetime
 import threading
 import time
+from json import dumps
 
 import cv2
 import imutils
 import numpy as np
+from flask import jsonify
 from imutils.video import VideoStream
 
 from .pyimagesearch.motion_detection.singlemotiondetector import \
     SingleMotionDetector
 
 outputFrame = None
+viewers = 0
 lock = threading.Lock()
 
 faceCascade = cv2.CascadeClassifier('python/apps/embedded_device_manager_api_flask/api/subprocess/pyimagesearch/motion_detection/haarcascade_frontalface_default.xml')
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
+def opencv_infos():
+    infos = {}
+    infos['viewers'] = viewers
+    print(viewers)
+    return (dumps(infos))
+
 def detect_motion(frameCount):
-    global vs, outputFrame, lock
+    global vs, outputFrame, lock, viewers
 
     md = SingleMotionDetector(accumWeight=0.1)
     total = 0
@@ -36,7 +45,7 @@ def detect_motion(frameCount):
             minSize=(30, 30),
             flags=cv2.CASCADE_SCALE_IMAGE
         )
-
+        viewers = len(faces)
         timestamp = datetime.datetime.now()
         cv2.putText(frame, timestamp.strftime(
             "%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10),

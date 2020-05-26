@@ -6,6 +6,7 @@ from flask_restplus import Resource
 from .api import api
 from .dto import popen as popen_dto
 from .opencv import generate as cv_service
+from .opencv import opencv_infos
 from .service import popen as popen_service
 
 log = logging.getLogger(__name__)
@@ -31,3 +32,11 @@ class Videofeed(Resource):
         """
         return Response(cv_service(),
                         mimetype = "multipart/x-mixed-replace; boundary=frame")
+
+@ns.route('/opencv_infos')
+class Videofeed(Resource):
+    def get(self):
+        """
+        Get opencv infos
+        """
+        return opencv_infos()

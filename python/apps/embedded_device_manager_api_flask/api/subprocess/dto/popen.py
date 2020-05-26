@@ -35,3 +35,7 @@ post = api.model('Execute a child program in a new process.', {
 video = api.model('Stream a video which has been treated by opencv to angular.', {
     'args': fields.List(fields.String, required=True, example=['pwd', '--logical'], description='The args argument as it was passed to Popen – a sequence of program arguments.')
 })
+
+opencv_infos = api.model('Get opencv infos about the room', {
+    'args': fields.List(fields.String, required=True, example=['pwd', '--logical'], description='The args argument as it was passed to Popen – a sequence of program arguments.')
+})
