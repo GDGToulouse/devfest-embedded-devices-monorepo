@@ -69,8 +69,11 @@ Back-End:
 Databases:
 
 - A CouchDB server representing the cloud's database, served at [http://localhost:5000/_utils](http://localhost:5000/_utils). Login and password are both _cloud_ by default.
-- A CouchDB server representing the embedded device's database of a first device (named Andromeda), served at [http://localhost:7000/_utils](http://localhost:7000/_utils). Login and password are both _andromeda_ by default.
-- A CouchDB server representing the embedded device's database of a second device (named Aquarius), served at [http://localhost:7001/_utils](http://localhost:7001/_utils). Login and password are both _aquarius_ by default.
+- A CouchDB-Howler server representing the cloud's database howler, served at [http://localhost:7000](http://localhost:7000).
+- A CouchDB server representing the embedded device's database of a first device (named Andromeda), served at [http://localhost:8000/_utils](http://localhost:8000/_utils). Login and password are both _andromeda_ by default.
+- A CouchDB-Howler server representing the embedded device's database howler of a first device (named Andromeda), served at [http://localhost:8500](http://localhost:8500).
+- A CouchDB server representing the embedded device's database of a second device (named Aquarius), served at [http://localhost:8001/_utils](http://localhost:8001/_utils). Login and password are both _aquarius_ by default.
+- A CouchDB-Howler server representing the embedded device's database howler of a second device (named Aquarius), served at [http://localhost:8501](http://localhost:8501).
 
 **Note(s):**
 

@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"license": "MIT",
 	"scripts": {
+		"couchdb-howler": "couchdb-howler",
 		"ng": "ng",
 		"nest": "nest",
 		"nx": "nx",
@@ -59,6 +60,8 @@
 		"class-transformer": "^0.2.3",
 		"class-validator": "^0.11.0",
 		"core-js": "^2.5.4",
+		"couch-slouch": "^1.4.0",
+		"couchdb-howler": "^1.1.1",
 		"express": "^4.17.1",
 		"express-pouchdb": "^4.2.0",
 		"faker": "^4.1.0",

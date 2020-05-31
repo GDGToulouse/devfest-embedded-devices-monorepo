@@ -6,6 +6,7 @@ repoDir=`readlink --canonicalize ${hereDir}/../../..`
 defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f2 | cut -d'"' -f2`
 pids=""
 rc=0
+currentDir=`pwd`
 
 project=${1:-"${defaultProject}"}
 
@@ -22,6 +23,7 @@ sigintTrap() {
 cloudContainerName="${project}-cloud-db"
 cloudContainerPassword="cloud"
 cloudContainerPort="5000"
+cloudHowlerContainerPort="7000"
 cloudContainerUser="cloud"
 
 docker \
@@ -49,6 +51,19 @@ docker \
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${cloudContainerPort})" != "200" ]]; do echo "waiting cloud db to be up" && sleep 5; done
+
+cd ${repoDir}
+
+yarn \
+	run \
+		couchdb-howler \
+			--couchdb_url "https://${cloudContainerUser}:${cloudContainerPassword}@localhost:${cloudContainerPort}" \
+			--log_level "debug" \
+			--port ${cloudHowlerContainerPort} \
+&
+pids="${pids} $!"
+
+cd ${currentDir}
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/import/files/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
@@ -108,7 +123,8 @@ done;
 
 andromedaContainerName="${project}-device-andromeda-db"
 andromedaContainerPassword="andromeda"
-andromedaContainerPort="7000"
+andromedaContainerPort="8000"
+andromedaHowlerContainerPort="8500"
 andromedaContainerUser="andromeda"
 
 docker \
@@ -137,6 +153,19 @@ pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${andromedaContainerPort})" != "200" ]]; do echo "waiting andromeda db to be up" && sleep 5; done
 
+cd ${repoDir}
+
+yarn \
+	run \
+		couchdb-howler \
+			--couchdb_url "https://${andromedaContainerUser}:${andromedaContainerPassword}@localhost:${andromedaContainerPort}" \
+			--log_level "debug" \
+			--port ${andromedaHowlerContainerPort} \
+&
+pids="${pids} $!"
+
+cd ${currentDir}
+
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
 
@@ -155,7 +184,8 @@ done;
 
 aquariusContainerName="${project}-device-aquarius-db"
 aquariusContainerPassword="aquarius"
-aquariusContainerPort="7001"
+aquariusContainerPort="8001"
+aquariusHowlerContainerPort="8501"
 aquariusContainerUser="aquarius"
 
 docker \
@@ -172,7 +202,7 @@ sudo rm -rf ${hereDir}/devices/aquarius/opt/couchdb/log/couch.log
 docker \
 	run \
 		--rm \
-		-p 7001:5984 \
+		-p ${aquariusContainerPort}:5984 \
 		--name ${aquariusContainerName} \
 		-e COUCHDB_PASSWORD=${aquariusContainerPassword} \
 		-e COUCHDB_USER=${aquariusContainerUser} \
@@ -183,6 +213,19 @@ docker \
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${aquariusContainerPort})" != "200" ]]; do echo "waiting aquarius db to be up" && sleep 5; done
+
+cd ${repoDir}
+
+yarn \
+	run \
+		couchdb-howler \
+			--couchdb_url "https://${aquariusContainerUser}:${aquariusContainerPassword}@localhost:${aquariusContainerPort}" \
+			--log_level "debug" \
+			--port ${aquariusHowlerContainerPort} \
+&
+pids="${pids} $!"
+
+cd ${currentDir}
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
