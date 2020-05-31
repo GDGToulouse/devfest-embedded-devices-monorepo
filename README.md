@@ -64,7 +64,7 @@ Front-End:
 Back-End:
 
 - A Flask API served at [http://localhost:3000/api](http://localhost:3000/api)
-- A Nest.js API served at [http://localhost:4000/api](http://localhost:4000/api)
+- A Nest.js API served at [http://localhost:8080/api](http://localhost:8080/api)
 
 Databases:
 

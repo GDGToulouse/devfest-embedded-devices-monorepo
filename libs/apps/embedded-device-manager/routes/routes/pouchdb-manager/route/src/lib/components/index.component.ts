@@ -62,6 +62,41 @@ export class IndexComponent implements OnInit {
 
 	ngOnInit() {}
 
+	socket() {
+		this.store.dispatch(
+			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+				subscriptionConfig: {
+					destinationList: this.testExecDestinationList,
+					databaseConfiguration: {
+						auth: {
+							password: 'cloud',
+							username: 'cloud'
+						},
+						name: 'http://localhost:5000/menu-default'
+					},
+					changesOptions: {
+						since: 0,
+						include_docs: true,
+						limit: 500,
+						selector: {
+							$and: [
+								{
+									pid: {
+										$eq: null
+									}
+								}
+							]
+						}
+					},
+					io: {
+						opts: undefined,
+						uri: 'http://localhost:8080/pouchdb-manager'
+					}
+				}
+			})
+		);
+	}
+
 	exec() {
 		this.store.dispatch(
 			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe({

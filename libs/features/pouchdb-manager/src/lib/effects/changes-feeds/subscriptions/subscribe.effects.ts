@@ -2,24 +2,25 @@ import { Actions as FeatureActions } from '../../../actions';
 import { NotificationConfig } from '../../../models';
 import { Injectable } from '@angular/core';
 import {
-    Actions,
-    createEffect,
-    ofType
-    } from '@ngrx/effects';
+	Actions,
+	createEffect,
+	ofType
+	} from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import deepEqual from 'fast-deep-equal';
 import Pouchdb from 'pouchdb';
 import PouchAuthentication from 'pouchdb-authentication';
 import PouchFind from 'pouchdb-find';
 import {
-    combineLatest,
-    of
-    } from 'rxjs';
+	combineLatest,
+	of
+	} from 'rxjs';
 import {
-    catchError,
-    delay,
-    switchMap
-    } from 'rxjs/operators';
+	catchError,
+	delay,
+	switchMap
+	} from 'rxjs/operators';
+import * as io from 'socket.io-client';
 
 Pouchdb.plugin(PouchAuthentication);
 Pouchdb.plugin(PouchFind);
@@ -51,6 +52,60 @@ export class Effects {
 			};
 		};
 	} = {};
+	private socket: SocketIOClient.Socket;
+
+	socket$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribe))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
+				delay(500),
+				switchMap(
+					([
+						{
+							subscriptionConfig: {
+								changesOptions,
+								databaseConfiguration,
+								notifications,
+								destinationList,
+								io: { opts, uri }
+							}
+						}
+					]) => {
+						this.socket = io(uri);
+						console.log(this.socket);
+						this.socket.on('connect', () => {
+							console.log('Connected');
+
+							this.socket.emit(
+								'subscribe',
+								{
+									changesOptions: { include_docs: true, feed: 'continuous', heartbeat: true, filter: { selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }, { pid: { $eq: 'projects-com-gpio-executions' } }] }] } } },
+									databaseConfiguration: { name: 'http://localhost:5000/menu-default', auth: { password: 'cloud', username: 'cloud' } },
+									destinationList: [`route/sidenavs/start/menu`]
+								},
+								0,
+								(response) => {
+									console.log({ response });
+								}
+							);
+						});
+						this.socket.on('subscribe-success', (success) => {
+							console.log('subscribe-success', { success });
+						});
+						this.socket.on('exception', (error) => {
+							console.log('exception', { error });
+						});
+						this.socket.on('disconnect', () => {
+							console.log('Disconnected');
+						});
+						return of({ type: 'noop' });
+					}
+				),
+				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Exec.failure({ failure })))
+			),
+		{ dispatch: true }
+	);
 
 	exec$ = createEffect(
 		() =>

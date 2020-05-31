@@ -3,6 +3,7 @@ import { StdioOptions } from 'child_process';
 import { Type } from 'class-transformer';
 import {
 	IsArray,
+	IsBoolean,
 	IsString,
 	ValidateNested
 	} from 'class-validator';
@@ -11,7 +12,7 @@ import {
  * - https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options
  */
 
-export class KeyValuePairStringString {
+export class KeyValuePairStringStringDto {
 	@ApiProperty({ description: 'The key as string.' })
 	@IsString()
 	readonly key: string;
@@ -21,7 +22,7 @@ export class KeyValuePairStringString {
 	readonly value: string;
 }
 
-export class SpawnSyncOptionsClass {
+export class SpawnSyncOptionsDto {
 	@ApiProperty({ required: false, description: 'Current working directory of the child process.' })
 	@IsString()
 	readonly cwd: string;
@@ -41,7 +42,7 @@ export class SpawnSyncOptionsClass {
 	@IsArray()
 	@ValidateNested({ each: true })
 	@ApiProperty({ required: false, description: 'Environment key-value pairs.' })
-	@Type(() => KeyValuePairStringString)
+	@Type(() => KeyValuePairStringStringDto)
 	readonly env: NodeJS.ProcessEnv;
 
 	@ApiProperty({ required: false, description: ' Sets the user identity of the process (see setuid(2)).' })
@@ -73,11 +74,11 @@ export class SpawnSyncOptionsClass {
 	readonly shell: string;
 
 	@ApiProperty({ required: false, description: 'No quoting or escaping of arguments is done on Windows. Ignored on Unix. This is set to true automatically when shell is specified and is CMD. Default: false.' })
-	@IsString()
+	@IsBoolean()
 	readonly windowsVerbatimArguments: boolean;
 
 	@ApiProperty({ required: false, description: 'Hide the subprocess console window that would normally be created on Windows systems. Default: false.' })
-	@IsString()
+	@IsBoolean()
 	readonly windowsHide: boolean;
 }
 
@@ -92,6 +93,6 @@ export class SpawnSyncDto {
 	readonly args?: string[];
 
 	@ApiProperty({ required: false, example: {}, description: 'List of string arguments.' })
-	@Type(() => SpawnSyncOptionsClass)
-	readonly options?: SpawnSyncOptionsClass;
+	@Type(() => SpawnSyncOptionsDto)
+	readonly options?: SpawnSyncOptionsDto;
 }

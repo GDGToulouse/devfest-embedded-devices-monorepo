@@ -74,6 +74,9 @@
 		},
 		"features-lang": {
 			"tags": []
+		},
+		"apis-pouchdb-manager": {
+			"tags": []
 		}
 	}
 }

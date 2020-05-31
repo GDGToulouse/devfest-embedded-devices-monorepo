@@ -268,7 +268,8 @@
 					"builder": "@nrwl/node:execute",
 					"options": {
 						"buildTarget": "embedded-device-manager-api-nest:build"
-					}
+					},
+					"port": 8080
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
@@ -906,6 +907,29 @@
 			"schematics": {
 				"@nrwl/angular:component": {
 					"style": "scss"
+				}
+			}
+		},
+		"apis-pouchdb-manager": {
+			"root": "libs/apis/pouchdb-manager",
+			"sourceRoot": "libs/apis/pouchdb-manager/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apis/pouchdb-manager/tsconfig.lib.json", "libs/apis/pouchdb-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apis/pouchdb-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apis/pouchdb-manager/jest.config.js",
+						"tsConfig": "libs/apis/pouchdb-manager/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
 				}
 			}
 		}

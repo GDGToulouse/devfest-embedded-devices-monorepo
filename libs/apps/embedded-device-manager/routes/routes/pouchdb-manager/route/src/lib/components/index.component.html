@@ -69,6 +69,12 @@
     {{_.testExec | json}}
   </p>
   <button
+    (click)="socket()"
+  >socket</button>
+  <p>
+    {{_.testExec | json}}
+  </p>
+  <button
     (click)="sync()"
   >sync</button>
   <p>
