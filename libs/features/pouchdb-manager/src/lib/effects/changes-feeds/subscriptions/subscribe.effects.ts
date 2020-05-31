@@ -2,24 +2,24 @@ import { Actions as FeatureActions } from '../../../actions';
 import { NotificationConfig } from '../../../models';
 import { Injectable } from '@angular/core';
 import {
-	Actions,
-	createEffect,
-	ofType
-	} from '@ngrx/effects';
+    Actions,
+    createEffect,
+    ofType
+    } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import deepEqual from 'fast-deep-equal';
 import Pouchdb from 'pouchdb';
 import PouchAuthentication from 'pouchdb-authentication';
 import PouchFind from 'pouchdb-find';
 import {
-	combineLatest,
-	of
-	} from 'rxjs';
+    combineLatest,
+    of
+    } from 'rxjs';
 import {
-	catchError,
-	delay,
-	switchMap
-	} from 'rxjs/operators';
+    catchError,
+    delay,
+    switchMap
+    } from 'rxjs/operators';
 
 Pouchdb.plugin(PouchAuthentication);
 Pouchdb.plugin(PouchFind);
@@ -131,13 +131,11 @@ export class Effects {
 							const isChangeListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('changeList');
 							const isCompleteListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('completeList');
 							const isErrorListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('errorList');
-							console.log('lalala', { ...notificationConfig['changesOptionsAsNotString'] });
 							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
 								changesOptions: notificationConfig['changesOptionsAsNotString'],
 								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
 									.on('change', (change) => {
-										console.log({ change });
 										notificationConfig['change'] = change;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesChange({
@@ -151,7 +149,6 @@ export class Effects {
 										}
 									})
 									.on('complete', (completeInfo) => {
-										console.log({ completeInfo });
 										notificationConfig['completeInfo'] = completeInfo;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesComplete({
@@ -165,7 +162,6 @@ export class Effects {
 										}
 									})
 									.on('error', (error) => {
-										console.log({ error });
 										notificationConfig['error'] = error;
 										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
 										this.store.dispatch(
@@ -272,13 +268,11 @@ export class Effects {
 							const isLiveSinceLastSeqChangeNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('changeList');
 							const isLiveSinceLastSeqCompleteNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('completeList');
 							const isLiveSinceLastSeqErrorNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('errorList');
-							console.log('lalala2', { ...notificationConfig['changesOptionsAsNotString'] });
 							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
 								changesOptions: notificationConfig['changesOptionsAsNotString'],
 								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
 									.on('change', (since0Change) => {
-										console.log({ since0Change });
 										notificationConfig['since0Change'] = since0Change;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesChange({
@@ -292,7 +286,6 @@ export class Effects {
 										}
 									})
 									.on('complete', (since0CompleteInfo) => {
-										console.log({ since0CompleteInfo });
 										notificationConfig['since0CompleteInfo'] = since0CompleteInfo;
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesComplete({
@@ -306,13 +299,11 @@ export class Effects {
 										}
 
 										notificationConfig['changesOptionsLiveSinceLastSeq'] = { ...notificationConfig['changesOptionsAsNotString'], live: true, since: since0CompleteInfo.last_seq };
-										console.log('lalala3', { ...notificationConfig['changesOptionsLiveSinceLastSeq'] });
 										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].sync = {
 											changesOptions: notificationConfig['changesOptionsLiveSinceLastSeq'],
 											changes: this.databases[notificationConfig['databaseConfigurationKey']].database
 												.changes({ ...notificationConfig['changesOptionsLiveSinceLastSeq'] })
 												.on('change', (liveSinceLastSeqChange) => {
-													console.log({ liveSinceLastSeqChange });
 													notificationConfig['liveSinceLastSeqChange'] = liveSinceLastSeqChange;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesChange({
@@ -326,7 +317,6 @@ export class Effects {
 													}
 												})
 												.on('complete', (liveSinceLastSeqInfo) => {
-													console.log({ liveSinceLastSeqInfo });
 													notificationConfig['liveSinceLastSeqInfo'] = liveSinceLastSeqInfo;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesComplete({
@@ -340,7 +330,6 @@ export class Effects {
 													}
 												})
 												.on('error', (liveSinceLastSeqError) => {
-													console.log({ liveSinceLastSeqError });
 													notificationConfig['liveSinceLastSeqError'] = liveSinceLastSeqError;
 													this.store.dispatch(
 														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesError({
@@ -356,7 +345,6 @@ export class Effects {
 										};
 									})
 									.on('error', (since0Error) => {
-										console.log({ since0Error });
 										this.store.dispatch(
 											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesError({
 												error: since0Error,

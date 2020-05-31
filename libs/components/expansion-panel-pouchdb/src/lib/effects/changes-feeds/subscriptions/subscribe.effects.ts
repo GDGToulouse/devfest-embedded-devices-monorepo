@@ -55,7 +55,6 @@ export class Effects {
 								notifications: {
 									changeList: [
 										({ notificationConfig }: { notificationConfig: PouchdbManagerNotificationConfig }) => {
-											console.log('here', { notificationConfig });
 											const changeIsDelete = Object.keys(notificationConfig.since0Change.doc).includes('_deleted') && notificationConfig.since0Change.deleted === true;
 											if (changeIsDelete) {
 												//TODO dispatch action to remove destinationList from databaseConfiguration,changesOptions
@@ -84,7 +83,6 @@ export class Effects {
 					const isSelectorSpecified = Object.keys(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).includes('selector');
 					const isSelectorAndSpecified = isSelectorSpecified && Object.keys((<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).selector).includes('$and');
 					const selectorAndConditionList = isSelectorAndSpecified ? [...(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).selector.$and, { _id: { $eq: notificationConfig.since0Change.doc._id } }] : [{ _id: { $eq: notificationConfig.since0Change.doc._id } }];
-					console.log('YOOOOOOOOOOOOooo', { langSubscriptionConfig, notificationConfig, subscriptionConfig, isSelectorSpecified, isSelectorAndSpecified, selectorAndConditionList });
 					return of(
 						PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
 							subscriptionConfig: {
@@ -171,7 +169,6 @@ export class Effects {
 					const treeListSelectorCondition = { $or: Object.keys(tree).includes('treeList') ? tree.treeList.filter((subtree) => !Object.keys(subtree).includes('router')).map(({ _id }) => ({ pid: { $eq: _id } })) : [] };
 					const selectorAndConditionList = isSelectorAndSpecified ? [...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector.$and, treeListSelectorCondition] : [treeListSelectorCondition];
 					const needNewSubscription = treeListSelectorCondition.$or.length !== 0;
-					console.log({ tree, isSelectorSpecified, isSelectorAndSpecified, selectorAndConditionList, needNewSubscription });
 					if (needNewSubscription) {
 						return of(
 							PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
