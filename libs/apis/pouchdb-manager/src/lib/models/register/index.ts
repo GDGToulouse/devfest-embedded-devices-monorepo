@@ -12,7 +12,7 @@ export class RegisterDto implements Register {
 	@Type(() => RegisterChangesOptionsDto)
 	readonly changesOptions?: RegisterChangesOptionsDto;
 
-	@ApiProperty({ required: true, example: { name: 'http://localhost:5000/menu-default', auth: { password: 'cloud', username: 'cloud' } }, description: 'The command to run.' })
+	@ApiProperty({ required: true, example: { name: 'http://localhost:5000/sidenavs-start-default', auth: { password: 'cloud', username: 'cloud' } }, description: 'The command to run.' })
 	@Type(() => RegisterDatabaseConfigurationDto)
 	readonly databaseConfiguration: RegisterDatabaseConfigurationDto;
 }

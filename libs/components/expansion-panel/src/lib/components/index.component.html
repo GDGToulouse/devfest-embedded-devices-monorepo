@@ -28,6 +28,11 @@
 						</mat-panel-title>
 						<mat-panel-description>
 							{{tree.header.description}}
+							<mat-icon
+								*ngIf="tree.header | objectKeysIncludes:'icon'"
+							>
+								{{tree.header.icon}}
+							</mat-icon>
 						</mat-panel-description>
 					</mat-expansion-panel-header>
 					<ng-container
@@ -48,10 +53,11 @@
 					[skipLocationChange]="tree.router.replaceUrl"
 					[state]="tree.router.state"
 				>
-					<mat-toolbar
+					<mat-card
 						*ngIf="tree.router !== undefined"
+						[ngClass]="{'active': hrefOfActive === (tree.router.routerLink | join:'')}"
 					>{{tree.router.text}}
-					</mat-toolbar>
+					</mat-card>
 				</a>
 			</ng-template>
 		</ng-container>

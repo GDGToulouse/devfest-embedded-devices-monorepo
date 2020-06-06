@@ -83,6 +83,12 @@
 		},
 		"features-logs": {
 			"tags": []
+		},
+		"pipes-object-keys-includes": {
+			"tags": []
+		},
+		"pipes-join": {
+			"tags": []
 		}
 	}
 }

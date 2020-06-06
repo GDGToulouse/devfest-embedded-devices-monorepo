@@ -3,7 +3,7 @@
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../../..`
 
-database=${1:-"menu-default"}
+database=${1:-"sidenavs-start-default"}
 host=${2:-"127.0.0.1"}
 password=${3:-"cloud"}
 port=${4:-"5000"}

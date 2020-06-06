@@ -1,13 +1,13 @@
 import { IndexComponent } from './index.component';
 import {
-  async,
-  ComponentFixture,
-  TestBed
-  } from '@angular/core/testing';
+	async,
+	ComponentFixture,
+	TestBed
+	} from '@angular/core/testing';
 
 describe('IndexComponent', () => {
-	let component: IndexComponent;
-	let fixture: ComponentFixture<IndexComponent>;
+	let component: IndexComponent<{}, {}>;
+	let fixture: ComponentFixture<IndexComponent<{}, {}>>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({

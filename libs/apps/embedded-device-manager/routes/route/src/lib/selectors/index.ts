@@ -4,6 +4,7 @@ import {
 	State
 	} from '../reducers';
 import { Selectors as FeatureLangSelectors } from '@gdgtoulouse/features/lang';
+import { Selectors as FeaturesRouterSelectors } from '@gdgtoulouse/features/router';
 import {
 	createFeatureSelector,
 	createSelector
@@ -38,6 +39,7 @@ export const sidenavStartDbLangSubscribeRequest$ = createSelector(sidenavStartDb
 export const sidenavStartUi$ = createSelector(getFeatureState$, ({ sidenavStartUi }) => sidenavStartUi);
 export const sidenavStartUiIsOpened$ = createSelector(sidenavStartUi$, ({ isOpened }) => isOpened);
 //#endregion
+export const sidenavStartHrefOfActive$ = createSelector(FeaturesRouterSelectors.url$, (url) => url);
 //#endregion
 
 export const Selectors = {
@@ -51,5 +53,6 @@ export const Selectors = {
 	sidenavStartDbSubscribeRequest$,
 	sidenavStartDbLangSubscribeRequest$,
 	sidenavStartUi$,
-	sidenavStartUiIsOpened$
+	sidenavStartUiIsOpened$,
+	sidenavStartHrefOfActive$
 };

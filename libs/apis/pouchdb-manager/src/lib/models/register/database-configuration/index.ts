@@ -7,7 +7,7 @@ import { IsString } from 'class-validator';
 export * from './auth';
 
 export class RegisterDatabaseConfigurationDto implements RegisterDatabaseConfiguration {
-	@ApiProperty({ required: true, example: 'http://localhost:5000/menu-default', description: 'The name (or URL) of the database.' })
+	@ApiProperty({ required: true, example: 'http://localhost:5000/sidenavs-start-default', description: 'The name (or URL) of the database.' })
 	@IsString()
 	readonly name: string;
 

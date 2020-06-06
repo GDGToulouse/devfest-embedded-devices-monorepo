@@ -1016,6 +1016,88 @@
 					"style": "scss"
 				}
 			}
+		},
+		"pipes-object-keys-includes": {
+			"projectType": "library",
+			"root": "libs/pipes/object-keys-includes",
+			"sourceRoot": "libs/pipes/object-keys-includes/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/pipes/object-keys-includes/tsconfig.lib.json",
+						"project": "libs/pipes/object-keys-includes/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/pipes/object-keys-includes/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/pipes/object-keys-includes/tsconfig.lib.json", "libs/pipes/object-keys-includes/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/pipes/object-keys-includes/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/pipes/object-keys-includes/jest.config.js",
+						"tsConfig": "libs/pipes/object-keys-includes/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/pipes/object-keys-includes/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"pipes-join": {
+			"projectType": "library",
+			"root": "libs/pipes/join",
+			"sourceRoot": "libs/pipes/join/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/pipes/join/tsconfig.lib.json",
+						"project": "libs/pipes/join/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/pipes/join/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/pipes/join/tsconfig.lib.json", "libs/pipes/join/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/pipes/join/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/pipes/join/jest.config.js",
+						"tsConfig": "libs/pipes/join/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/pipes/join/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
 		}
 	},
 	"cli": {

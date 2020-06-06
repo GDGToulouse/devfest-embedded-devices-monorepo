@@ -4,7 +4,7 @@ hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../../..`
 
 data=${1:-"{\"index\":{\"fields\":[\"pid\"]},\"name\":\"pid-index\",\"type\": \"json\"}"}
-database=${2:-"menu-default"}
+database=${2:-"sidenavs-start-default"}
 host=${3:-"127.0.0.1"}
 password=${4:-"cloud"}
 port=${5:-"5000"}

@@ -12,6 +12,8 @@ import {
 export const getFeatureState$ = createFeatureSelector<State, FeatureState>(indexName);
 //#endregion
 
+export const url$ = createSelector(getFeatureState$, ({ router }) => (router === undefined ? undefined : router.state.url));
+
 export const nextSegment$ = (currentSegment: string) => createSelector(getFeatureState$, ({ router }) => (router === undefined ? undefined : router.state.url.includes(`${currentSegment}/`) ? router.state.url.split(`${currentSegment}/`)[1].split('/')[0] : ''));
 
 export const queryParam$ = (key: string) => createSelector(getFeatureState$, ({ router }) => (router === undefined ? undefined : router.state.queryParams[key]));
@@ -28,6 +30,7 @@ export const areKeyListInQueryParams$ = (keyList: string[]) => createSelector(ge
 
 export const Selectors = {
 	getFeatureState$,
+	url$,
 	nextSegment$,
 	queryParam$,
 	queryParams$,

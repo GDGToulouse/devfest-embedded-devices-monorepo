@@ -79,7 +79,7 @@ done;
 #TODO automate indexes creation and use the created file here
 ${repoDir}/tools/couchdb/index/create/index.bash \
 	'{"index": { "fields": ["pid"] }, "name" : "pid-index", "type" : "json"}' \
-	'menu-default' \
+	'sidenavs-start-default' \
 	'localhost' \
 	${cloudContainerPassword} \
 	${cloudContainerPort} \

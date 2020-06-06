@@ -55,7 +55,7 @@ export class IndexComponent implements OnInit {
 		// 					password: 'cloud',
 		// 					username: 'cloud'
 		// 				},
-		// 				name: 'http://localhost:5000/menu-default'
+		// 				name: 'http://localhost:5000/sidenavs-start-default'
 		// 			},
 		// 			changesOptions: {
 		// 				selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }, { pid: { $eq: 'projects-com-gpio-executions' } }] }] }
@@ -72,7 +72,7 @@ export class IndexComponent implements OnInit {
 		// 					password: 'cloud',
 		// 					username: 'cloud'
 		// 				},
-		// 				name: 'http://localhost:5000/menu-default'
+		// 				name: 'http://localhost:5000/sidenavs-start-default'
 		// 			},
 		// 			changesOptions: {
 		// 				selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }] }] }

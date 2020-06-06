@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
 export class IndexComponent implements OnInit {
 	@Input() subscribeRequest: SubscribeRequest;
 	@Input() langSubscribeRequest: SubscribeRequest;
+	@Input() hrefOfActive: string;
 
 	@Output() afterCollapse = new EventEmitter<{ tree: Tree }>();
 	@Output() afterExpand = new EventEmitter<{ tree: Tree }>();

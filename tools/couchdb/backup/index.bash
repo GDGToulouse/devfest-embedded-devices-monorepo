@@ -4,7 +4,7 @@ hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../..`
 printf -v currentDate '%(%Y%m%d%H%M%S)T' -1
 
-database=${1:-"menu-default"}
+database=${1:-"sidenavs-start-default"}
 host=${2:-"127.0.0.1"}
 instanceDumpDir=${3:-"cloud"}
 password=${4:-"cloud"}

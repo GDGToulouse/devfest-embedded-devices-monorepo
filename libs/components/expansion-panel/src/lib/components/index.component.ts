@@ -15,6 +15,7 @@ import {
 })
 export class IndexComponent<I, P> {
 	@Input() idKey: string;
+	@Input() hrefOfActive: string;
 	@Input() treeList: Tree<I, P>[];
 
 	@Output() afterCollapse = new EventEmitter<Tree<I, P>>();

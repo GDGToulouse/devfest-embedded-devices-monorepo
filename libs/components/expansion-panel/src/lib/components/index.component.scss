@@ -1,0 +1,28 @@
+mat-accordion {
+	.mat-expansion-panel-header-title,
+	.mat-expansion-panel-header-description {
+		flex-basis: 0;
+	}
+
+	.mat-expansion-panel-header-description {
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+a {
+	text-decoration: none;
+	font-style: italic;
+}
+
+mat-card {
+	border-radius: 0;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.04);
+	}
+
+	&.active {
+		text-decoration: underline;
+	}
+}

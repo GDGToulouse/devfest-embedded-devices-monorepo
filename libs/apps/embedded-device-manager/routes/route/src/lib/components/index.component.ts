@@ -33,12 +33,12 @@ export class IndexComponent implements OnDestroy {
 	sidenavStartDbLangSubscribeRequest$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbLangSubscribeRequest$));
 	sidenavStartDbSubscribeRequest$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbSubscribeRequest$));
 	sidenavStartTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
+	sidenavStartHrefOfActive$ = this.store.pipe(select(FeatureSelectors.sidenavStartHrefOfActive$));
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
 
 	keysList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.keysList$(`${selector}/sidenavs/start/menu`)));
-	// testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$(`${selector}/sidenavs/start/menu`)));
 
 	private _mobileQueryListener: () => void;
 
