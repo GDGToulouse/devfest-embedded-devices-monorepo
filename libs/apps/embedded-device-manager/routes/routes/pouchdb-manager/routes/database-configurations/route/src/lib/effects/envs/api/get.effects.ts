@@ -19,12 +19,9 @@ import {
 	ofType
 	} from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs';
 import {
-	combineLatest,
-	of
-	} from 'rxjs';
-import {
-	catchError,
+	// catchError,
 	delay,
 	map,
 	skip,
@@ -32,7 +29,7 @@ import {
 	take,
 	takeUntil,
 	tap
-	} from 'rxjs/operators';
+} from 'rxjs/operators';
 
 export const topic = 'envs-api-get';
 
@@ -61,8 +58,8 @@ export class Effects {
 						})
 						.pipe(
 							takeUntil(this.actions$.pipe(ofType(FeatureActions.Envs.Api.Get.request), skip(1))),
-							map(({ body: response, headers: responseHeaders }) => FeatureActions.Envs.Api.Get.response({ response })),
-							catchError((failure) => of(FeatureActions.Envs.Api.Get.failure({ failure })))
+							map(({ body: response, headers: responseHeaders }) => FeatureActions.Envs.Api.Get.response({ response }))
+							// catchError((failure) => of(FeatureActions.Envs.Api.Get.failure({ failure })))
 						)
 				),
 				tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] main$` })))

@@ -2,7 +2,8 @@ import { Actions as FeatureActions } from '../../../actions';
 import { Injectable } from '@angular/core';
 import {
 	Actions as PouchdbManagerActions,
-	Destination
+	Destination,
+	Listeners
 	} from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	Actions,
@@ -209,6 +210,11 @@ export class Effects {
 					const needNewSubscription = treeListSelectorCondition.$or.length !== 0;
 					const newSubscriptionDestination = this.newSubscriptionDestination({ destination: subscribeRequest.destination, childId: tree._id });
 					const changesOptionsIsDefined = Object.keys(subscribeRequest).includes('changesOptions');
+					const listeners: Listeners = {
+						since0Change: (since0EmitsChange) => {
+							return [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })];
+						}
+					};
 					if (changesOptionsIsDefined) {
 						const isSelectorSpecified = Object.keys(subscribeRequest.changesOptions).includes('selector');
 						const isSelectorAndSpecified = isSelectorSpecified && Object.keys(subscribeRequest.changesOptions.selector).includes('$and');
@@ -226,9 +232,7 @@ export class Effects {
 												$and: selectorAndConditionList
 											}
 										},
-										listeners: {
-											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
-										}
+										listeners
 									}
 								})
 							);
@@ -248,16 +252,16 @@ export class Effects {
 												$and: selectorAndConditionList
 											}
 										},
-										listeners: {
-											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
-										}
+										listeners
 									}
 								})
 							);
+							return of({ type: 'todo2' });
 						} else {
 							return of({ type: 'todo' });
 						}
 					}
+					return of({ type: 'todo' });
 				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` })))
 			),

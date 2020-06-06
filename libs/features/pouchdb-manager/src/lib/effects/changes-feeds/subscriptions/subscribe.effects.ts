@@ -1,6 +1,7 @@
 import { Actions as FeatureActions } from '../../../actions';
 import { Selectors as FeatureSelectors } from '../../../selectors';
 import { Injectable } from '@angular/core';
+import { Actions as FeaturesLogsActions } from '@gdgtoulouse/features/logs';
 import {
 	Keys,
 	LiveSinceLastSeqEmitsChange,
@@ -27,14 +28,14 @@ import {
 	combineLatest,
 	of
 	} from 'rxjs';
+import * as io from 'socket.io-client';
 import {
-	catchError,
+	// catchError,
 	switchMap,
 	take,
 	tap,
 	withLatestFrom
-	} from 'rxjs/operators';
-import * as io from 'socket.io-client';
+} from 'rxjs/operators';
 
 export const topic = 'changes-feeds-subscriptions-subscribe';
 
@@ -93,10 +94,10 @@ export class Effects {
 					if (listeners.connect === true) {
 						this.socket.on('connect', () => {
 							if (this.hasAlreadyBeenConnected) {
-								// console.log('reconnect');
+								this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'reconnect' } }));
 								this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnect());
 							} else {
-								// console.log('connect');
+								this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'connect' } }));
 								this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.connect());
 							}
 							this.hasAlreadyBeenConnected = true;
@@ -104,62 +105,62 @@ export class Effects {
 					}
 					if (listeners.handleConnection === true) {
 						this.socket.on('handleConnection', (socketEmitsHandleConnection: SocketEmitsHandleConnection) => {
-							// console.log('handleConnection', { socketEmitsHandleConnection });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'handleConnection' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.handleConnection({ socketEmitsHandleConnection }));
 						});
 					}
 					if (listeners.exception === true) {
 						this.socket.on('exception', (error) => {
-							// console.log('exception', { error });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'exception' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.exception({ error }));
 						});
 					}
 					if (listeners.disconnect === true) {
 						this.socket.on('disconnect', () => {
-							// console.log('disconnect');
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'disconnect' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.disconnect());
 						});
 					}
 					if (listeners.since0Change === true) {
 						this.socket.on('since0Change', (since0EmitsChange: Since0EmitsChange) => {
-							// console.log('since0Change', { since0EmitsChange });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'since0Change' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0Change({ since0EmitsChange }));
 						});
 					}
 					if (listeners.since0CompleteInfo === true) {
 						this.socket.on('since0CompleteInfo', (since0EmitsCompleteInfo: Since0EmitsCompleteInfo) => {
-							// console.log('since0CompleteInfo', { since0EmitsCompleteInfo });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'since0CompleteInfo' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0CompleteInfo({ since0EmitsCompleteInfo }));
 						});
 					}
 					if (listeners.since0Error === true) {
 						this.socket.on('since0Error', (since0EmitsError: Since0EmitsError) => {
-							// console.log('since0Error', { since0EmitsError });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'since0Error' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0Error({ since0EmitsError }));
 						});
 					}
 					if (listeners.liveSinceLastSeqChange === true) {
 						this.socket.on('liveSinceLastSeqChange', (liveSinceLastSeqEmitsChange: LiveSinceLastSeqEmitsChange) => {
-							// console.log('liveSinceLastSeqChange', { liveSinceLastSeqEmitsChange });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'liveSinceLastSeqChange' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqChange({ liveSinceLastSeqEmitsChange }));
 						});
 					}
 					if (listeners.liveSinceLastSeqCompleteInfo === true) {
 						this.socket.on('liveSinceLastSeqCompleteInfo', (liveSinceLastSeqEmitsCompleteInfo: LiveSinceLastSeqEmitsCompleteInfo) => {
-							// console.log('liveSinceLastSeqCompleteInfo', { liveSinceLastSeqEmitsCompleteInfo });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'liveSinceLastSeqCompleteInfo' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqCompleteInfo({ liveSinceLastSeqEmitsCompleteInfo }));
 						});
 					}
 					if (listeners.liveSinceLastSeqError === true) {
 						this.socket.on('liveSinceLastSeqError', (liveSinceLastSeqEmitsError: LiveSinceLastSeqEmitsError) => {
-							// console.log('liveSinceLastSeqError', { liveSinceLastSeqEmitsError });
+							this.store.dispatch(FeaturesLogsActions.Core.Info.Add.action({ message: { text: 'liveSinceLastSeqError' } }));
 							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqError({ liveSinceLastSeqEmitsError }));
 						});
 					}
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.initSucceeded());
-				}),
+				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.initFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.initFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -176,9 +177,9 @@ export class Effects {
 						});
 					});
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectRequested());
-				}),
+				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -202,9 +203,9 @@ export class Effects {
 						});
 						return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerEmitted());
 					}
-				),
+				)
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -221,9 +222,9 @@ export class Effects {
 							}
 						})
 					);
-				}),
+				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerSucceededFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerSucceededFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -254,9 +255,9 @@ export class Effects {
 						}
 						return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceeded({ request: { changesOptionsKey, databaseConfigurationKey, destination, listeners } }));
 					}
-				),
+				)
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -267,9 +268,9 @@ export class Effects {
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
 				switchMap(([{ request }]) => {
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.start({ request }));
-				}),
+				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -306,9 +307,9 @@ export class Effects {
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
 				switchMap(([_]) => {
 					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribeSucceeded());
-				}),
+				})
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.startSucceededFailed({ failure })))
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.startSucceededFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
@@ -334,8 +335,7 @@ export class Effects {
 						if (registerHasNotBeenDoneYet) {
 							return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.register({ request: { destination, databaseConfiguration, changesOptions, listeners } }));
 						} else {
-							//TODO: uncomment and hold this in higher components
-							// throw Error(`Error: already subscribed for destination (${JSON.stringify(keysInterpretationAtDestinationList)})`);
+							return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribeSucceeded());
 						}
 					}
 				)

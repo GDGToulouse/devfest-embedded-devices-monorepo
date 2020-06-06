@@ -80,6 +80,9 @@
 		},
 		"structures-pouchdb-manager": {
 			"tags": []
+		},
+		"features-logs": {
+			"tags": []
 		}
 	}
 }
