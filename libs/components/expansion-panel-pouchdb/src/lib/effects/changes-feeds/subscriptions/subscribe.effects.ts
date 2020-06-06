@@ -2,7 +2,7 @@ import { Actions as FeatureActions } from '../../../actions';
 import { Injectable } from '@angular/core';
 import {
 	Actions as PouchdbManagerActions,
-	NotificationConfig as PouchdbManagerNotificationConfig
+	Destination
 	} from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	Actions,
@@ -30,46 +30,37 @@ export class Effects {
 	nullTreeList$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Pouchdb.Init.SyncNullTreeList.exec))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
-				switchMap(([{ langSubscriptionConfig, subscriptionConfig }]) => {
-					const isSelectorSpecified = Object.keys(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).includes('selector');
-					const isSelectorAndSpecified = isSelectorSpecified && Object.keys((<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector).includes('$and');
-					const selectorAndConditionList = isSelectorAndSpecified ? [...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector.$and, { pid: { $eq: null } }] : [{ pid: { $eq: null } }];
+				switchMap(([{ langSubscribeRequest, subscribeRequest }]) => {
+					const isChangesOptionsSpecified = Object.keys(subscribeRequest).includes('changesOptions');
+					const isSelectorSpecified = isChangesOptionsSpecified && Object.keys(subscribeRequest.changesOptions).includes('selector');
+					const isSelectorAndSpecified = isSelectorSpecified && Object.keys(subscribeRequest.changesOptions.selector).includes('$and');
+					const selectorAndConditionList = isSelectorAndSpecified ? [...subscribeRequest.changesOptions.selector.$and, { pid: { $eq: null } }] : [{ pid: { $eq: null } }];
 					return of(
-						PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-							subscriptionConfig: {
-								...subscriptionConfig,
-								destinationList: subscriptionConfig.destinationList.map((destination) => `${destination}/null`),
+						PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+							request: {
+								...subscribeRequest,
+								destination: this.nullChildrenDestination({ destination: subscribeRequest.destination }),
 								changesOptions: {
-									...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions),
+									...subscribeRequest.changesOptions,
 									selector: isSelectorSpecified
 										? {
-												...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector,
+												...subscribeRequest.changesOptions.selector,
 												$and: selectorAndConditionList
 										  }
 										: {
 												$and: selectorAndConditionList
 										  }
 								},
-								notifications: {
-									changeList: [
-										({ notificationConfig }: { notificationConfig: PouchdbManagerNotificationConfig }) => {
-											const changeIsDelete = Object.keys(notificationConfig.since0Change.doc).includes('_deleted') && notificationConfig.since0Change.deleted === true;
-											if (changeIsDelete) {
-												//TODO dispatch action to remove destinationList from databaseConfiguration,changesOptions
-												return [{ type: 'todo' }];
-											} else {
-												return [/*FeatureActions.Pouchdb.Init.SyncLangChild.exec({ langSubscriptionConfig, notificationConfig, subscriptionConfig }), */ FeatureActions.Pouchdb.Init.SyncNullChildTreeList.exec({ langSubscriptionConfig, notificationConfig, subscriptionConfig })];
-											}
-										}
-									]
+								listeners: {
+									since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange }), FeatureActions.Pouchdb.Init.SyncNullChildTreeList.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
 								}
 							}
 						})
 					);
 				})
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` })))
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` })))
 			),
 		{ dispatch: true }
 	);
@@ -77,33 +68,66 @@ export class Effects {
 	langChild$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Pouchdb.Init.SyncLangChild.exec))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
-				switchMap(([{ langSubscriptionConfig, notificationConfig, subscriptionConfig }]) => {
-					const isSelectorSpecified = Object.keys(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).includes('selector');
-					const isSelectorAndSpecified = isSelectorSpecified && Object.keys((<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).selector).includes('$and');
-					const selectorAndConditionList = isSelectorAndSpecified ? [...(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).selector.$and, { _id: { $eq: notificationConfig.since0Change.doc._id } }] : [{ _id: { $eq: notificationConfig.since0Change.doc._id } }];
-					return of(
-						PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-							subscriptionConfig: {
-								...langSubscriptionConfig,
-								destinationList: langSubscriptionConfig.destinationList.map((destination) => `${destination}/${notificationConfig.since0Change.doc._id}`),
-								changesOptions: {
-									...(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions),
-									selector: isSelectorSpecified
-										? {
-												...(<PouchDB.Core.ChangesOptions>langSubscriptionConfig.changesOptions).selector,
-												$and: selectorAndConditionList
-										  }
-										: {
-												$and: selectorAndConditionList
-										  }
+				switchMap(
+					([
+						{
+							destination,
+							langSubscribeRequest,
+							subscribeRequest,
+							since0EmitsChange: {
+								since0Change: {
+									doc: { _id: childId }
 								}
 							}
-						})
-					);
-				})
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` })))
+						}
+					]) => {
+						const idEqChildIdCondition = { _id: { $eq: childId } };
+						const changesOptionsIsDefined = Object.keys(langSubscribeRequest).includes('changesOptions');
+						const newSubscriptionDestination = this.langChildrenDestination({ destination, childId });
+						if (changesOptionsIsDefined) {
+							const isSelectorSpecified = Object.keys(langSubscribeRequest.changesOptions).includes('selector');
+							const isSelectorAndSpecified = isSelectorSpecified && Object.keys(langSubscribeRequest.changesOptions.selector).includes('$and');
+							const selectorAndConditionList = isSelectorAndSpecified ? [...langSubscribeRequest.changesOptions.selector.$and, idEqChildIdCondition] : [idEqChildIdCondition];
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: langSubscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											...langSubscribeRequest.changesOptions,
+											selector: isSelectorSpecified
+												? {
+														...langSubscribeRequest.changesOptions.selector,
+														$and: selectorAndConditionList
+												  }
+												: {
+														$and: selectorAndConditionList
+												  }
+										}
+									}
+								})
+							);
+						} else {
+							const selectorAndConditionList = [idEqChildIdCondition];
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: langSubscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											selector: {
+												$and: selectorAndConditionList
+											}
+										}
+									}
+								})
+							);
+						}
+					}
+				)
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` })))
 			),
 		{ dispatch: true }
 	);
@@ -111,49 +135,66 @@ export class Effects {
 	nullChildTreeList$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Pouchdb.Init.SyncNullChildTreeList.exec))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
-				switchMap(([{ langSubscriptionConfig, notificationConfig, subscriptionConfig }]) => {
-					const selectorAndConditionList = [...notificationConfig.changesOptionsAsNotString.selector.$and.slice(0, -1), { pid: { $eq: notificationConfig.since0Change.doc._id } }];
-					return of(
-						PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-							subscriptionConfig: {
-								databaseConfiguration: notificationConfig.databaseConfigurationAsNotString,
-								destinationList: notificationConfig.destinationList.map(
-									(destination) =>
-										`${destination
-											.split('/')
-											.slice(0, -1)
-											.join('/')}/${notificationConfig.since0Change.doc._id}`
-								),
-								changesOptions: {
-									...notificationConfig.changesOptionsAsNotString,
-									selector: {
-										...notificationConfig.changesOptionsAsNotString.selector,
-										$and: selectorAndConditionList
-									}
-								},
-								notifications: {
-									changeList: [
-										({ notificationConfig: _notificationConfig }: { notificationConfig: PouchdbManagerNotificationConfig }) => {
-											const changeIsDelete = Object.keys(_notificationConfig.since0Change.doc).includes('_deleted') && _notificationConfig.since0Change.deleted === true;
-											if (changeIsDelete) {
-												//TODO dispatch action to remove destinationList from databaseConfiguration,changesOptions
-												return [{ type: 'todo' }];
-											} else {
-												return [
-													{ type: 'todo' }
-													/*FeatureActions.Pouchdb.Init.SyncLangChild.exec({ langSubscriptionConfig, notificationConfig: _notificationConfig, subscriptionConfig })*/
-												];
-											}
-										}
-									]
+				switchMap(
+					([
+						{
+							subscribeRequest,
+							langSubscribeRequest,
+							since0EmitsChange: {
+								since0Change: {
+									doc: { _id: nullChildId }
 								}
-							}
-						})
-					);
-				})
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` })))
+							},
+							destination
+						}
+					]) => {
+						const pidEqNullChildIdCondition = { pid: { $eq: nullChildId } };
+						const newSubscriptionDestination = this.nullChildrenChildrenDestination({ destination, childId: nullChildId });
+						const changesOptionsIsDefined = Object.keys(subscribeRequest).includes('changesOptions');
+						if (changesOptionsIsDefined) {
+							const selectorAndConditionList = [...subscribeRequest.changesOptions.selector.$and.slice(0, -1), pidEqNullChildIdCondition];
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: subscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											...subscribeRequest.changesOptions,
+											selector: {
+												...subscribeRequest.changesOptions.selector,
+												$and: selectorAndConditionList
+											}
+										},
+										listeners: {
+											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
+										}
+									}
+								})
+							);
+						} else {
+							const selectorAndConditionList = [pidEqNullChildIdCondition];
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: subscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											selector: {
+												$and: selectorAndConditionList
+											}
+										},
+										listeners: {
+											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
+										}
+									}
+								})
+							);
+						}
+					}
+				)
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` })))
 			),
 		{ dispatch: true }
 	);
@@ -161,42 +202,80 @@ export class Effects {
 	opened$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Ui.ExpansionPanel.Opened.exec))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
-				switchMap(([{ subscriptionConfig, tree }]) => {
-					const isSelectorSpecified = Object.keys(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).includes('selector');
-					const isSelectorAndSpecified = isSelectorSpecified && Object.keys((<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector).includes('$and');
+				switchMap(([{ langSubscribeRequest, subscribeRequest, tree }]) => {
 					const treeListSelectorCondition = { $or: Object.keys(tree).includes('treeList') ? tree.treeList.filter((subtree) => !Object.keys(subtree).includes('router')).map(({ _id }) => ({ pid: { $eq: _id } })) : [] };
-					const selectorAndConditionList = isSelectorAndSpecified ? [...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector.$and, treeListSelectorCondition] : [treeListSelectorCondition];
 					const needNewSubscription = treeListSelectorCondition.$or.length !== 0;
-					if (needNewSubscription) {
-						return of(
-							PouchdbManagerActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-								subscriptionConfig: {
-									...subscriptionConfig,
-									destinationList: subscriptionConfig.destinationList.map((destination) => `${destination}/${tree._id}-treeList`),
-									changesOptions: {
-										...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions),
-										selector: isSelectorSpecified
-											? {
-													...(<PouchDB.Core.ChangesOptions>subscriptionConfig.changesOptions).selector,
-													$and: selectorAndConditionList
-											  }
-											: {
-													$and: selectorAndConditionList
-											  }
+					const newSubscriptionDestination = this.newSubscriptionDestination({ destination: subscribeRequest.destination, childId: tree._id });
+					const changesOptionsIsDefined = Object.keys(subscribeRequest).includes('changesOptions');
+					if (changesOptionsIsDefined) {
+						const isSelectorSpecified = Object.keys(subscribeRequest.changesOptions).includes('selector');
+						const isSelectorAndSpecified = isSelectorSpecified && Object.keys(subscribeRequest.changesOptions.selector).includes('$and');
+						const selectorAndConditionList = isSelectorAndSpecified ? [...subscribeRequest.changesOptions.selector.$and, treeListSelectorCondition] : [treeListSelectorCondition];
+						if (needNewSubscription) {
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: subscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											...subscribeRequest.changesOptions,
+											selector: {
+												...subscribeRequest.changesOptions.selector,
+												$and: selectorAndConditionList
+											}
+										},
+										listeners: {
+											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
+										}
 									}
-								}
-							})
-						);
+								})
+							);
+						} else {
+							return of({ type: 'todo' });
+						}
 					} else {
-						return of({ type: 'noop' });
+						const selectorAndConditionList = [treeListSelectorCondition];
+						if (needNewSubscription) {
+							return of(
+								PouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+									request: {
+										databaseConfiguration: subscribeRequest.databaseConfiguration,
+										destination: newSubscriptionDestination,
+										changesOptions: {
+											selector: {
+												$and: selectorAndConditionList
+											}
+										},
+										listeners: {
+											since0Change: (since0EmitsChange) => [FeatureActions.Pouchdb.Init.SyncLangChild.exec({ destination: subscribeRequest.destination, langSubscribeRequest, subscribeRequest, since0EmitsChange })]
+										}
+									}
+								})
+							);
+						} else {
+							return of({ type: 'todo' });
+						}
 					}
 				})
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` })))
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` })))
 			),
 		{ dispatch: true }
 	);
 
 	constructor(private actions$: Actions, private store: Store<{}>) {}
+
+	nullChildrenDestination({ destination }: Destination) {
+		return `${destination}/null`;
+	}
+	langChildrenDestination({ destination, childId }: Destination & { childId: string }) {
+		return `langs/${destination}/${childId}`;
+	}
+	nullChildrenChildrenDestination({ destination, childId }: Destination & { childId: string }) {
+		return `${destination}/${childId}`;
+	}
+	newSubscriptionDestination({ destination, childId }: Destination & { childId: string }) {
+		return `${destination}/${childId}-children`;
+	}
 }

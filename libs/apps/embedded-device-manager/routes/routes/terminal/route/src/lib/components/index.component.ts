@@ -26,22 +26,22 @@ export class IndexComponent {
 	// TODO in the API effect, use the previous selector to get the payload to POST to the backend
 
 	deleted(event: KeyEventInput) {
-		console.log('deleted', { event });
+		// console.log('deleted', { event });
 	}
 	destroyed() {
-		console.log('destroyed');
+		// console.log('destroyed');
 	}
 	emptyLineReached(event: KeyEventInput) {
-		console.log('emptyLineReached', { event });
+		// console.log('emptyLineReached', { event });
 	}
 	sent(event: KeyEventInput) {
-		console.log('sent', { event });
+		// console.log('sent', { event });
 	}
 	unmatched(event: KeyEventInput) {
-		console.log('unmatched', { event });
+		// console.log('unmatched', { event });
 	}
 	write(event: KeyEventInput) {
-		console.log('write', { event });
+		// console.log('write', { event });
 	}
 
 	writeRowList() {

@@ -930,6 +930,49 @@
 						"tsConfig": "libs/apis/pouchdb-manager/tsconfig.spec.json",
 						"passWithNoTests": true
 					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/apis/pouchdb-manager",
+						"tsConfig": "libs/apis/pouchdb-manager/tsconfig.lib.json",
+						"packageJson": "libs/apis/pouchdb-manager/package.json",
+						"main": "libs/apis/pouchdb-manager/src/index.ts",
+						"assets": ["libs/apis/pouchdb-manager/*.md"]
+					}
+				}
+			}
+		},
+		"structures-pouchdb-manager": {
+			"root": "libs/structures/pouchdb-manager",
+			"sourceRoot": "libs/structures/pouchdb-manager/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/structures/pouchdb-manager/tsconfig.lib.json", "libs/structures/pouchdb-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/structures/pouchdb-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/structures/pouchdb-manager/jest.config.js",
+						"tsConfig": "libs/structures/pouchdb-manager/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/structures/pouchdb-manager",
+						"tsConfig": "libs/structures/pouchdb-manager/tsconfig.lib.json",
+						"packageJson": "libs/structures/pouchdb-manager/package.json",
+						"main": "libs/structures/pouchdb-manager/src/index.ts",
+						"assets": ["libs/structures/pouchdb-manager/*.md"]
+					}
 				}
 			}
 		}

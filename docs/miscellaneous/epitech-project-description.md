@@ -159,5 +159,5 @@ External software product and off-the-shelf softwares, not exhaustive nor fixed 
 - [Node.js](https://github.com/nodejs/node)
 - [Nx](https://github.com/nrwl/nx)
 - [OpenCV](https://github.com/opencv/opencv)
-- [PouchDB](https://github.com/pouchdb/pouchdb) and [PouchDB Server](https://github.com/pouchdb/pouchdb-server)
+- [PouchDB](https://github.com/pouchdb/pouchdb)
 - [Qemu](https://github.com/qemu/qemu)

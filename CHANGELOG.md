@@ -27,7 +27,7 @@ yarn run ng add @nrwl/nest
 
 yarn run ng generate @nrwl/nest:application embedded-device-manager-api-nest --frontend-project embedded-device-manager --directory=""
 
-yarn run ng generate @nrwl/nest:library child-process --directory=apis
+yarn run ng generate @nrwl/nest:library child-process --publishable --directory=apis
 ```
 
 ### 20200506

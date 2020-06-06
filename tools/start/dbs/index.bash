@@ -52,19 +52,6 @@ pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${cloudContainerPort})" != "200" ]]; do echo "waiting cloud db to be up" && sleep 5; done
 
-cd ${repoDir}
-
-yarn \
-	run \
-		couchdb-howler \
-			--couchdb_url "https://${cloudContainerUser}:${cloudContainerPassword}@localhost:${cloudContainerPort}" \
-			--log_level "debug" \
-			--port ${cloudHowlerContainerPort} \
-&
-pids="${pids} $!"
-
-cd ${currentDir}
-
 for dir in `ls -mR ${repoDir}/tools/couchdb/import/files/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
 
@@ -153,19 +140,6 @@ pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${andromedaContainerPort})" != "200" ]]; do echo "waiting andromeda db to be up" && sleep 5; done
 
-cd ${repoDir}
-
-yarn \
-	run \
-		couchdb-howler \
-			--couchdb_url "https://${andromedaContainerUser}:${andromedaContainerPassword}@localhost:${andromedaContainerPort}" \
-			--log_level "debug" \
-			--port ${andromedaHowlerContainerPort} \
-&
-pids="${pids} $!"
-
-cd ${currentDir}
-
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
 
@@ -213,19 +187,6 @@ docker \
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${aquariusContainerPort})" != "200" ]]; do echo "waiting aquarius db to be up" && sleep 5; done
-
-cd ${repoDir}
-
-yarn \
-	run \
-		couchdb-howler \
-			--couchdb_url "https://${aquariusContainerUser}:${aquariusContainerPassword}@localhost:${aquariusContainerPort}" \
-			--log_level "debug" \
-			--port ${aquariusHowlerContainerPort} \
-&
-pids="${pids} $!"
-
-cd ${currentDir}
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`

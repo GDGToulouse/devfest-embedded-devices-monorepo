@@ -5,10 +5,7 @@ import {
 	Component,
 	OnInit
 	} from '@angular/core';
-import {
-	Actions as PouchdbManagerFeatureActions,
-	Selectors as PouchdbManagerFeatureSelectors
-	} from '@gdgtoulouse/features/pouchdb-manager';
+import { Selectors as FeaturePouchdbManagerSelectors } from '@gdgtoulouse/features/pouchdb-manager';
 import { Selectors as FeatureRouterSelectors } from '@gdgtoulouse/features/router';
 import {
 	select,
@@ -16,7 +13,9 @@ import {
 	} from '@ngrx/store';
 import { of } from 'rxjs';
 // import { Selectors as FeatureSelectors } from '../selectors';
+
 export const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-routes-pouchdb-manager-route-index';
+
 @Component({
 	selector,
 	templateUrl: './index.component.html',
@@ -34,129 +33,58 @@ export class IndexComponent implements OnInit {
 	]);
 	childRouteSelectSelectedId$ = this.store.pipe(select(FeatureRouterSelectors.nextSegment$(indexName.split('route-')[1])));
 
-	testExecDestinationList = [`${selector}/sidenavs/start/menu`];
-	testExecSubscriptionsSubscribeIndexedKeysListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$(this.testExecDestinationList)));
-	testExecSubscriptionsSubscribeIndexedKeysList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysList$(this.testExecDestinationList)));
-	testExecCompleteInfoListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoListsByDestination$(this.testExecDestinationList)));
-	testExecCompleteInfoList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoList$(this.testExecDestinationList)));
-	testExecCompleteInfoDocListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocListsByDestination$(this.testExecDestinationList)));
-	testExecCompleteInfoDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocList$(this.testExecDestinationList)));
-	testExecCompleteInfoDocNotDeletedList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocNotDeletedList$(this.testExecDestinationList)));
-	testExecSyncListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncListsByDestination$(this.testExecDestinationList)));
-	testExecSyncChangeList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncChangeList$(this.testExecDestinationList)));
-	testExecDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$(this.testExecDestinationList)));
+	keysList1$ = this.store.pipe(select(FeaturePouchdbManagerSelectors.keysList$(`route/sidenavs/start/menu`)));
+	docList1$ = this.store.pipe(select(FeaturePouchdbManagerSelectors.docList$(`route/sidenavs/start/menu`)));
 
-	testSyncDestinationList = [`${selector}/sidenavs/start/menu`];
-	testSyncSubscriptionsSubscribeIndexedKeysListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$(this.testSyncDestinationList)));
-	testSyncSubscriptionsSubscribeIndexedKeysList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysList$(this.testSyncDestinationList)));
-	testSyncCompleteInfoListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoListsByDestination$(this.testSyncDestinationList)));
-	testSyncCompleteInfoList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoList$(this.testSyncDestinationList)));
-	testSyncCompleteInfoDocListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocListsByDestination$(this.testSyncDestinationList)));
-	testSyncCompleteInfoDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocList$(this.testSyncDestinationList)));
-	testSyncCompleteInfoDocNotDeletedList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsCompleteInfoDocNotDeletedList$(this.testSyncDestinationList)));
-	testSyncSyncListsByDestination$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncListsByDestination$(this.testSyncDestinationList)));
-	testSyncSyncChangeList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSyncChangeList$(this.testSyncDestinationList)));
-	testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$(this.testSyncDestinationList)));
+	keysList2$ = this.store.pipe(select(FeaturePouchdbManagerSelectors.keysList$(`route/sidenavs/start`)));
+	docList2$ = this.store.pipe(select(FeaturePouchdbManagerSelectors.docList$(`route/sidenavs/start/toto`)));
+
+	getKeysInterpretationAtDestinationList$ = this.store.pipe(select(FeaturePouchdbManagerSelectors.getKeysInterpretationAtDestinationList$));
 
 	constructor(private store: Store<{}>) {}
 
 	ngOnInit() {}
 
 	socket() {
-		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Socket.subscribe({
-				subscriptionConfig: {
-					destinationList: this.testExecDestinationList,
-					databaseConfiguration: {
-						auth: {
-							password: 'cloud',
-							username: 'cloud'
-						},
-						name: 'http://localhost:5000/menu-default'
-					},
-					changesOptions: {
-						since: 0,
-						include_docs: true,
-						limit: 500,
-						selector: {
-							$and: [
-								{
-									pid: {
-										$eq: null
-									}
-								}
-							]
-						}
-					},
-					io: {
-						opts: undefined,
-						uri: 'http://localhost:8080/pouchdb-manager'
-					}
-				}
-			})
-		);
+		// this.store.dispatch(
+		// 	FeaturePouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+		// 		request: {
+		// 			destination: `route/sidenavs/start/menu`,
+		// 			databaseConfiguration: {
+		// 				auth: {
+		// 					password: 'cloud',
+		// 					username: 'cloud'
+		// 				},
+		// 				name: 'http://localhost:5000/menu-default'
+		// 			},
+		// 			changesOptions: {
+		// 				selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }, { pid: { $eq: 'projects-com-gpio-executions' } }] }] }
+		// 			}
+		// 		}
+		// 	})
+		// );
+		// this.store.dispatch(
+		// 	FeaturePouchdbManagerActions.ChangesFeeds.Subscriptions.Socket.subscribe({
+		// 		request: {
+		// 			destination: `route/sidenavs/start/toto`,
+		// 			databaseConfiguration: {
+		// 				auth: {
+		// 					password: 'cloud',
+		// 					username: 'cloud'
+		// 				},
+		// 				name: 'http://localhost:5000/menu-default'
+		// 			},
+		// 			changesOptions: {
+		// 				selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }] }] }
+		// 			}
+		// 		}
+		// 	})
+		// );
 	}
 
-	exec() {
-		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe({
-				subscriptionConfig: {
-					destinationList: this.testExecDestinationList,
-					databaseConfiguration: {
-						auth: {
-							password: 'cloud',
-							username: 'cloud'
-						},
-						name: 'http://localhost:5000/menu-default'
-					},
-					changesOptions: {
-						since: 0,
-						include_docs: true,
-						limit: 500,
-						selector: {
-							$and: [
-								{
-									pid: {
-										$eq: null
-									}
-								}
-							]
-						}
-					}
-				}
-			})
-		);
-	}
+	exec() {}
 
-	sync() {
-		this.store.dispatch(
-			PouchdbManagerFeatureActions.ChangesFeeds.Subscriptions.Sync.subscribe({
-				subscriptionConfig: {
-					destinationList: this.testSyncDestinationList,
-					databaseConfiguration: {
-						auth: {
-							password: 'cloud',
-							username: 'cloud'
-						},
-						name: 'http://localhost:5000/menu-default'
-					},
-					changesOptions: {
-						include_docs: true,
-						limit: 500,
-						selector: {
-							$and: [
-								{
-									pid: {
-										$eq: null
-									}
-								}
-							]
-						}
-					}
-				}
-			})
-		);
-	}
+	sync() {}
 
 	//#region child-route-select
 	// TODO type with ng-select change event type

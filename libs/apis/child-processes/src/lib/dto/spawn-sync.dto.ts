@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { StdioOptions } from 'child_process';
+import {
+	SpawnSyncOptions,
+	StdioOptions
+	} from 'child_process';
 import { Type } from 'class-transformer';
 import {
 	IsArray,
@@ -22,7 +25,7 @@ export class KeyValuePairStringStringDto {
 	readonly value: string;
 }
 
-export class SpawnSyncOptionsDto {
+export class SpawnSyncOptionsDto implements SpawnSyncOptions {
 	@ApiProperty({ required: false, description: 'Current working directory of the child process.' })
 	@IsString()
 	readonly cwd: string;
@@ -67,7 +70,7 @@ export class SpawnSyncOptionsDto {
 
 	@ApiProperty({ required: false, description: "The encoding used for all stdio inputs and outputs. Default: 'buffer'." })
 	@IsString()
-	readonly encoding: string;
+	readonly encoding: BufferEncoding | 'buffer' | null;
 
 	@ApiProperty({ required: false, description: 'The shell to run the command in.' })
 	@IsString()

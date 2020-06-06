@@ -27,24 +27,23 @@ export class IndexComponent implements OnDestroy {
 	mobileQuery: MediaQueryList;
 	menuEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	menuLangsTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
-	menuEndTree$ = this.store.pipe(select(FeatureSelectors.menuEndTree$));
 	sidenavEndUiIsOpened$ = this.store.pipe(select(FeatureSelectors.sidenavEndUiIsOpened$));
 	sidenavEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	sidenavStartUiIsOpened$ = this.store.pipe(select(FeatureSelectors.sidenavStartUiIsOpened$));
-	sidenavStartDbLangSubscriptionConfig$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbLangSubscriptionConfig$));
-	sidenavStartDbSubscriptionConfig$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbSubscriptionConfig$));
+	sidenavStartDbLangSubscribeRequest$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbLangSubscribeRequest$));
+	sidenavStartDbSubscribeRequest$ = this.store.pipe(select(FeatureSelectors.sidenavStartDbSubscribeRequest$));
 	sidenavStartTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	leftSidenavItemList$ = of([{ label: { text: 'menu left item1 in lang1', routerLink: '.' } }, { label: { text: 'menu left item2 in lang1', routerLink: '.' } }, { label: { text: 'menu left item3 in lang1', routerLink: '.' } }]);
 	rightSidenavItemList$ = of([{ label: { text: 'menu right item1 in lang1', routerLink: '.' } }, { label: { text: 'menu right item2 in lang1', routerLink: '.' } }, { label: { text: 'menu right item3 in lang1', routerLink: '.' } }]);
 	title$ = of({ text: 'Responsive app lang1' });
 
-	indexedKeys$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsSubscriptionsSubscribeIndexedKeysListsByDestination$([`${selector}/sidenavs/start/menu`])));
-	testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$([`${selector}/sidenavs/start/menu`])));
+	keysList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.keysList$(`${selector}/sidenavs/start/menu`)));
+	// testSyncDocList$ = this.store.pipe(select(PouchdbManagerFeatureSelectors.changesFeedsDocList$(`${selector}/sidenavs/start/menu`)));
 
 	private _mobileQueryListener: () => void;
 
 	constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private store: Store<{}>) {
-		this.mobileQuery = media.matchMedia('(max-width: 600px)');
+		this.mobileQuery = media.matchMedia('(max-width: 600px)'); //TODO
 		this._mobileQueryListener = () => changeDetectorRef.detectChanges();
 		this.mobileQuery.addEventListener('change', this._mobileQueryListener);
 	}

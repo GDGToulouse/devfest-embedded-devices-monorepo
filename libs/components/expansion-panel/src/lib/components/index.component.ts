@@ -13,17 +13,17 @@ import {
 	styleUrls: ['./index.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndexComponent {
+export class IndexComponent<I, P> {
 	@Input() idKey: string;
-	@Input() treeList: Tree[];
+	@Input() treeList: Tree<I, P>[];
 
-	@Output() afterCollapse = new EventEmitter<Tree>();
-	@Output() afterExpand = new EventEmitter<Tree>();
-	@Output() closed = new EventEmitter<Tree>();
-	@Output() destroyed = new EventEmitter<Tree>();
-	@Output() opened = new EventEmitter<Tree>();
+	@Output() afterCollapse = new EventEmitter<Tree<I, P>>();
+	@Output() afterExpand = new EventEmitter<Tree<I, P>>();
+	@Output() closed = new EventEmitter<Tree<I, P>>();
+	@Output() destroyed = new EventEmitter<Tree<I, P>>();
+	@Output() opened = new EventEmitter<Tree<I, P>>();
 
-	trackByUnderscoredId(index: number, tree: Tree) {
-		return tree._id;
+	trackByUnderscoredId(index: number, tree: Tree<I, P>) {
+		return tree[this.idKey];
 	}
 }

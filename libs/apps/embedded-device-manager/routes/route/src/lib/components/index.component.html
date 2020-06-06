@@ -4,17 +4,15 @@
 		leftSidenavItemList: leftSidenavItemList$ | async,
 		rightSidenavItemList: rightSidenavItemList$ | async,
 		menuEndTogglerTooltip: menuEndTogglerTooltip$ | async,
-		menuEndTree: menuEndTree$ | async,
 		menuLangsTooltip: menuLangsTooltip$ | async,
 		sidenavEndUiIsOpened: sidenavEndUiIsOpened$ | async,
 		sidenavEndTogglerTooltip: sidenavEndTogglerTooltip$ | async,
 		sidenavStartUiIsOpened: sidenavStartUiIsOpened$ | async,
 		sidenavStartTogglerTooltip: sidenavStartTogglerTooltip$ | async,
     title: title$ | async,
-    sidenavStartDbLangSubscriptionConfig: sidenavStartDbLangSubscriptionConfig$ | async,
-    sidenavStartDbSubscriptionConfig: sidenavStartDbSubscriptionConfig$ | async,
-    indexedKeys: indexedKeys$ | async,
-    testSyncDocList: testSyncDocList$ | async
+    sidenavStartDbLangSubscribeRequest: sidenavStartDbLangSubscribeRequest$ | async,
+    sidenavStartDbSubscribeRequest: sidenavStartDbSubscribeRequest$ | async,
+    keysList: keysList$ | async
 	} as _"
 >
   <mat-toolbar
@@ -77,8 +75,8 @@
       [position]="'start'"
     >
       <gdgtoulouse-expansion-panel-pouchdb
-        [langSubscriptionConfig]="_.sidenavStartDbLangSubscriptionConfig"
-        [subscriptionConfig]="_.sidenavStartDbSubscriptionConfig"
+        [langSubscribeRequest]="_.sidenavStartDbLangSubscribeRequest"
+        [subscribeRequest]="_.sidenavStartDbSubscribeRequest"
       >
       </gdgtoulouse-expansion-panel-pouchdb>
     </mat-sidenav>
@@ -103,7 +101,7 @@
       style="min-height: 50vh;"
     >
       <p>
-        {{ _.indexedKeys | json }}
+        {{ _.keysList | json }}
       </p>
       <p>
         {{ _.testSyncDocList | json }}

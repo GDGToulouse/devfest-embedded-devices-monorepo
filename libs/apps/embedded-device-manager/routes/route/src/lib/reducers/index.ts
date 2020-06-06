@@ -7,10 +7,6 @@ import {
 	State as LangMenuListApiGet
 	} from './lang-menu-list/api/get.reducer';
 import {
-	reducer as menuEndApiGet,
-	State as MenuEndApiGet
-	} from './menus/end/api/get.reducer';
-import {
 	reducer as sidenavEndDb,
 	State as SidenavEndDb
 	} from './sidenavs/end/db.reducer';
@@ -35,7 +31,6 @@ import {
 export interface FeatureState {
 	envsApiGet: EnvsApiGet;
 	langMenuListApiGet: LangMenuListApiGet;
-	menuEndApiGet: MenuEndApiGet;
 	sidenavEndDb: SidenavEndDb;
 	sidenavEndUi: SidenavEndUi;
 	sidenavStartDb: SidenavStartDb;
@@ -50,7 +45,6 @@ export function reducers(state: FeatureState | undefined, action: Action) {
 	return combineReducers({
 		envsApiGet,
 		langMenuListApiGet,
-		menuEndApiGet,
 		sidenavEndDb,
 		sidenavEndUi,
 		sidenavStartDb,

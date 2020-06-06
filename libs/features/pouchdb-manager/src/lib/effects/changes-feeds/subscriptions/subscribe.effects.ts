@@ -1,455 +1,349 @@
 import { Actions as FeatureActions } from '../../../actions';
-import { NotificationConfig } from '../../../models';
+import { Selectors as FeatureSelectors } from '../../../selectors';
 import { Injectable } from '@angular/core';
+import {
+	Keys,
+	LiveSinceLastSeqEmitsChange,
+	LiveSinceLastSeqEmitsCompleteInfo,
+	LiveSinceLastSeqEmitsError,
+	Register,
+	Since0EmitsChange,
+	Since0EmitsCompleteInfo,
+	Since0EmitsError,
+	SocketEmitsHandleConnection,
+	Start
+	} from '@gdgtoulouse/structures/pouchdb-manager';
 import {
 	Actions,
 	createEffect,
 	ofType
 	} from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import deepEqual from 'fast-deep-equal';
-import Pouchdb from 'pouchdb';
-import PouchAuthentication from 'pouchdb-authentication';
-import PouchFind from 'pouchdb-find';
+import {
+	Action,
+	select,
+	Store
+	} from '@ngrx/store';
 import {
 	combineLatest,
 	of
 	} from 'rxjs';
 import {
 	catchError,
-	delay,
-	switchMap
+	switchMap,
+	take,
+	tap,
+	withLatestFrom
 	} from 'rxjs/operators';
 import * as io from 'socket.io-client';
 
-Pouchdb.plugin(PouchAuthentication);
-Pouchdb.plugin(PouchFind);
-Pouchdb.setMaxListeners(500);
-
-export interface AuthWithUsernameOnly {
-	auth?: {
-		username?: string;
-	};
-}
-
 export const topic = 'changes-feeds-subscriptions-subscribe';
 
-@Injectable()
-export class Effects {
-	private databases: {
-		[databaseConfigurationKey: string]: {
-			database: PouchDB.Database;
-			databaseConfiguration: Omit<PouchDB.Configuration.DatabaseConfiguration, 'auth'> & AuthWithUsernameOnly;
-			changesFeeds: {
-				[changesOptionsKey: string]: {
-					changes: PouchDB.Core.Changes<{}>;
-					changesOptions: PouchDB.Core.ChangesOptions;
-					sync?: {
-						changesOptions: PouchDB.Core.ChangesOptions;
-						changes: PouchDB.Core.Changes<{}>;
-					};
+export interface ActiveListeners {
+	[databaseConfigurationKey: string]: {
+		changesFeeds: {
+			[changesOptionsKey: string]: {
+				destinations: {
+					[destinationKey: string]: {};
 				};
 			};
 		};
-	} = {};
+	};
+}
+
+@Injectable()
+export class Effects {
+	private hasAlreadyBeenConnected = false;
 	private socket: SocketIOClient.Socket;
 
-	socket$ = createEffect(
+	//TODO: better way?
+	initRequest$ = createEffect(
 		() =>
-			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribe))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
-				delay(500),
-				switchMap(
-					([
-						{
-							subscriptionConfig: {
-								changesOptions,
-								databaseConfiguration,
-								notifications,
-								destinationList,
-								io: { opts, uri }
-							}
-						}
-					]) => {
-						this.socket = io(uri);
-						console.log(this.socket);
+			this.actions$.pipe(
+				take(1),
+				tap(() =>
+					this.store.dispatch(
+						FeatureActions.ChangesFeeds.Subscriptions.Socket.init({
+							listeners: {
+								connect: true,
+								disconnect: true,
+								exception: true,
+								handleConnection: true,
+								liveSinceLastSeqChange: true,
+								liveSinceLastSeqCompleteInfo: true,
+								liveSinceLastSeqError: true,
+								since0Change: true,
+								since0CompleteInfo: true,
+								since0Error: true
+							},
+							uri: 'http://localhost:8080/pouchdb-manager'
+						})
+					)
+				)
+			),
+		{ dispatch: true }
+	);
+
+	init$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.init))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(([{ listeners, opts, uri }]) => {
+					this.socket = io(uri, opts);
+
+					if (listeners.connect === true) {
 						this.socket.on('connect', () => {
-							console.log('Connected');
-
-							this.socket.emit(
-								'subscribe',
-								{
-									changesOptions: { include_docs: true, feed: 'continuous', heartbeat: true, filter: { selector: { $and: [{ $or: [{ pid: { $eq: 'projects-com-gpio-configs' } }, { pid: { $eq: 'projects-com-gpio-executions' } }] }] } } },
-									databaseConfiguration: { name: 'http://localhost:5000/menu-default', auth: { password: 'cloud', username: 'cloud' } },
-									destinationList: [`route/sidenavs/start/menu`]
-								},
-								0,
-								(response) => {
-									console.log({ response });
-								}
-							);
+							if (this.hasAlreadyBeenConnected) {
+								// console.log('reconnect');
+								this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnect());
+							} else {
+								// console.log('connect');
+								this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.connect());
+							}
+							this.hasAlreadyBeenConnected = true;
 						});
-						this.socket.on('subscribe-success', (success) => {
-							console.log('subscribe-success', { success });
+					}
+					if (listeners.handleConnection === true) {
+						this.socket.on('handleConnection', (socketEmitsHandleConnection: SocketEmitsHandleConnection) => {
+							// console.log('handleConnection', { socketEmitsHandleConnection });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.handleConnection({ socketEmitsHandleConnection }));
 						});
+					}
+					if (listeners.exception === true) {
 						this.socket.on('exception', (error) => {
-							console.log('exception', { error });
+							// console.log('exception', { error });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.exception({ error }));
 						});
+					}
+					if (listeners.disconnect === true) {
 						this.socket.on('disconnect', () => {
-							console.log('Disconnected');
+							// console.log('disconnect');
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.disconnect());
 						});
-						return of({ type: 'noop' });
 					}
-				),
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Exec.failure({ failure })))
+					if (listeners.since0Change === true) {
+						this.socket.on('since0Change', (since0EmitsChange: Since0EmitsChange) => {
+							// console.log('since0Change', { since0EmitsChange });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0Change({ since0EmitsChange }));
+						});
+					}
+					if (listeners.since0CompleteInfo === true) {
+						this.socket.on('since0CompleteInfo', (since0EmitsCompleteInfo: Since0EmitsCompleteInfo) => {
+							// console.log('since0CompleteInfo', { since0EmitsCompleteInfo });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0CompleteInfo({ since0EmitsCompleteInfo }));
+						});
+					}
+					if (listeners.since0Error === true) {
+						this.socket.on('since0Error', (since0EmitsError: Since0EmitsError) => {
+							// console.log('since0Error', { since0EmitsError });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.since0Error({ since0EmitsError }));
+						});
+					}
+					if (listeners.liveSinceLastSeqChange === true) {
+						this.socket.on('liveSinceLastSeqChange', (liveSinceLastSeqEmitsChange: LiveSinceLastSeqEmitsChange) => {
+							// console.log('liveSinceLastSeqChange', { liveSinceLastSeqEmitsChange });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqChange({ liveSinceLastSeqEmitsChange }));
+						});
+					}
+					if (listeners.liveSinceLastSeqCompleteInfo === true) {
+						this.socket.on('liveSinceLastSeqCompleteInfo', (liveSinceLastSeqEmitsCompleteInfo: LiveSinceLastSeqEmitsCompleteInfo) => {
+							// console.log('liveSinceLastSeqCompleteInfo', { liveSinceLastSeqEmitsCompleteInfo });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqCompleteInfo({ liveSinceLastSeqEmitsCompleteInfo }));
+						});
+					}
+					if (listeners.liveSinceLastSeqError === true) {
+						this.socket.on('liveSinceLastSeqError', (liveSinceLastSeqEmitsError: LiveSinceLastSeqEmitsError) => {
+							// console.log('liveSinceLastSeqError', { liveSinceLastSeqEmitsError });
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.liveSinceLastSeqError({ liveSinceLastSeqEmitsError }));
+						});
+					}
+					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.initSucceeded());
+				}),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.initFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
 
-	exec$ = createEffect(
+	reconnect$ = createEffect(
 		() =>
-			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Exec.subscribe))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] exec$` }))),
-				delay(500),
-				switchMap(
-					([
-						{
-							subscriptionConfig: { changesOptions, databaseConfiguration, notifications, destinationList }
-						}
-					]) => {
-						const isNotificationsSpecified = notifications !== undefined;
-						const notificationConfig: NotificationConfig = {
-							since0Change: undefined,
-							changesOptionsAsNotString: undefined,
-							changesOptionsIsFromString: undefined,
-							changesOptionsKey: undefined,
-							changesOptionsKeyFound: undefined,
-							changesOptionsKeyHasBeenFound: undefined,
-							completeInfo: undefined,
-							databaseConfigurationAsNotString: undefined,
-							databaseConfigurationIsFromString: undefined,
-							databaseConfigurationKey: undefined,
-							databaseConfigurationKeyFound: undefined,
-							databaseConfigurationKeyHasBeenFound: undefined,
-							error: undefined,
-							isNotSynced: undefined,
-							destinationList
-						};
-						notificationConfig['databaseConfigurationIsFromString'] = typeof databaseConfiguration === 'string';
-						if (notificationConfig['databaseConfigurationIsFromString']) {
-							notificationConfig['databaseConfigurationKey'] = <string>databaseConfiguration;
-						} else {
-							// keep only username for the auth part
-							notificationConfig['databaseConfigurationAsNotString'] = { ...(<PouchDB.Configuration.DatabaseConfiguration>databaseConfiguration), auth: Object.keys(<PouchDB.Configuration.DatabaseConfiguration>databaseConfiguration).includes('auth') ? { username: (<PouchDB.Configuration.RemoteDatabaseConfiguration>databaseConfiguration).auth.username } : undefined };
-							notificationConfig['databaseConfigurationKeyFound'] = Object.keys(this.databases).find((key) => deepEqual(databaseConfiguration, this.databases[key].databaseConfiguration));
-							notificationConfig['databaseConfigurationKeyHasBeenFound'] = notificationConfig['databaseConfigurationKeyFound'] !== undefined;
-							if (notificationConfig['databaseConfigurationKeyHasBeenFound']) {
-								notificationConfig['databaseConfigurationKey'] = notificationConfig['databaseConfigurationKeyFound'];
-							} else {
-								notificationConfig['databaseConfigurationKey'] = this.generateUniqueKey();
-								const databaseInstance = new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] });
-								//todo variabilize maxListeners as databaseConfiguration
-								databaseInstance.setMaxListeners(500);
-								this.databases[notificationConfig['databaseConfigurationKey']] = {
-									database: databaseInstance,
-									databaseConfiguration: notificationConfig['databaseConfigurationAsNotString'],
-									changesFeeds: {}
-								};
-							}
-						}
-						notificationConfig['changesOptionsIsFromString'] = typeof changesOptions === 'string';
-						if (notificationConfig['changesOptionsIsFromString']) {
-							notificationConfig['changesOptionsKey'] = <string>changesOptions;
-							notificationConfig['changesOptionsAsNotString'] = this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changesOptions;
-							notificationConfig['isNotSynced'] = !Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']]).includes('sync');
-							if (notificationConfig['isNotSynced']) {
-								this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
-							}
-						} else {
-							notificationConfig['changesOptionsAsNotString'] = <PouchDB.Core.ChangesOptions>changesOptions;
-							notificationConfig['changesOptionsKeyFound'] = Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds).find((key) => {
-								return deepEqual(notificationConfig['changesOptionsAsNotString'], this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[key].changesOptions);
-							});
-							notificationConfig['changesOptionsKeyHasBeenFound'] = notificationConfig['changesOptionsKeyFound'] !== undefined;
-							if (notificationConfig['changesOptionsKeyHasBeenFound']) {
-								notificationConfig['changesOptionsKey'] = notificationConfig['changesOptionsKeyFound'];
-								notificationConfig['isNotSynced'] = !Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']]).includes('sync');
-								if (notificationConfig['isNotSynced']) {
-									this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
-								}
-							} else {
-								notificationConfig['changesOptionsKey'] = this.generateUniqueKey();
-							}
-						}
-						if (notificationConfig['isNotSynced'] !== false) {
-							const isChangeListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('changeList');
-							const isCompleteListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('completeList');
-							const isErrorListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('errorList');
-							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
-								changesOptions: notificationConfig['changesOptionsAsNotString'],
-								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
-									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
-									.on('change', (change) => {
-										notificationConfig['change'] = change;
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesChange({
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												change,
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isChangeListNotificationSpecified) {
-											notifications.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
-									})
-									.on('complete', (completeInfo) => {
-										notificationConfig['completeInfo'] = completeInfo;
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesComplete({
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												completeInfo,
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isCompleteListNotificationSpecified) {
-											notifications.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
-									})
-									.on('error', (error) => {
-										notificationConfig['error'] = error;
-										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Exec.changesError({
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												error,
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isErrorListNotificationSpecified) {
-											notifications.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
-									})
-							};
-						}
-						return of(FeatureActions.ChangesFeeds.Subscriptions.Exec.success({ success: { changesOptionsKey: notificationConfig.changesOptionsKey, databaseConfigurationKey: notificationConfig.databaseConfigurationKey, destinationList: notificationConfig.destinationList } }));
-					}
-				),
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] exec$` }))),
-				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Exec.failure({ failure })))
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnect))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				withLatestFrom(this.store.pipe(select(FeatureSelectors.getKeysInterpretationAtDestinationList$))),
+				switchMap(([[_], getKeysInterpretationAtDestinationList]) => {
+					getKeysInterpretationAtDestinationList({ destination: '' }).forEach((databaseConfigurationAndChangesOptionsAndDestination) => {
+						this.socket.emit('since0', databaseConfigurationAndChangesOptionsAndDestination, 0, (keys: Keys) => {
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectSucceeded({ keys }));
+						});
+					});
+					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectRequested());
+				}),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.reconnectFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
 
-	sync$ = createEffect(
+	register$ = createEffect(
 		() =>
-			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Sync.subscribe))]).pipe(
-				// tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] sync$` }))),
-				delay(500),
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.register))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
 				switchMap(
 					([
 						{
-							subscriptionConfig: { changesOptions, databaseConfiguration, notifications, destinationList }
+							request: { databaseConfiguration, destination, changesOptions, listeners }
 						}
 					]) => {
-						const isNotificationsSpecified = notifications !== undefined;
-						const notificationConfig: NotificationConfig = {
-							since0Change: undefined,
-							changesOptionsAsNotString: undefined,
-							changesOptionsIsFromString: undefined,
-							changesOptionsKey: undefined,
-							changesOptionsKeyFound: undefined,
-							changesOptionsKeyHasBeenFound: undefined,
-							completeInfo: undefined,
-							databaseConfigurationAsNotString: undefined,
-							databaseConfigurationIsFromString: undefined,
-							databaseConfigurationKey: undefined,
-							databaseConfigurationKeyFound: undefined,
-							databaseConfigurationKeyHasBeenFound: undefined,
-							error: undefined,
-							isNotSynced: undefined,
-							destinationList
+						const register: Register = {
+							databaseConfiguration,
+							changesOptions
 						};
-						notificationConfig['databaseConfigurationIsFromString'] = typeof databaseConfiguration === 'string';
-						if (notificationConfig['databaseConfigurationIsFromString']) {
-							notificationConfig['databaseConfigurationKey'] = <string>databaseConfiguration;
-						} else {
-							notificationConfig['databaseConfigurationAsNotString'] = <PouchDB.Configuration.DatabaseConfiguration>databaseConfiguration;
-							notificationConfig['databaseConfigurationKeyFound'] = Object.keys(this.databases).find((key) => deepEqual(databaseConfiguration, this.databases[key].databaseConfiguration));
-							notificationConfig['databaseConfigurationKeyHasBeenFound'] = notificationConfig['databaseConfigurationKeyFound'] !== undefined;
-							if (notificationConfig['databaseConfigurationKeyHasBeenFound']) {
-								notificationConfig['databaseConfigurationKey'] = notificationConfig['databaseConfigurationKeyFound'];
-							} else {
-								notificationConfig['databaseConfigurationKey'] = this.generateUniqueKey();
-								const databaseInstance = new Pouchdb(notificationConfig['databaseConfigurationAsNotString'].name, { ...notificationConfig['databaseConfigurationAsNotString'] });
-								databaseInstance.setMaxListeners(500);
-								this.databases[notificationConfig['databaseConfigurationKey']] = {
-									database: databaseInstance,
-									databaseConfiguration: notificationConfig['databaseConfigurationAsNotString'],
-									changesFeeds: {}
-								};
+						this.socket.emit('register', register, 0, (keys: Keys) => {
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerSucceeded({ databaseConfiguration, destination, changesOptions, listeners, ...keys }));
+						});
+						return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerEmitted());
+					}
+				),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
+
+	registerSucceeded$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerSucceeded))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(([{ type, ...payload }]) => {
+					return of(
+						FeatureActions.ChangesFeeds.Subscriptions.Socket.addListeners({
+							request: {
+								...payload
 							}
+						})
+					);
+				}),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.registerSucceededFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
+
+	addListeners$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListeners))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(
+					([
+						{
+							request: { changesOptionsKey, databaseConfigurationKey, destination, listeners }
 						}
-						notificationConfig['changesOptionsIsFromString'] = typeof changesOptions === 'string';
-						if (notificationConfig['changesOptionsIsFromString']) {
-							notificationConfig['changesOptionsKey'] = <string>changesOptions;
-							notificationConfig['changesOptionsAsNotString'] = this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changesOptions;
-							notificationConfig['isNotSynced'] = !Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']]).includes('sync');
-							if (notificationConfig['isNotSynced']) {
-								this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
-							}
-						} else {
-							notificationConfig['changesOptionsAsNotString'] = { ...(<PouchDB.Core.ChangesOptions>changesOptions), since: 0 };
-							notificationConfig['changesOptionsKeyFound'] = Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds).find((key) => {
-								return deepEqual(notificationConfig['changesOptionsAsNotString'], this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[key].changesOptions);
+					]) => {
+						const listenersAreDefined = listeners !== undefined;
+						if (listenersAreDefined) {
+							Object.keys(listeners).forEach((listenerKey) => {
+								this.socket.on(listenerKey, (data: object & Keys) => {
+									const isConcernedByData = data.databaseConfigurationKey === databaseConfigurationKey && data.changesOptionsKey === changesOptionsKey;
+									if (isConcernedByData) {
+										const actions: Action[] = listeners[listenerKey](data);
+										actions.forEach((action) => {
+											this.store.dispatch(action);
+										});
+									}
+								});
 							});
-							notificationConfig['changesOptionsKeyHasBeenFound'] = notificationConfig['changesOptionsKeyFound'] !== undefined;
-							if (notificationConfig['changesOptionsKeyHasBeenFound']) {
-								notificationConfig['changesOptionsKey'] = notificationConfig['changesOptionsKeyFound'];
-								notificationConfig['isNotSynced'] = !Object.keys(this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']]).includes('sync');
-								if (notificationConfig['isNotSynced']) {
-									this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].changes.cancel();
-								}
-							} else {
-								notificationConfig['changesOptionsKey'] = this.generateUniqueKey();
-							}
 						}
-						if (notificationConfig['isNotSynced'] !== false) {
-							const isChangeListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('changeList');
-							const isCompleteListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('completeList');
-							const isErrorListNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('errorList');
+						return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceeded({ request: { changesOptionsKey, databaseConfigurationKey, destination, listeners } }));
+					}
+				),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
 
-							const isLiveSinceLastSeqNotificationSpecified = isNotificationsSpecified && Object.keys(notifications).includes('sync');
-							const isLiveSinceLastSeqChangeNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('changeList');
-							const isLiveSinceLastSeqCompleteNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('completeList');
-							const isLiveSinceLastSeqErrorNotificationSpecified = isLiveSinceLastSeqNotificationSpecified && Object.keys(notifications.sync).includes('errorList');
-							this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']] = {
-								changesOptions: notificationConfig['changesOptionsAsNotString'],
-								changes: this.databases[notificationConfig['databaseConfigurationKey']].database
-									.changes({ ...notificationConfig['changesOptionsAsNotString'] })
-									.on('change', (since0Change) => {
-										notificationConfig['since0Change'] = since0Change;
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesChange({
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												change: since0Change,
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isChangeListNotificationSpecified) {
-											notifications.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
-									})
-									.on('complete', (since0CompleteInfo) => {
-										notificationConfig['since0CompleteInfo'] = since0CompleteInfo;
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesComplete({
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												completeInfo: since0CompleteInfo,
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isCompleteListNotificationSpecified) {
-											notifications.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
+	addListenersSucceeded$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceeded))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(([{ request }]) => {
+					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.start({ request }));
+				}),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.addListenersSucceededFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
 
-										notificationConfig['changesOptionsLiveSinceLastSeq'] = { ...notificationConfig['changesOptionsAsNotString'], live: true, since: since0CompleteInfo.last_seq };
-										this.databases[notificationConfig['databaseConfigurationKey']].changesFeeds[notificationConfig['changesOptionsKey']].sync = {
-											changesOptions: notificationConfig['changesOptionsLiveSinceLastSeq'],
-											changes: this.databases[notificationConfig['databaseConfigurationKey']].database
-												.changes({ ...notificationConfig['changesOptionsLiveSinceLastSeq'] })
-												.on('change', (liveSinceLastSeqChange) => {
-													notificationConfig['liveSinceLastSeqChange'] = liveSinceLastSeqChange;
-													this.store.dispatch(
-														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesChange({
-															change: liveSinceLastSeqChange,
-															changesOptionsKey: notificationConfig['changesOptionsKey'],
-															databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-														})
-													);
-													if (isLiveSinceLastSeqChangeNotificationSpecified) {
-														notifications.sync.changeList.forEach((changeItem) => changeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-													}
-												})
-												.on('complete', (liveSinceLastSeqInfo) => {
-													notificationConfig['liveSinceLastSeqInfo'] = liveSinceLastSeqInfo;
-													this.store.dispatch(
-														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesComplete({
-															completeInfo: liveSinceLastSeqInfo,
-															changesOptionsKey: notificationConfig['changesOptionsKey'],
-															databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-														})
-													);
-													if (isLiveSinceLastSeqCompleteNotificationSpecified) {
-														notifications.sync.completeList.forEach((completeItem) => completeItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-													}
-												})
-												.on('error', (liveSinceLastSeqError) => {
-													notificationConfig['liveSinceLastSeqError'] = liveSinceLastSeqError;
-													this.store.dispatch(
-														FeatureActions.ChangesFeeds.Subscriptions.Sync.liveSinceLastSeqChangesError({
-															error: liveSinceLastSeqError,
-															changesOptionsKey: notificationConfig['changesOptionsKey'],
-															databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-														})
-													);
-													if (isLiveSinceLastSeqErrorNotificationSpecified) {
-														notifications.sync.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-													}
-												})
-										};
-									})
-									.on('error', (since0Error) => {
-										this.store.dispatch(
-											FeatureActions.ChangesFeeds.Subscriptions.Sync.since0ChangesError({
-												error: since0Error,
-												changesOptionsKey: notificationConfig['changesOptionsKey'],
-												databaseConfigurationKey: notificationConfig['databaseConfigurationKey']
-											})
-										);
-										if (isErrorListNotificationSpecified) {
-											notifications.errorList.forEach((errorItem) => errorItem({ notificationConfig: { ...notificationConfig } }).forEach((action) => this.store.dispatch(action)));
-										}
-									})
-							};
+	start$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.start))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(
+					([
+						{
+							request: { databaseConfigurationKey, changesOptionsKey }
 						}
-						return of(FeatureActions.ChangesFeeds.Subscriptions.Sync.success({ success: { changesOptionsKey: notificationConfig.changesOptionsKey, databaseConfigurationKey: notificationConfig.databaseConfigurationKey, destinationList: notificationConfig.destinationList } }));
+					]) => {
+						const start: Start = {
+							databaseConfigurationKey,
+							changesOptionsKey
+						};
+						this.socket.emit('start', start, 0, () => {
+							this.store.dispatch(FeatureActions.ChangesFeeds.Subscriptions.Socket.startSucceeded());
+						});
+						return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.startEmitted());
 					}
 				)
-				// tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] sync$` })))
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.startFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
+
+	startSucceeded$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.startSucceeded))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				switchMap(([_]) => {
+					return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribeSucceeded());
+				}),
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.startSucceededFailed({ failure })))
+			),
+		{ dispatch: true }
+	);
+
+	subscribe$ = createEffect(
+		() =>
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.initSucceeded)), this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribe))]).pipe(
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				withLatestFrom(this.store.pipe(select(FeatureSelectors.getKeysInterpretationAtDestinationList$))),
+				// filter(([_, isConnected]) => isConnected),
+				switchMap(
+					([
+						[
+							_,
+							{
+								request: { changesOptions, databaseConfiguration, destination, listeners }
+							}
+						],
+						getKeysInterpretationAtDestinationList
+					]) => {
+						const keysInterpretationAtDestinationList = getKeysInterpretationAtDestinationList({ destination });
+						const registerHasNotBeenDoneYet = keysInterpretationAtDestinationList.length === 0;
+						if (registerHasNotBeenDoneYet) {
+							return of(FeatureActions.ChangesFeeds.Subscriptions.Socket.register({ request: { destination, databaseConfiguration, changesOptions, listeners } }));
+						} else {
+							//TODO: uncomment and hold this in higher components
+							// throw Error(`Error: already subscribed for destination (${JSON.stringify(keysInterpretationAtDestinationList)})`);
+						}
+					}
+				)
+				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] exec$` }))),
+				// catchError((failure) => of(FeatureActions.ChangesFeeds.Subscriptions.Socket.subscribeFailed({ failure })))
 			),
 		{ dispatch: true }
 	);
 
 	constructor(private actions$: Actions, private store: Store<{}>) {}
-
-	private generateUniqueKey() {
-		const newDate = new Date();
-		const year = newDate
-			.getFullYear()
-			.toString()
-			.padStart(4, '0');
-		const month = (newDate.getMonth() + 1).toString().padStart(2, '0'); //TODO: + 1 or not?
-		const day = newDate
-			.getDate()
-			.toString()
-			.padStart(2, '0');
-		const hour = newDate
-			.getHours()
-			.toString()
-			.padStart(2, '0');
-		const minute = newDate
-			.getMinutes()
-			.toString()
-			.padStart(2, '0');
-		const second = newDate
-			.getSeconds()
-			.toString()
-			.padStart(2, '0');
-		const millisecond = newDate
-			.getUTCMilliseconds()
-			.toString()
-			.padStart(3, '0');
-		return `${year}${month}${day}${hour}${minute}${second}${millisecond}`;
-	}
 }

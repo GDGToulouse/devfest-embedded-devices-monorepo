@@ -3,27 +3,7 @@
     childRouteSelectBindLabel: childRouteSelectBindLabel$ | async,
     childRouteSelectBindValue: childRouteSelectBindValue$ | async,
     childRouteSelectItemList: childRouteSelectItemList$ | async,
-    childRouteSelectSelectedId: childRouteSelectSelectedId$ | async,
-    testExecSubscriptionsSubscribeIndexedKeysListsByDestination: testExecSubscriptionsSubscribeIndexedKeysListsByDestination$ | async,
-    testExecSubscriptionsSubscribeIndexedKeysList: testExecSubscriptionsSubscribeIndexedKeysList$ | async,
-    testExecCompleteInfoListsByDestination: testExecCompleteInfoListsByDestination$ | async,
-    testExecCompleteInfoList: testExecCompleteInfoList$ | async,
-    testExecCompleteInfoDocListsByDestination: testExecCompleteInfoDocListsByDestination$ | async,
-    testExecCompleteInfoDocList: testExecCompleteInfoDocList$ | async,
-    testExecCompleteInfoDocNotDeletedList: testExecCompleteInfoDocNotDeletedList$ | async,
-    testExecSyncListsByDestination: testExecSyncListsByDestination$ | async,
-    testExecSyncChangeList: testExecSyncChangeList$ | async,
-    testExecDocList: testExecDocList$ | async,
-    testSyncSubscriptionsSubscribeIndexedKeysListsByDestination: testSyncSubscriptionsSubscribeIndexedKeysListsByDestination$ | async,
-    testSyncSubscriptionsSubscribeIndexedKeysList: testSyncSubscriptionsSubscribeIndexedKeysList$ | async,
-    testSyncCompleteInfoListsByDestination: testSyncCompleteInfoListsByDestination$ | async,
-    testSyncCompleteInfoList: testSyncCompleteInfoList$ | async,
-    testSyncCompleteInfoDocListsByDestination: testSyncCompleteInfoDocListsByDestination$ | async,
-    testSyncCompleteInfoDocList: testSyncCompleteInfoDocList$ | async,
-    testSyncCompleteInfoDocNotDeletedList: testSyncCompleteInfoDocNotDeletedList$ | async,
-    testSyncSyncListsByDestination: testSyncSyncListsByDestination$ | async,
-    testSyncSyncChangeList: testSyncSyncChangeList$ | async,
-    testSyncDocList: testSyncDocList$ | async
+    childRouteSelectSelectedId: childRouteSelectSelectedId$ | async
 	} as _"
 >
   <ng-select
@@ -63,176 +43,36 @@
     </ng-option>
   </ng-select>
   <button
-    (click)="exec()"
-  >exec</button>
-  <p>
-    {{_.testExec | json}}
-  </p>
-  <button
     (click)="socket()"
   >socket</button>
   <p>
-    {{_.testExec | json}}
+    {{keysList1$ | async | json}}
   </p>
-  <button
-    (click)="sync()"
-  >sync</button>
+  <ul>
+    <li
+      *ngFor="let doc of docList1$ | async"
+    >{{doc | json}}
+    </li>
+  </ul>
   <p>
-    testExecSubscriptionsSubscribeIndexedKeysListsByDestination:
+    {{keysList2$ | async | json}}
   </p>
-  <div>
-    {{_.testExecSubscriptionsSubscribeIndexedKeysListsByDestination | json}}
-  </div>
+  <ul>
+    <li
+      *ngFor="let doc of docList2$ | async"
+    >{{doc | json}}
+    </li>
+  </ul>
   <p>
-    testExecSubscriptionsSubscribeIndexedKeysList:
+    keysInterpretationAtDestination
   </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecSubscriptionsSubscribeIndexedKeys of _.testExecSubscriptionsSubscribeIndexedKeysList"
-  >
-    {{testExecSubscriptionsSubscribeIndexedKeys | json}}
-  </div>
-  <p>
-    testExecCompleteInfoListsByDestination:
-  </p>
-  <div>
-    {{_.testExecCompleteInfoListsByDestination | json}}
-  </div>
-  <p>
-    testExecCompleteInfoList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecCompleteInfo of _.testExecCompleteInfoList"
-  >
-    {{testExecCompleteInfo | json}}
-  </div>
-  <p>
-    testExecCompleteInfoDocListsByDestination:
-  </p>
-  <div>
-    {{_.testExecCompleteInfoDocListsByDestination | json}}
-  </div>
-  <p>
-    testExecCompleteInfoDocList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecCompleteInfoDoc of _.testExecCompleteInfoDocList"
-  >
-    {{testExecCompleteInfoDoc | json}}
-  </div>
-  <p>
-    testExecCompleteInfoDocNotDeletedList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecCompleteInfoDocNotDeleted of _.testExecCompleteInfoDocNotDeletedList"
-  >
-    {{testExecCompleteInfoDocNotDeleted | json}}
-  </div>
-  <p>
-    testExecSyncListsByDestination:
-  </p>
-  <div>
-    {{_.testExecSyncListsByDestination | json}}
-  </div>
-  <p>
-    testExecSyncChangeList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecSyncChange of _.testExecSyncChangeList"
-  >
-    {{testExecSyncChange | json}}
-  </div>
-  <p>
-    testExecDocList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testExecDoc of _.testExecDocList"
-  >
-    {{testExecDoc | json}}
-  </div>
-  <p>
-    testSyncSubscriptionsSubscribeIndexedKeysListsByDestination:
-  </p>
-  <div>
-    {{_.testSyncSubscriptionsSubscribeIndexedKeysListsByDestination | json}}
-  </div>
-  <p>
-    testSyncSubscriptionsSubscribeIndexedKeysList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncSubscriptionsSubscribeIndexedKeys of _.testSyncSubscriptionsSubscribeIndexedKeysList"
-  >
-    {{testSyncSubscriptionsSubscribeIndexedKeys | json}}
-  </div>
-  <p>
-    testSyncCompleteInfoListsByDestination:
-  </p>
-  <div>
-    {{_.testSyncCompleteInfoListsByDestination | json}}
-  </div>
-  <p>
-    testSyncCompleteInfoList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncCompleteInfo of _.testSyncCompleteInfoList"
-  >
-    {{testSyncCompleteInfo | json}}
-  </div>
-  <p>
-    testSyncCompleteInfoDocListsByDestination:
-  </p>
-  <div>
-    {{_.testSyncCompleteInfoDocListsByDestination | json}}
-  </div>
-  <p>
-    testSyncCompleteInfoDocList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncCompleteInfoDoc of _.testSyncCompleteInfoDocList"
-  >
-    {{testSyncCompleteInfoDoc | json}}
-  </div>
-  <p>
-    testSyncCompleteInfoDocNotDeletedList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncCompleteInfoDocNotDeleted of _.testSyncCompleteInfoDocNotDeletedList"
-  >
-    {{testSyncCompleteInfoDocNotDeleted | json}}
-  </div>
-  <p>
-    testSyncSyncListsByDestination:
-  </p>
-  <div>
-    {{_.testSyncSyncListsByDestination | json}}
-  </div>
-  <p>
-    testSyncSyncChangeList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncSyncChange of _.testSyncSyncChangeList"
-  >
-    {{testSyncSyncChange | json}}
-  </div>
-  <p>
-    testSyncDocList:
-  </p>
-  <div
-    style="margin: 20px;"
-    *ngFor="let testSyncDoc of _.testSyncDocList"
-  >
-    {{testSyncDoc | json}}
-  </div>
+  <ul>
+    <li
+      *ngFor="let keysInterpretationAtDestination of (getKeysInterpretationAtDestinationList$ | async)({destination: ''})"
+    >{{keysInterpretationAtDestination | json}}
+    </li>
+  </ul>
+
   <router-outlet>
   </router-outlet>
 </ng-container>

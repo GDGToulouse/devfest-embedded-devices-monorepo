@@ -37,7 +37,8 @@
 			"@gdgtoulouse/components/terminal": ["libs/components/terminal/src/index.ts"],
 			"@gdgtoulouse/features/router": ["libs/features/router/src/index.ts"],
 			"@gdgtoulouse/features/lang": ["libs/features/lang/src/index.ts"],
-			"@gdgtoulouse/apis/pouchdb-manager": ["libs/apis/pouchdb-manager/src/index.ts"]
+			"@gdgtoulouse/apis/pouchdb-manager": ["libs/apis/pouchdb-manager/src/index.ts"],
+			"@gdgtoulouse/structures/pouchdb-manager": ["libs/structures/pouchdb-manager/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

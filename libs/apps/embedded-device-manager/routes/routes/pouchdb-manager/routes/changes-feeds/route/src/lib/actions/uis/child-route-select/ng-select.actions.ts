@@ -1,8 +1,7 @@
 import { indexName } from '../../../index.config';
 import {
 	createAction,
-	props,
-	union
+	props
 	} from '@ngrx/store';
 
 export const topic = 'uis-child-route-select-ng-select';
@@ -17,17 +16,3 @@ export const open = createAction(`[${indexName}][${topic}] open`);
 export const remove = createAction(`[${indexName}][${topic}] remove`, props<{ event }>()); // TODO type with ng-select $event type
 export const scrollToEnd = createAction(`[${indexName}][${topic}] scrollToEnd`, props<{ event }>()); // TODO type with ng-select $event type
 export const search = createAction(`[${indexName}][${topic}] search`, props<{ event }>()); // TODO type with ng-select $event type
-
-const all = union({
-	add,
-	blur,
-	clear,
-	close,
-	change,
-	focus,
-	open,
-	remove,
-	scrollToEnd,
-	search
-});
-export type ActionsUnion = typeof all;

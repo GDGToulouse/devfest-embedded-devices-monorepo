@@ -43,7 +43,7 @@ export class Effects {
 	main$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.LangMenuList.Api.Get.request))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.add({ label: `[${indexName}][${topic}] main$` }))),
+				tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
 				switchMap(([_]) =>
 					this.httpClient
@@ -58,7 +58,7 @@ export class Effects {
 							catchError((failure) => of(FeatureActions.LangMenuList.Api.Get.failure({ failure })))
 						)
 				),
-				tap(() => this.store.dispatch(ProcessingsActions.remove({ label: `[${indexName}][${topic}] main$` })))
+				tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] main$` })))
 			),
 		{ dispatch: true }
 	);

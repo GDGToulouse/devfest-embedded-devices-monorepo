@@ -1,12 +1,11 @@
 import { indexName } from '../../../index.config';
 import {
-	NotificationConfig as FeaturePouchdbManagerNotificationConfig,
-	SubscriptionConfig as FeaturePouchdbManagerSubscriptionConfig
-	} from '@gdgtoulouse/features/pouchdb-manager';
+	Register,
+	Since0EmitsChange
+	} from '@gdgtoulouse/structures/pouchdb-manager';
 import {
 	createAction,
-	props,
-	union
+	props
 	} from '@ngrx/store';
 
 export const topic = 'pouchdb-init-sync-lang-null-tree-list-tree-list';
@@ -14,13 +13,8 @@ export const topic = 'pouchdb-init-sync-lang-null-tree-list-tree-list';
 export const exec = createAction(
 	`[${indexName}][${topic}] exec`,
 	props<{
-		notificationConfig: FeaturePouchdbManagerNotificationConfig;
-		langSubscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
-		subscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
+		since0EmitsChange: Since0EmitsChange;
+		langSubscribeRequest?: Register;
+		subscribeRequest?: Register;
 	}>()
 );
-
-const all = union({
-	exec
-});
-export type ActionsUnion = typeof all;

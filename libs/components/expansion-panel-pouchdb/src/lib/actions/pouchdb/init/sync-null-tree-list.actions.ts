@@ -1,9 +1,8 @@
 import { indexName } from '../../../index.config';
-import { SubscriptionConfig as FeaturePouchdbManagerSubscriptionConfig } from '@gdgtoulouse/features/pouchdb-manager';
+import { SubscribeRequest } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	createAction,
-	props,
-	union
+	props
 	} from '@ngrx/store';
 
 export const topic = 'pouchdb-init-sync-null-tree-list';
@@ -11,12 +10,7 @@ export const topic = 'pouchdb-init-sync-null-tree-list';
 export const exec = createAction(
 	`[${indexName}][${topic}] exec`,
 	props<{
-		langSubscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
-		subscriptionConfig?: FeaturePouchdbManagerSubscriptionConfig;
+		langSubscribeRequest?: SubscribeRequest;
+		subscribeRequest?: SubscribeRequest;
 	}>()
 );
-
-const all = union({
-	exec
-});
-export type ActionsUnion = typeof all;
