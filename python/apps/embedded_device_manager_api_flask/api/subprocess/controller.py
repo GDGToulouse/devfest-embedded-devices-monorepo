@@ -13,8 +13,10 @@ log = logging.getLogger(__name__)
 
 ns = api.namespace('subprocess', description='TODO')
 
+
 @ns.route('/popen')
 class Popen(Resource):
+
     @api.response(200, 'Success')
     @api.response(400, 'Validation Error')
     @api.expect(popen_dto.post, validate=True)
@@ -24,8 +26,10 @@ class Popen(Resource):
         """
         return popen_service(request.json)
 
+
 @ns.route('/videofeed')
 class Videofeed(Resource):
+
     def get(self):
         """
         Stream a video which has been treated by opencv to angular.
@@ -33,8 +37,10 @@ class Videofeed(Resource):
         return Response(cv_service(),
                         mimetype = "multipart/x-mixed-replace; boundary=frame")
 
-@ns.route('/opencv_infos')
+
+@ns.route('/opencxw@v_infos')
 class Videofeed(Resource):
+
     def get(self):
         """
         Get opencv infos
