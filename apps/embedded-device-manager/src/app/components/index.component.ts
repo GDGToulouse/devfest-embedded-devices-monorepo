@@ -5,7 +5,7 @@ import {
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	selector: 'gdgtoulouse-embedded-device-manager',
+	selector: 'gdgtoulouse-apps-embedded-device-manager',
 	styleUrls: ['./index.component.scss'],
 	templateUrl: './index.component.html'
 })

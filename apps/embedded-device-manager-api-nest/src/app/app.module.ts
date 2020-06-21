@@ -1,8 +1,7 @@
-import { IndexModule as ChildProcessesModule } from '@gdgtoulouse/apis/child-processes';
-import { IndexModule as PouchdbManagerModule } from '@gdgtoulouse/apis/pouchdb-manager';
+import { IndexModule as AppsEmbeddedDeviceManagerApiNestRoutesRouteIndexModule } from '@gdgtoulouse/apps/embedded-device-manager-api-nest/routes/route';
 import { Module } from '@nestjs/common';
 
 @Module({
-	imports: [ChildProcessesModule, PouchdbManagerModule]
+	imports: [AppsEmbeddedDeviceManagerApiNestRoutesRouteIndexModule]
 })
 export class AppModule {}

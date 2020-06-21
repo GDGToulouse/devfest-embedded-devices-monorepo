@@ -27,7 +27,7 @@ yarn run ng add @nrwl/nest
 
 yarn run ng generate @nrwl/nest:application embedded-device-manager-api-nest --frontend-project embedded-device-manager --directory=""
 
-yarn run ng generate @nrwl/nest:library child-process --publishable --directory=apis
+yarn run ng generate @nrwl/nest:library child-processes --publishable --directory=apis
 ```
 
 ### 20200506
@@ -79,4 +79,12 @@ yarn run ng generate @nrwl/angular:component --flat --change-detection=OnPush --
 yarn run ng generate @nrwl/angular:library --style=scss --publishable router --directory=features
 
 yarn run ng generate @nrwl/angular:library --style=scss --publishable lang --directory=features
+
+yarn run ng generate @nrwl/angular:application embedded-devices-manager \
+    --directory="" \
+    --unit-test-runner=jest \
+    --style=scss \
+    --routing
+
+yarn run ng generate @nrwl/nest:application embedded-devices-manager-api-nest --frontend-project embedded-devices-manager --directory=""
 ```

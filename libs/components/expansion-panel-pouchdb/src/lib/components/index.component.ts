@@ -40,7 +40,7 @@ export class IndexComponent implements OnInit {
 
 	ngOnInit() {
 		this.init.emit();
-		this.treeList$ = this.store.pipe(select(FeatureSelectors.treeList$(this.subscribeRequest.destination)));
+		this.treeList$ = this.store.pipe(select(FeatureSelectors.treeList$({ destination: this.subscribeRequest.destination })));
 		this.store.dispatch(FeatureActions.Pouchdb.Init.SyncNullTreeList.exec({ langSubscribeRequest: this.langSubscribeRequest, subscribeRequest: this.subscribeRequest }));
 	}
 

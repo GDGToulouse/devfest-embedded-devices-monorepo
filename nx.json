@@ -89,6 +89,46 @@
 		},
 		"pipes-join": {
 			"tags": []
+		},
+		"components-menu": {
+			"tags": []
+		},
+		"components-menu-pouchdb": {
+			"tags": []
+		},
+		"features-title": {
+			"tags": []
+		},
+		"embedded-devices-manager": {
+			"tags": []
+		},
+		"embedded-devices-manager-e2e": {
+			"tags": [],
+			"implicitDependencies": ["embedded-devices-manager"]
+		},
+		"embedded-devices-manager-api-nest": {
+			"tags": []
+		},
+		"apis-metric-manager": {
+			"tags": []
+		},
+		"apps-embedded-devices-manager-routes-route": {
+			"tags": []
+		},
+		"apis-metric-manager-client": {
+			"tags": []
+		},
+		"structures-metric-manager": {
+			"tags": []
+		},
+		"features-navigator-user-agent": {
+			"tags": []
+		},
+		"apps-embedded-device-manager-api-nest-routes-route": {
+			"tags": []
+		},
+		"structures-http-status-code": {
+			"tags": []
 		}
 	}
 }

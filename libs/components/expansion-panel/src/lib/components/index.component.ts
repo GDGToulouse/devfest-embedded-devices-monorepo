@@ -1,11 +1,11 @@
 import { Tree } from '../models';
 import {
-	ChangeDetectionStrategy,
-	Component,
-	EventEmitter,
-	Input,
-	Output
-	} from '@angular/core';
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+  } from '@angular/core';
 
 @Component({
 	selector: 'gdgtoulouse-expansion-panel',
@@ -24,7 +24,7 @@ export class IndexComponent<I, P> {
 	@Output() destroyed = new EventEmitter<Tree<I, P>>();
 	@Output() opened = new EventEmitter<Tree<I, P>>();
 
-	trackByUnderscoredId(index: number, tree: Tree<I, P>) {
+	trackByIdKey(index: number, tree: Tree<I, P>) {
 		return tree[this.idKey];
 	}
 }

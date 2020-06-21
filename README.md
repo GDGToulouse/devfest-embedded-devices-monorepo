@@ -51,70 +51,15 @@ The project is currently developped and tested under the following platforms (do
 - Python (version `3.7.3`)
 - Yarn (version `1.21.1`)
 
-### Run all
+### Development
 
-Running `npm start` will run all the project parts (⚠️ there are many parts and nearly each of them has live-reload capability so this can cause memory and CPU drain, especially during the first build).
+Use NPM build scripts provided in the [package.json](./package.json) to run the parts you want to develop on (like `yarn run back:nest:cloud`).
 
-After the entire build is successful, you should be able to access the different parts:
+The development architecture is described [here](./docs/architecture/dev-cluster.drawio):
 
-Front-End:
+![docs/architecture/dev-cluster.drawio](./docs/architecture/dev-cluster.drawio)
+<img src="./docs/architecture/dev-cluster.drawio">
 
-- An Angular application served at [https://localhost:2000](https://localhost:2000)
+## Package
 
-Back-End:
-
-- A Flask API served at [http://localhost:3000/api](http://localhost:3000/api)
-- A Nest.js API served at [http://localhost:8080/api](http://localhost:8080/api)
-
-Databases:
-
-- A CouchDB server representing the cloud's database, served at [http://localhost:5000/_utils](http://localhost:5000/_utils). Login and password are both _cloud_ by default.
-- A CouchDB-Howler server representing the cloud's database howler, served at [http://localhost:7000](http://localhost:7000).
-- A CouchDB server representing the embedded device's database of a first device (named Andromeda), served at [http://localhost:8000/_utils](http://localhost:8000/_utils). Login and password are both _andromeda_ by default.
-- A CouchDB-Howler server representing the embedded device's database howler of a first device (named Andromeda), served at [http://localhost:8500](http://localhost:8500).
-- A CouchDB server representing the embedded device's database of a second device (named Aquarius), served at [http://localhost:8001/_utils](http://localhost:8001/_utils). Login and password are both _aquarius_ by default.
-- A CouchDB-Howler server representing the embedded device's database howler of a second device (named Aquarius), served at [http://localhost:8501](http://localhost:8501).
-
-**Note(s):**
-
-- You can ignore the error which says `Error: ngcc is already running [...]`, this error is self resolved after a while and is due to TypeScript synchronous module resolution as several compilations are here run in parallel.
-
-### Run independently
-
-You can also specify which parts you want to run (you can also repeat this operation in different terminals in order to separate logs) like this:
-
-- Front-End only:
-
-```sh
-npm run front
-```
-
-- Back-End only:
-
-```sh
-npm run back
-```
-
-- Back-End Flask only:
-
-```sh
-npm run back:flask
-```
-
-- Back-End Nest.js only:
-
-```sh
-npm run back:nest
-```
-
-- Databases only (for the moment you can not separate the two databases because the embedded one will be pre-synced with the cloud one, this feature will eventually come in the future):
-
-```sh
-npm run dbs
-```
-
-### Run CouchDB in Docker
-
-```sh
-docker run --rm -p 5984:5984 --name couchdb-in-docker -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=admin couchdb:latest
-```
+![package.json](./package.json)

@@ -3,6 +3,7 @@ import { Selectors as FeatureSelectors } from '../../../selectors';
 import { Injectable } from '@angular/core';
 import { Actions as FeaturesLogsActions } from '@gdgtoulouse/features/logs';
 import {
+	ClientSocket,
 	Keys,
 	LiveSinceLastSeqEmitsChange,
 	LiveSinceLastSeqEmitsCompleteInfo,
@@ -32,8 +33,6 @@ import * as io from 'socket.io-client';
 import {
 	// catchError,
 	switchMap,
-	take,
-	tap,
 	withLatestFrom
 } from 'rxjs/operators';
 
@@ -54,39 +53,11 @@ export interface ActiveListeners {
 @Injectable()
 export class Effects {
 	private hasAlreadyBeenConnected = false;
-	private socket: SocketIOClient.Socket;
+	private socket: ClientSocket;
 
-	//TODO: better way?
 	initRequest$ = createEffect(
 		() =>
-			this.actions$.pipe(
-				take(1),
-				tap(() =>
-					this.store.dispatch(
-						FeatureActions.ChangesFeeds.Subscriptions.Socket.init({
-							listeners: {
-								connect: true,
-								disconnect: true,
-								exception: true,
-								handleConnection: true,
-								liveSinceLastSeqChange: true,
-								liveSinceLastSeqCompleteInfo: true,
-								liveSinceLastSeqError: true,
-								since0Change: true,
-								since0CompleteInfo: true,
-								since0Error: true
-							},
-							uri: 'http://localhost:8080/pouchdb-manager'
-						})
-					)
-				)
-			),
-		{ dispatch: true }
-	);
-
-	init$ = createEffect(
-		() =>
-			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.init))]).pipe(
+			combineLatest([this.actions$.pipe(ofType(FeatureActions.ChangesFeeds.Subscriptions.Socket.initRequest))]).pipe(
 				// tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] exec$` }))),
 				switchMap(([{ listeners, opts, uri }]) => {
 					this.socket = io(uri, opts);

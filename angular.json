@@ -27,37 +27,67 @@
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/route/src/assets/envs",
-								"output": "./assets/envs/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/routes/changes-options/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-options/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/routes/changes-feeds/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/changes-feeds/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/routes/database-configurations/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route/src/assets/envs",
-								"output": "./assets/envs/routes/pouchdb-manager/routes/find-selectors/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/find-selectors/route"
 							},
 							{
 								"glob": "**/*",
 								"input": "./libs/apps/embedded-device-manager/routes/routes/terminal/route/src/assets/envs",
-								"output": "./assets/envs/routes/terminal/route"
+								"output": "./assets/envs/libs/apps/embedded-device-manager/routes/routes/terminal/route"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/lang/src/assets/envs",
+								"output": "./assets/envs/libs/features/lang"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/logs/src/assets/envs",
+								"output": "./assets/envs/libs/features/logs"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/router/src/assets/envs",
+								"output": "./assets/envs/libs/features/router"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/pouchdb-manager/src/assets/envs",
+								"output": "./assets/envs/libs/features/pouchdb-manager"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/components/expansion-panel-pouchdb/src/assets/envs",
+								"output": "./assets/envs/libs/components/expansion-panel-pouchdb"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/components/menu-pouchdb/src/assets/envs",
+								"output": "./assets/envs/libs/components/menu-pouchdb"
 							}
 						],
 						"styles": ["apps/embedded-device-manager/src/styles.scss"],
@@ -93,7 +123,7 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
 						"browserTarget": "embedded-device-manager:build",
-						"port": 2000,
+						"port": 8002,
 						"ssl": true,
 						"sslCert": "undefined",
 						"sslKey": "undefined",
@@ -254,7 +284,29 @@
 						"outputPath": "dist/apps/embedded-device-manager-api-nest",
 						"main": "apps/embedded-device-manager-api-nest/src/main.ts",
 						"tsConfig": "apps/embedded-device-manager-api-nest/tsconfig.app.json",
-						"assets": ["apps/embedded-device-manager-api-nest/src/assets"]
+						"assets": [
+							"apps/embedded-device-manager-api-nest/src/assets",
+							{
+								"glob": "**/*",
+								"input": "./libs/apis/child-processes/src/assets/envs",
+								"output": "./assets/envs/libs/apis/child-processes"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/apis/metric-manager/src/assets/envs",
+								"output": "./assets/envs/libs/apis/metric-manager"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/apis/metric-manager-client/src/assets/envs",
+								"output": "./assets/envs/libs/apis/metric-manager-client"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/apis/pouchdb-manager/src/assets/envs",
+								"output": "./assets/envs/libs/apis/pouchdb-manager"
+							}
+						]
 					},
 					"configurations": {
 						"production": {
@@ -268,8 +320,7 @@
 					"builder": "@nrwl/node:execute",
 					"options": {
 						"buildTarget": "embedded-device-manager-api-nest:build"
-					},
-					"port": 8080
+					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
@@ -1096,6 +1147,581 @@
 			"schematics": {
 				"@nrwl/angular:component": {
 					"style": "scss"
+				}
+			}
+		},
+		"components-menu": {
+			"projectType": "library",
+			"root": "libs/components/menu",
+			"sourceRoot": "libs/components/menu/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/components/menu/tsconfig.lib.json",
+						"project": "libs/components/menu/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/components/menu/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/components/menu/tsconfig.lib.json", "libs/components/menu/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/components/menu/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/components/menu/jest.config.js",
+						"tsConfig": "libs/components/menu/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/components/menu/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"components-menu-pouchdb": {
+			"projectType": "library",
+			"root": "libs/components/menu-pouchdb",
+			"sourceRoot": "libs/components/menu-pouchdb/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/components/menu-pouchdb/tsconfig.lib.json",
+						"project": "libs/components/menu-pouchdb/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/components/menu-pouchdb/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/components/menu-pouchdb/tsconfig.lib.json", "libs/components/menu-pouchdb/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/components/menu-pouchdb/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/components/menu-pouchdb/jest.config.js",
+						"tsConfig": "libs/components/menu-pouchdb/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/components/menu-pouchdb/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"features-title": {
+			"projectType": "library",
+			"root": "libs/features/title",
+			"sourceRoot": "libs/features/title/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/title/tsconfig.lib.json",
+						"project": "libs/features/title/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/title/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/title/tsconfig.lib.json", "libs/features/title/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/title/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/title/jest.config.js",
+						"tsConfig": "libs/features/title/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/title/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"embedded-devices-manager": {
+			"projectType": "application",
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "apps/embedded-devices-manager",
+			"sourceRoot": "apps/embedded-devices-manager/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/apps/embedded-devices-manager",
+						"index": "apps/embedded-devices-manager/src/index.html",
+						"main": "apps/embedded-devices-manager/src/main.ts",
+						"polyfills": "apps/embedded-devices-manager/src/polyfills.ts",
+						"tsConfig": "apps/embedded-devices-manager/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"apps/embedded-devices-manager/src/favicon.ico",
+							"apps/embedded-devices-manager/src/assets",
+							{
+								"glob": "**/*",
+								"input": "./libs/apps/embedded-devices-manager/routes/route/src/assets/envs",
+								"output": "./assets/envs/libs/apps/embedded-devices-manager/routes/route"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/lang/src/assets/envs",
+								"output": "./assets/envs/libs/features/lang"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/logs/src/assets/envs",
+								"output": "./assets/envs/libs/features/logs"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/router/src/assets/envs",
+								"output": "./assets/envs/libs/features/router"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/features/pouchdb-manager/src/assets/envs",
+								"output": "./assets/envs/libs/features/pouchdb-manager"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/components/expansion-panel-pouchdb/src/assets/envs",
+								"output": "./assets/envs/libs/components/expansion-panel-pouchdb"
+							},
+							{
+								"glob": "**/*",
+								"input": "./libs/components/menu-pouchdb/src/assets/envs",
+								"output": "./assets/envs/libs/components/menu-pouchdb"
+							}
+						],
+						"styles": ["apps/embedded-devices-manager/src/styles.scss"],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "6kb",
+									"maximumError": "10kb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "embedded-devices-manager:build",
+						"port": 5002,
+						"ssl": true,
+						"sslCert": "undefined",
+						"sslKey": "undefined",
+						"aot": true,
+						"optimization": true,
+						"sourceMap": true,
+						"progress": false
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "embedded-devices-manager:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "embedded-devices-manager:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-devices-manager/tsconfig.app.json", "apps/embedded-devices-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-devices-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-devices-manager/jest.config.js",
+						"tsConfig": "apps/embedded-devices-manager/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "apps/embedded-devices-manager/src/test-setup.ts"
+					}
+				}
+			}
+		},
+		"embedded-devices-manager-e2e": {
+			"root": "apps/embedded-devices-manager-e2e",
+			"sourceRoot": "apps/embedded-devices-manager-e2e/src",
+			"projectType": "application",
+			"architect": {
+				"e2e": {
+					"builder": "@nrwl/cypress:cypress",
+					"options": {
+						"cypressConfig": "apps/embedded-devices-manager-e2e/cypress.json",
+						"tsConfig": "apps/embedded-devices-manager-e2e/tsconfig.e2e.json",
+						"devServerTarget": "embedded-devices-manager:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "embedded-devices-manager:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-devices-manager-e2e/tsconfig.e2e.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-devices-manager-e2e/**"]
+					}
+				}
+			}
+		},
+		"embedded-devices-manager-api-nest": {
+			"root": "apps/embedded-devices-manager-api-nest",
+			"sourceRoot": "apps/embedded-devices-manager-api-nest/src",
+			"projectType": "application",
+			"prefix": "embedded-devices-manager-api-nest",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:build",
+					"options": {
+						"outputPath": "dist/apps/embedded-devices-manager-api-nest",
+						"main": "apps/embedded-devices-manager-api-nest/src/main.ts",
+						"tsConfig": "apps/embedded-devices-manager-api-nest/tsconfig.app.json",
+						"assets": ["apps/embedded-devices-manager-api-nest/src/assets"]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false,
+							"fileReplacements": []
+						}
+					}
+				},
+				"serve": {
+					"builder": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "embedded-devices-manager-api-nest:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["apps/embedded-devices-manager-api-nest/tsconfig.app.json", "apps/embedded-devices-manager-api-nest/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!apps/embedded-devices-manager-api-nest/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "apps/embedded-devices-manager-api-nest/jest.config.js",
+						"tsConfig": "apps/embedded-devices-manager-api-nest/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"apis-metric-manager": {
+			"root": "libs/apis/metric-manager",
+			"sourceRoot": "libs/apis/metric-manager/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apis/metric-manager/tsconfig.lib.json", "libs/apis/metric-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apis/metric-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apis/metric-manager/jest.config.js",
+						"tsConfig": "libs/apis/metric-manager/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/apis/metric-manager",
+						"tsConfig": "libs/apis/metric-manager/tsconfig.lib.json",
+						"packageJson": "libs/apis/metric-manager/package.json",
+						"main": "libs/apis/metric-manager/src/index.ts",
+						"assets": ["libs/apis/metric-manager/*.md"]
+					}
+				}
+			}
+		},
+		"apps-embedded-devices-manager-routes-route": {
+			"projectType": "library",
+			"root": "libs/apps/embedded-devices-manager/routes/route",
+			"sourceRoot": "libs/apps/embedded-devices-manager/routes/route/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/apps/embedded-devices-manager/routes/route/tsconfig.lib.json",
+						"project": "libs/apps/embedded-devices-manager/routes/route/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/apps/embedded-devices-manager/routes/route/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apps/embedded-devices-manager/routes/route/tsconfig.lib.json", "libs/apps/embedded-devices-manager/routes/route/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apps/embedded-devices-manager/routes/route/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apps/embedded-devices-manager/routes/route/jest.config.js",
+						"tsConfig": "libs/apps/embedded-devices-manager/routes/route/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/apps/embedded-devices-manager/routes/route/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"apis-metric-manager-client": {
+			"root": "libs/apis/metric-manager-client",
+			"sourceRoot": "libs/apis/metric-manager-client/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apis/metric-manager-client/tsconfig.lib.json", "libs/apis/metric-manager-client/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apis/metric-manager-client/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apis/metric-manager-client/jest.config.js",
+						"tsConfig": "libs/apis/metric-manager-client/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/apis/metric-manager-client",
+						"tsConfig": "libs/apis/metric-manager-client/tsconfig.lib.json",
+						"packageJson": "libs/apis/metric-manager-client/package.json",
+						"main": "libs/apis/metric-manager-client/src/index.ts",
+						"assets": ["libs/apis/metric-manager-client/*.md"]
+					}
+				}
+			}
+		},
+		"structures-metric-manager": {
+			"root": "libs/structures/metric-manager",
+			"sourceRoot": "libs/structures/metric-manager/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/structures/metric-manager/tsconfig.lib.json", "libs/structures/metric-manager/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/structures/metric-manager/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/structures/metric-manager/jest.config.js",
+						"tsConfig": "libs/structures/metric-manager/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/structures/metric-manager",
+						"tsConfig": "libs/structures/metric-manager/tsconfig.lib.json",
+						"packageJson": "libs/structures/metric-manager/package.json",
+						"main": "libs/structures/metric-manager/src/index.ts",
+						"assets": ["libs/structures/metric-manager/*.md"]
+					}
+				}
+			}
+		},
+		"features-navigator-user-agent": {
+			"projectType": "library",
+			"root": "libs/features/navigator/user-agent",
+			"sourceRoot": "libs/features/navigator/user-agent/src",
+			"prefix": "gdgtoulouse",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:package",
+					"options": {
+						"tsConfig": "libs/features/navigator/user-agent/tsconfig.lib.json",
+						"project": "libs/features/navigator/user-agent/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/features/navigator/user-agent/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/features/navigator/user-agent/tsconfig.lib.json", "libs/features/navigator/user-agent/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/features/navigator/user-agent/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/features/navigator/user-agent/jest.config.js",
+						"tsConfig": "libs/features/navigator/user-agent/tsconfig.spec.json",
+						"passWithNoTests": true,
+						"setupFile": "libs/features/navigator/user-agent/src/test-setup.ts"
+					}
+				}
+			},
+			"schematics": {
+				"@nrwl/angular:component": {
+					"style": "scss"
+				}
+			}
+		},
+		"apps-embedded-device-manager-api-nest-routes-route": {
+			"root": "libs/apps/embedded-device-manager-api-nest/routes/route",
+			"sourceRoot": "libs/apps/embedded-device-manager-api-nest/routes/route/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/apps/embedded-device-manager-api-nest/routes/route/tsconfig.lib.json", "libs/apps/embedded-device-manager-api-nest/routes/route/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/apps/embedded-device-manager-api-nest/routes/route/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/apps/embedded-device-manager-api-nest/routes/route/jest.config.js",
+						"tsConfig": "libs/apps/embedded-device-manager-api-nest/routes/route/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/apps/embedded-device-manager-api-nest/routes/route",
+						"tsConfig": "libs/apps/embedded-device-manager-api-nest/routes/route/tsconfig.lib.json",
+						"packageJson": "libs/apps/embedded-device-manager-api-nest/routes/route/package.json",
+						"main": "libs/apps/embedded-device-manager-api-nest/routes/route/src/index.ts",
+						"assets": ["libs/apps/embedded-device-manager-api-nest/routes/route/*.md"]
+					}
+				}
+			}
+		},
+		"structures-http-status-code": {
+			"root": "libs/structures/http-status-code",
+			"sourceRoot": "libs/structures/http-status-code/src",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["libs/structures/http-status-code/tsconfig.lib.json", "libs/structures/http-status-code/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**", "!libs/structures/http-status-code/**"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/structures/http-status-code/jest.config.js",
+						"tsConfig": "libs/structures/http-status-code/tsconfig.spec.json",
+						"passWithNoTests": true
+					}
+				},
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/libs/structures/http-status-code",
+						"tsConfig": "libs/structures/http-status-code/tsconfig.lib.json",
+						"packageJson": "libs/structures/http-status-code/package.json",
+						"main": "libs/structures/http-status-code/src/index.ts",
+						"assets": ["libs/structures/http-status-code/*.md"]
+					}
 				}
 			}
 		}

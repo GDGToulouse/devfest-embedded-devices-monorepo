@@ -9,12 +9,7 @@ export const topic = 'envs-api-get';
 
 export type Failure = HttpErrorResponse;
 export interface Response {
-	auth: {
-		clientId: string;
-		issuer: string;
-		redirectUri: string;
-		scope: string;
-	};
+	defaultLangId: string;
 }
 
 export const request = createAction(`[${indexName}][${topic}] request`);

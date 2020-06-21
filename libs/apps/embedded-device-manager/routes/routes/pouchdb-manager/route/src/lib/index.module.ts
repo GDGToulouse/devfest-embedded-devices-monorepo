@@ -7,7 +7,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { IndexModule as FeaturesLangIndexModule } from '@gdgtoulouse/features/lang';
 import { IndexModule as PouchdbManagerFeatureModule } from '@gdgtoulouse/features/pouchdb-manager';
+import { IndexModule as TitleFeatureModule } from '@gdgtoulouse/features/title';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -49,7 +51,9 @@ import { StoreModule } from '@ngrx/store';
 		EffectsModule.forFeature(Effects),
 		FormsModule,
 		NgSelectModule,
-		PouchdbManagerFeatureModule
+		PouchdbManagerFeatureModule,
+		TitleFeatureModule,
+		FeaturesLangIndexModule
 	],
 	providers: [router]
 })

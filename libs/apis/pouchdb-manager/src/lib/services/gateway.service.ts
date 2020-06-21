@@ -1,5 +1,5 @@
 import {
-	Socket,
+	ServerSocket,
 	SocketEmitsHandleConnection
 	} from '@gdgtoulouse/structures/pouchdb-manager';
 import { Injectable } from '@nestjs/common';
@@ -12,7 +12,7 @@ export class GatewayService {
 		server.setMaxListeners(500); //TODO -> envs or better other place?
 	}
 
-	handleConnection({ socket, args }: { socket: Socket; args: any[] }) {
+	handleConnection({ socket, args }: { socket: ServerSocket; args: any[] }) {
 		// console.log('handleConnection', { args });
 		const socketDoesNotSubscribedYet = !Object.keys(socket).includes('databases');
 		if (socketDoesNotSubscribedYet) {
@@ -22,7 +22,7 @@ export class GatewayService {
 		socket.emit('handleConnection', socketEmitsHandleConnection);
 	}
 
-	handleDisconnect({ socket }: { socket: Socket }) {
+	handleDisconnect({ socket }: { socket: ServerSocket }) {
 		const databasesAreDefined = Object.keys(socket).includes('databases');
 		if (databasesAreDefined) {
 			Object.keys(socket.databases).forEach((databaseKey) => {

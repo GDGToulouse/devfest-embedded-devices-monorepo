@@ -12,7 +12,7 @@ import {
 	} from '@nestjs/swagger';
 
 @ApiTags('child-processes')
-@Controller('child-processes')
+@Controller()
 export class IndexController {
 	constructor(private readonly apiService: IndexService) {}
 

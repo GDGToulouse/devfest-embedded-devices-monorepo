@@ -1,4 +1,5 @@
 import { AppModule } from './app/app.module';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
 	DocumentBuilder,
@@ -6,21 +7,26 @@ import {
 	} from '@nestjs/swagger';
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
-	app.setGlobalPrefix('api');
+	//TODO variabilize globalPrefix, port, title, description, version, tags
+	const globalPrefix = 'api';
+	const port = 8001;
+	const description = 'Nest.js API to manage embedded device';
+	const title = 'embedded-device-manager-api-nest';
+	const version = '1.0.0';
 
-	//TODO variabilize title, description, version, tags
-	const options = new DocumentBuilder()
-		.setDescription('Nest.js API to manage embedded device')
-		.setTitle('embedded-device-manager-api-nest')
-		.setVersion('1.0.0')
-		.build();
+	const app = await NestFactory.create(AppModule);
+
+	app.setGlobalPrefix(globalPrefix);
+
+	const options = new DocumentBuilder().setDescription(description).setTitle(title).setVersion(version).build();
 
 	const document = SwaggerModule.createDocument(app, options);
 
-	SwaggerModule.setup('api', app, document);
+	SwaggerModule.setup(globalPrefix, app, document);
 
-	await app.listen(8080);
+	await app.listen(port, () => {
+		Logger.log(`Listening at http://localhost:${port}/${globalPrefix}`);
+	});
 }
 
 bootstrap();

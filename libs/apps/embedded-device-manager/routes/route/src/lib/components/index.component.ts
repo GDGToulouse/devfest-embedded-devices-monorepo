@@ -7,6 +7,7 @@ import {
 	Component,
 	OnDestroy
 	} from '@angular/core';
+import { Actions as FeaturesLangActions } from '@gdgtoulouse/features/lang';
 import { Selectors as PouchdbManagerFeatureSelectors } from '@gdgtoulouse/features/pouchdb-manager';
 import {
 	select,
@@ -14,7 +15,7 @@ import {
 	} from '@ngrx/store';
 import { of } from 'rxjs';
 
-const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-routes-route-index';
+const selector = 'gdgtoulouse-libs-apps-embedded-device-manager-routes-route-index';
 
 @Component({
 	selector,
@@ -25,6 +26,7 @@ const selector = 'gdgtoulouse-libs-components-apps-embedded-device-manager-route
 export class IndexComponent implements OnDestroy {
 	langMenuList$ = this.store.pipe(select(FeatureSelectors.langMenuList$));
 	mobileQuery: MediaQueryList;
+	mobileQueryMatches = false; // reflects mobileQuery.matches, TODO: remove and adapt to use mobileQuery.matches, take care of mobile impacts
 	menuEndTogglerTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	menuLangsTooltip$ = of({ ariaLabel: { text: 'Button that displays a tooltip when focused or hovered over' }, tooltip: { text: 'Info about the action' } });
 	sidenavEndUiIsOpened$ = this.store.pipe(select(FeatureSelectors.sidenavEndUiIsOpened$));
@@ -43,13 +45,13 @@ export class IndexComponent implements OnDestroy {
 	private _mobileQueryListener: () => void;
 
 	constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private store: Store<{}>) {
-		this.mobileQuery = media.matchMedia('(max-width: 600px)'); //TODO
-		this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-		this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+		// this.mobileQuery = media.matchMedia('(max-width: 600px)'); //TODO
+		// this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+		// this.mobileQuery.addEventListener('change', this._mobileQueryListener);
 	}
 
 	ngOnDestroy() {
-		this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
+		// this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
 	}
 
 	//#region sidenavs
@@ -81,4 +83,8 @@ export class IndexComponent implements OnDestroy {
 	}
 	//#endregion
 	//#endregion
+
+	langChanged({ langId }: { langId: string }) {
+		this.store.dispatch(FeaturesLangActions.Core.Lang.Update.action({ langId }));
+	}
 }

@@ -4,7 +4,10 @@ import {
 	Tree
 	} from '../models';
 import { NodeData } from '@gdgtoulouse/components/expansion-panel';
-import { Selectors as FeaturesPouchdbManagerSelectors } from '@gdgtoulouse/features/pouchdb-manager';
+import {
+	Destination,
+	Selectors as FeaturesPouchdbManagerSelectors
+	} from '@gdgtoulouse/features/pouchdb-manager';
 import { treeListFromFlatNodeList } from '@gdgtoulouse/structures/tree';
 import { createSelector } from '@ngrx/store';
 import Pouchdb from 'pouchdb';
@@ -12,7 +15,7 @@ import Pouchdb from 'pouchdb';
 // useless except to prevent the import removal from vscode organize imports extension
 type PouchdbType = typeof Pouchdb;
 
-export const treeList$ = (destination: string) =>
+export const treeList$ = ({ destination }: Destination) =>
 	createSelector(FeaturesPouchdbManagerSelectors.docList$(`langs/${destination}`), FeaturesPouchdbManagerSelectors.docList$(destination), (langDocList, docList) =>
 		treeListFromFlatNodeList<NodePouchdb, NodePid, NodeData>(
 			'_id',

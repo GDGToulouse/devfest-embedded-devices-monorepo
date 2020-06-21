@@ -40,7 +40,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 			metaReducers
 		}),
 		StoreDevtoolsModule.instrument({
-			maxAge: 500,
+			maxAge: 5000,
 			name: 'apps-embedded-device-manager'
 		})
 	],

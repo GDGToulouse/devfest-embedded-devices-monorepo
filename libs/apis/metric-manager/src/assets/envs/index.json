@@ -1,0 +1,12 @@
+{
+	"libs":{
+		"apis": {
+			"metric-manager": {
+				"deploymentUuid": "5235bc26-0b99-4d55-a84f-22093a1a3b35",
+				"database": {
+					"name":  "http://cloud:cloud@localhost:5000"
+				}
+			}
+		}
+	}
+}

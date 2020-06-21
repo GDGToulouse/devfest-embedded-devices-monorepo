@@ -4,6 +4,7 @@ import Pouchdb from 'pouchdb';
 type PouchdbType = typeof Pouchdb;
 
 export * from './destination';
+export * from './init-socket-config';
 export * from './keys-interpretation';
 export * from './keys-interpretation-at-destination';
 export * from './listeners';

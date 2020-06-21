@@ -9,7 +9,7 @@
 >
 	<mat-accordion>
 		<ng-container
-			*ngFor="let tree of list; trackBy: trackByUnderscoredId"
+			*ngFor="let tree of list; trackBy: trackByIdKey"
 		>
 			<ng-container
 				*ngIf="tree.header !== undefined; else noTree"
@@ -45,6 +45,7 @@
 				#noTree
 			>
 				<a
+					[ngClass]="{'active': hrefOfActive === (tree.router.routerLink | join:'')}"
 					[routerLink]="tree.router.routerLink"
 					[queryParams]="tree.router.queryParams"
 					[fragment]="tree.router.fragment"
@@ -53,10 +54,8 @@
 					[skipLocationChange]="tree.router.replaceUrl"
 					[state]="tree.router.state"
 				>
-					<mat-card
-						*ngIf="tree.router !== undefined"
-						[ngClass]="{'active': hrefOfActive === (tree.router.routerLink | join:'')}"
-					>{{tree.router.text}}
+					<mat-card>
+						{{tree.router.text}}
 					</mat-card>
 				</a>
 			</ng-template>

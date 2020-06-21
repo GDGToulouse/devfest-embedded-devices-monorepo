@@ -2,13 +2,11 @@ import {
 	Actions as FeatureActions,
 	Envs as FeatureEnvs
 	} from '../../../actions';
-import { indexName } from '../../../index.config';
 import {
 	HttpClient,
 	HttpHeaders
 	} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions as ProcessingsActions } from '@gdgtoulouse/features/processings';
 import {
 	HttpHeadersConfig,
 	HttpRequestParams
@@ -47,7 +45,7 @@ export class Effects {
 	main$ = createEffect(
 		() =>
 			combineLatest([this.actions$.pipe(ofType(FeatureActions.Envs.Api.Get.request))]).pipe(
-				tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
+				//tap(() => this.store.dispatch(ProcessingsActions.Processings.Add.exec({ label: `[${indexName}][${topic}] main$` }))),
 				delay(20),
 				switchMap(([_]) =>
 					this.httpClient
@@ -61,8 +59,8 @@ export class Effects {
 							map(({ body: response, headers: responseHeaders }) => FeatureActions.Envs.Api.Get.response({ response }))
 							// catchError((failure) => of(FeatureActions.Envs.Api.Get.failure({ failure })))
 						)
-				),
-				tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] main$` })))
+				)
+				//tap(() => this.store.dispatch(ProcessingsActions.Processings.Remove.exec({ label: `[${indexName}][${topic}] main$` })))
 			),
 		{ dispatch: true }
 	);
@@ -70,7 +68,7 @@ export class Effects {
 	constructor(private actions$: Actions, private httpClient: HttpClient, private store: Store<{}>) {}
 
 	private endpointGenerator() {
-		return `assets/envs/route/index.json`;
+		return `assets/envs/libs/apps/embedded-device-manager/routes/routes/pouchdb-manager/routes/database-configurations/route/index.json`;
 	}
 
 	private httpHeadersConfigGenerator() {

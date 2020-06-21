@@ -23,7 +23,6 @@ sigintTrap() {
 cloudContainerName="${project}-cloud-db"
 cloudContainerPassword="cloud"
 cloudContainerPort="5000"
-cloudHowlerContainerPort="7000"
 cloudContainerUser="cloud"
 
 docker \
@@ -36,6 +35,9 @@ docker \
 
 sudo rm -rf ${hereDir}/cloud/opt/couchdb/etc/local.d/docker.ini
 sudo rm -rf ${hereDir}/cloud/opt/couchdb/log/couch.log
+sudo rm -rf ${hereDir}/cloud/opt/couchdb/data
+
+mkdir ${hereDir}/cloud/opt/couchdb/data
 
 docker \
 	run \
@@ -46,11 +48,16 @@ docker \
 		-e COUCHDB_USER=${cloudContainerUser} \
 		-v ${hereDir}/cloud/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/cloud/opt/couchdb/log:/opt/couchdb/log \
+		-v ${hereDir}/cloud/opt/couchdb/data:/opt/couchdb/data \
 		couchdb:latest \
 &
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${cloudContainerPort})" != "200" ]]; do echo "waiting cloud db to be up" && sleep 5; done
+
+curl -X PUT http://${cloudContainerUser}:${cloudContainerPassword}@localhost:${cloudContainerPort}/_users
+curl -X PUT http://${cloudContainerUser}:${cloudContainerPassword}@localhost:${cloudContainerPort}/_replicator
+curl -X PUT http://${cloudContainerUser}:${cloudContainerPassword}@localhost:${cloudContainerPort}/_global_changes
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/import/files/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
@@ -111,7 +118,6 @@ done;
 andromedaContainerName="${project}-device-andromeda-db"
 andromedaContainerPassword="andromeda"
 andromedaContainerPort="8000"
-andromedaHowlerContainerPort="8500"
 andromedaContainerUser="andromeda"
 
 docker \
@@ -124,6 +130,9 @@ docker \
 
 sudo rm -rf ${hereDir}/devices/andromeda/opt/couchdb/etc/local.d/docker.ini
 sudo rm -rf ${hereDir}/devices/andromeda/opt/couchdb/log/couch.log
+sudo rm -rf ${hereDir}/devices/andromeda/opt/couchdb/data
+
+mkdir ${hereDir}/devices/andromeda/opt/couchdb/data
 
 docker \
 	run \
@@ -134,11 +143,16 @@ docker \
 		-e COUCHDB_USER=${andromedaContainerUser} \
 		-v ${hereDir}/devices/andromeda/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/devices/andromeda/opt/couchdb/log:/opt/couchdb/log \
+		-v ${hereDir}/devices/andromeda/opt/couchdb/data:/opt/couchdb/data \
 		couchdb:latest \
 &
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${andromedaContainerPort})" != "200" ]]; do echo "waiting andromeda db to be up" && sleep 5; done
+
+curl -X PUT http://${andromedaContainerUser}:${andromedaContainerPassword}@localhost:${andromedaContainerPort}/_users
+curl -X PUT http://${andromedaContainerUser}:${andromedaContainerPassword}@localhost:${andromedaContainerPort}/_replicator
+curl -X PUT http://${andromedaContainerUser}:${andromedaContainerPassword}@localhost:${andromedaContainerPort}/_global_changes
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`
@@ -158,8 +172,7 @@ done;
 
 aquariusContainerName="${project}-device-aquarius-db"
 aquariusContainerPassword="aquarius"
-aquariusContainerPort="8001"
-aquariusHowlerContainerPort="8501"
+aquariusContainerPort="8010"
 aquariusContainerUser="aquarius"
 
 docker \
@@ -172,6 +185,9 @@ docker \
 
 sudo rm -rf ${hereDir}/devices/aquarius/opt/couchdb/etc/local.d/docker.ini
 sudo rm -rf ${hereDir}/devices/aquarius/opt/couchdb/log/couch.log
+sudo rm -rf ${hereDir}/devices/aquarius/opt/couchdb/data
+
+mkdir ${hereDir}/devices/aquarius/opt/couchdb/data
 
 docker \
 	run \
@@ -182,11 +198,16 @@ docker \
 		-e COUCHDB_USER=${aquariusContainerUser} \
 		-v ${hereDir}/devices/aquarius/opt/couchdb/etc/local.d:/opt/couchdb/etc/local.d \
 		-v ${hereDir}/devices/aquarius/opt/couchdb/log:/opt/couchdb/log \
+		-v ${hereDir}/devices/aquarius/opt/couchdb/data:/opt/couchdb/data \
 		couchdb:latest \
 &
 pids="${pids} $!"
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:${aquariusContainerPort})" != "200" ]]; do echo "waiting aquarius db to be up" && sleep 5; done
+
+curl -X PUT http://${aquariusContainerUser}:${aquariusContainerPassword}@localhost:${aquariusContainerPort}/_users
+curl -X PUT http://${aquariusContainerUser}:${aquariusContainerPassword}@localhost:${aquariusContainerPort}/_replicator
+curl -X PUT http://${aquariusContainerUser}:${aquariusContainerPassword}@localhost:${aquariusContainerPort}/_global_changes
 
 for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-device-manager | sed -n 's/://p'`; do
 	database=`echo ${dir} | rev | cut -d'/' -f1 | rev`

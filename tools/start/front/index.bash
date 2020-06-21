@@ -3,11 +3,10 @@
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../..`
 
-defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f2 | cut -d'"' -f2`
 pids=""
 rc=0
 
-project=${1:-"${defaultProject}"}
+trap 'sigintTrap' 2
 
 sigintTrap() {
 	echo "pids=${pids}"
@@ -17,9 +16,10 @@ sigintTrap() {
 	exit 2
 }
 
-yarn
+${hereDir}/cloud/index.bash &
+pids="${pids} $!"
 
-yarn run ng serve "${project}" & \
+${hereDir}/devices/index.bash &
 pids="${pids} $!"
 
 for pid in ${pids}; do

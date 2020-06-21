@@ -41,7 +41,18 @@
 			"@gdgtoulouse/structures/pouchdb-manager": ["libs/structures/pouchdb-manager/src/index.ts"],
 			"@gdgtoulouse/features/logs": ["libs/features/logs/src/index.ts"],
 			"@gdgtoulouse/pipes/object-keys-includes": ["libs/pipes/object-keys-includes/src/index.ts"],
-			"@gdgtoulouse/pipes/join": ["libs/pipes/join/src/index.ts"]
+			"@gdgtoulouse/pipes/join": ["libs/pipes/join/src/index.ts"],
+			"@gdgtoulouse/components/menu": ["libs/components/menu/src/index.ts"],
+			"@gdgtoulouse/components/menu-pouchdb": ["libs/components/menu-pouchdb/src/index.ts"],
+			"@gdgtoulouse/features/title": ["libs/features/title/src/index.ts"],
+			"@gdgtoulouse/apis/metric-manager": ["libs/apis/metric-manager/src/index.ts"],
+			"@gdgtoulouse/apps/embedded-devices-manager/routes/route": ["libs/apps/embedded-devices-manager/routes/route/src/index.ts"],
+			"@gdgtoulouse/apis/metric-manager-client": ["libs/apis/metric-manager-client/src/index.ts"],
+			"@gdgtoulouse/structures/metric-manager": ["libs/structures/metric-manager/src/index.ts"],
+			"@gdgtoulouse/services/web/api/navigator/user-agent": ["libs/services/web/api/navigator/user-agent/src/index.ts"],
+			"@gdgtoulouse/features/navigator/user-agent": ["libs/features/navigator/user-agent/src/index.ts"],
+			"@gdgtoulouse/apps/embedded-device-manager-api-nest/routes/route": ["libs/apps/embedded-device-manager-api-nest/routes/route/src/index.ts"],
+			"@gdgtoulouse/structures/http-status-code": ["libs/structures/http-status-code/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

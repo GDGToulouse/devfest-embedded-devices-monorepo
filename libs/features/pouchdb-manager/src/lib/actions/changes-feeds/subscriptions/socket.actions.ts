@@ -1,9 +1,9 @@
 import { indexName } from '../../../index.config';
 import {
 	Destination,
+	InitSocketConfig,
 	KeysInterpretationAtDestination,
-	Listeners,
-	SocketListeners
+	Listeners
 	} from '../../../models';
 import {
 	Keys,
@@ -40,7 +40,7 @@ export interface ReconnectFailure {}
 
 export interface AddListenersSucceededFailure {}
 
-export const init = createAction(`[${indexName}][${topic}] init`, props<{ listeners: SocketListeners; uri: string; opts?: SocketIOClient.ConnectOpts }>());
+export const initRequest = createAction(`[${indexName}][${topic}] initRequest`, props<InitSocketConfig>());
 export const initSucceeded = createAction(`[${indexName}][${topic}] initSucceeded`);
 export const initFailed = createAction(`[${indexName}][${topic}] initFailed`, props<{ failure: InitFailure }>());
 

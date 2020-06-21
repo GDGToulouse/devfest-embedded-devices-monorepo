@@ -1,1 +1,5 @@
-{}
+{
+	"devicePouchdbManagerSocket": {
+		"uri": "http://localhost:8001/pouchdb-manager"
+	}
+}

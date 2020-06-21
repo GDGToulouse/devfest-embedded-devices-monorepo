@@ -34,3 +34,6 @@ python.egg-info
 /**/dumps/tmp/*.json
 /**/*.log
 /**/couchdb/etc/local.d/docker.ini
+
+/**/opt/couchdb/data/**
+!/**/opt/couchdb/data/.gitkeep

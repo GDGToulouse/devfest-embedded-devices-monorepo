@@ -5,7 +5,7 @@ import {
 	} from './models';
 import { GatewayService } from './services/gateway.service';
 import { SocketService } from './services/socket.service';
-import { Socket } from '@gdgtoulouse/structures/pouchdb-manager';
+import { ServerSocket } from '@gdgtoulouse/structures/pouchdb-manager';
 import {
 	ApiOperation,
 	ApiResponse,
@@ -35,12 +35,12 @@ export class IndexGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 		return this.gatewayService.afterInit({ server });
 	}
 
-	handleConnection(socket: Socket, ...args: any[]) {
+	handleConnection(socket: ServerSocket, ...args: any[]) {
 		// console.log('handleConnection');
 		return this.gatewayService.handleConnection({ socket, args });
 	}
 
-	handleDisconnect(socket: Socket) {
+	handleDisconnect(socket: ServerSocket) {
 		// console.log('handleDisconnect');
 		return this.gatewayService.handleDisconnect({ socket });
 	}
@@ -48,7 +48,7 @@ export class IndexGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 	@SubscribeMessage('register')
 	@ApiOperation({ summary: 'Register' })
 	@ApiResponse({ status: 403, description: 'Forbidden.' })
-	register(@MessageBody() [registerIn]: RegisterDto[], @ConnectedSocket() socket: Socket) {
+	register(@MessageBody() [registerIn]: RegisterDto[], @ConnectedSocket() socket: ServerSocket) {
 		// console.log('register');
 		return this.socketService.register({ in: registerIn, socket });
 	}
@@ -56,7 +56,7 @@ export class IndexGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 	@SubscribeMessage('start')
 	@ApiOperation({ summary: 'Start' })
 	@ApiResponse({ status: 403, description: 'Forbidden.' })
-	start(@MessageBody() [startIn]: StartDto[], @ConnectedSocket() socket: Socket) {
+	start(@MessageBody() [startIn]: StartDto[], @ConnectedSocket() socket: ServerSocket) {
 		return this.socketService.start({ in: startIn, socket });
 	}
 }

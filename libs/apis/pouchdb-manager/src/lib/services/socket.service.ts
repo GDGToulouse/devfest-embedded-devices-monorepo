@@ -7,22 +7,22 @@ import {
 	LiveSinceLastSeqEmitsCompleteInfo,
 	LiveSinceLastSeqEmitsError,
 	RegisterOut,
+	ServerSocket,
 	Since0EmitsChange,
 	Since0EmitsCompleteInfo,
 	Since0EmitsError,
-	Socket,
 	StartOut
 	} from '@gdgtoulouse/structures/pouchdb-manager';
 import { Injectable } from '@nestjs/common';
 import deepEqual from 'fast-deep-equal';
 import Pouchdb from 'pouchdb';
-import { v4 as uuid } from 'uuid';
+import { v4 as Uuid } from 'uuid';
 
 Pouchdb.setMaxListeners(500);
 
 @Injectable()
 export class SocketService {
-	register({ in: { changesOptions, databaseConfiguration }, socket }: { in: RegisterDto; socket: Socket }) {
+	register({ in: { changesOptions, databaseConfiguration }, socket }: { in: RegisterDto; socket: ServerSocket }) {
 		let databaseConfigurationKey: string;
 		let changesOptionsKey: string;
 
@@ -31,7 +31,7 @@ export class SocketService {
 		if (databaseConfigurationKeyHasBeenFound) {
 			databaseConfigurationKey = databaseConfigurationKeyFound;
 		} else {
-			databaseConfigurationKey = uuid();
+			databaseConfigurationKey = Uuid();
 			const databaseInstance = new Pouchdb(databaseConfiguration.name, { ...databaseConfiguration });
 			databaseInstance.setMaxListeners(500);
 			socket.databases[databaseConfigurationKey] = {
@@ -46,7 +46,7 @@ export class SocketService {
 		if (changesOptionsKeyHasBeenFound) {
 			changesOptionsKey = changesOptionsKeyFound;
 		} else {
-			changesOptionsKey = uuid();
+			changesOptionsKey = Uuid();
 			socket.databases[databaseConfigurationKey].changesFeeds[changesOptionsKey] = {
 				changesOptions,
 				listeners: {
@@ -60,7 +60,7 @@ export class SocketService {
 		return out;
 	}
 
-	start({ in: { changesOptionsKey, databaseConfigurationKey }, socket }: { in: StartDto; socket: Socket }) {
+	start({ in: { changesOptionsKey, databaseConfigurationKey }, socket }: { in: StartDto; socket: ServerSocket }) {
 		// console.log('start', socket.databases[databaseConfigurationKey].databaseConfiguration.name, JSON.stringify(socket.databases[databaseConfigurationKey].changesFeeds[changesOptionsKey].changesOptions.selector));
 		const since0ChangesOptions = { ...socket.databases[databaseConfigurationKey].changesFeeds[changesOptionsKey].changesOptions, include_docs: true, since: 0 };
 		const since0Listener = socket.databases[databaseConfigurationKey].database.changes({ ...since0ChangesOptions });

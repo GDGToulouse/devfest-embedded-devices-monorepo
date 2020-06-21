@@ -1,0 +1,206 @@
+{
+	"libs":{
+		"apis": {
+			"metric-manager-client": {
+				"deploymentUuid": "7b62f49f-e13f-4de1-8f3b-68dff4f8ad05",
+				"deploymentDate": 1592745309253,
+				"metricManagerCloud": {
+					"socket": {
+						"uri": "http://localhost:5001/metric-manager"
+					},
+					"listeners": {
+						"exception": true,
+						"handleConnection": true,
+						"connect": true,
+						"connect_error": true,
+						"connect_timeout": true,
+						"connecting": true,
+						"disconnect": true,
+						"error": true,
+						"reconnect": true,
+						"reconnect_attempt": true,
+						"reconnect_failed": true,
+						"reconnect_error": true,
+						"reconnecting": true,
+						"ping": true,
+						"pong": true,
+						"recordThen": true,
+						"recordCatch": true
+					}
+				},
+				"productionConfigList": [{
+					"command": "cat /proc/cpuinfo",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "cat /proc/meminfo",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "cat /proc/zoneinfo",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "cat /proc/mounts",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "uname -a",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "cat /proc/meminfo",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
+					"command": "sensors",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 1000
+							}
+						}
+					}
+				},{
+					"command": "uptime",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 43200000
+							}
+						}
+					}
+				},{
+					"command": "iostat",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 3600000
+							}
+						}
+					}
+				},{
+					"command": "mpstat",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 3600000
+							}
+						}
+					}
+				},{
+					"command": "ss -t -a",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 3600000
+							}
+						}
+					}
+				},{
+					"command": "ss -u -a",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 3600000
+							}
+						}
+					}
+				},{
+					"command": "vnstat",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 1800000
+							}
+						}
+					}
+				}],
+				"consumptionConfig": {
+					"time": {
+						"afterDelay": 0
+					},
+					"repeat": {
+						"time": {
+							"afterPeriod": 10000
+						}
+					}
+				},
+				"consumptionListMaxLength": 200,
+				"maxTimeAllowedForGoingFromConsumedToReceived": 5000,
+				"maxTimeAllowedForGoingFromReceivedToSaved": 5000,
+				"sizeOfProductionsMax": 500000000,
+				"productionsKeyListMaxLength": 5000
+			}
+		}
+	}
+}
