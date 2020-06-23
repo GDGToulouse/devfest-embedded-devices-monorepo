@@ -15,6 +15,10 @@ export class ConsumptionDto implements Consumption {
 	@IsString()
 	readonly uuid: string;
 
+	@ApiProperty({ required: true, example: 1592760934860, description: 'The date when the process was started' })
+	@IsString()
+	readonly date: number;
+
 	@ApiProperty({
 		required: true,
 		example: {

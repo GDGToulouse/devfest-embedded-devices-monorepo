@@ -35,11 +35,11 @@
     [selectableGroupAsModel]="false"
   >
     <ng-option
-      [disabled]="childRouteSelectItem.disabled"
+      [disabled]="false"
       [value]="childRouteSelectItem.id"
       *ngFor="let childRouteSelectItem of _.childRouteSelectItemList"
     >
-      {{childRouteSelectItem.name}}
+      {{childRouteSelectItem.id}}
     </ng-option>
   </ng-select>
   <button

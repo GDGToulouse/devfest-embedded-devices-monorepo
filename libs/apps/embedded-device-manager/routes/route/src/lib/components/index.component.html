@@ -35,7 +35,7 @@
     <span
       class="toolbar-spacer"
     ></span>
-    <button
+    <!-- <button
       mat-button
       [matMenuTriggerFor]="menuLangs"
       [attr.aria-label]="_.menuLangsTooltip.ariaLabel?.text"
@@ -64,7 +64,7 @@
       mat-button
     >
       fr
-    </button>
+    </button> -->
     <button
       (click)="sidenavEndToggle()"
       [attr.aria-label]="_.sidenavEndTogglerTooltip.ariaLabel?.text"
@@ -102,13 +102,13 @@
       [opened]="_.sidenavEndUiIsOpened"
       [position]="'end'"
     >
-      <mat-nav-list>
+      <!-- <mat-nav-list>
         <a
           [routerLink]="navRightItem.routerLink"
           *ngFor="let navRightItem of _.rightSidenavItemList"
           mat-list-item
         >{{ navRightItem.label?.text }}</a>
-      </mat-nav-list>
+      </mat-nav-list> -->
     </mat-sidenav>
     <!-- TODO ask for help to remove the following style attribute, the need is to handle the case when the route height is 0 in order to have at least the full screen occupied by the mat-sidenav-content -->
     <div

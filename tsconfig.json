@@ -55,5 +55,9 @@
 			"@gdgtoulouse/structures/http-status-code": ["libs/structures/http-status-code/src/index.ts"]
 		}
 	},
+	"angularCompilerOptions": {
+		"fullTemplateTypeCheck": true,
+		"strictTemplates": true
+	},
 	"exclude": ["node_modules", "tmp"]
 }

@@ -8,6 +8,6 @@ export interface NodeRouter {
 	skipLocationChange?: boolean;
 	replaceUrl?: boolean;
 	state?: { [k: string]: any };
-	routerLink?: string | any[];
+	routerLink?: any[];
 	text?: string;
 }

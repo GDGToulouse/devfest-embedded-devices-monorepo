@@ -48,8 +48,8 @@ export class IndexComponent implements AfterViewInit, OnDestroy {
 		}
 	}
 
-	@Input() set prompt(value: string) {
-		this._prompt = value;
+	@Input() set prompt({ text }: { text: string }) {
+		this._prompt = text;
 		if (this.ngTerminal !== undefined) {
 			this.changeDetectorRef.markForCheck();
 		}
