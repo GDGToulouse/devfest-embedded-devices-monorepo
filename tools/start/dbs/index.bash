@@ -24,7 +24,6 @@ cloudContainerName="${project}-cloud-db"
 cloudContainerPassword="cloud"
 cloudContainerPort="5000"
 cloudContainerUser="cloud"
-cloudKeycloakContainerPort="5003"
 
 docker \
 	stop \
@@ -116,46 +115,79 @@ for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-dev
 	fi
 done;
 
-ssoKeycloakContainerName="${project}-sso"
-ssoKeycloakContainerPassword="sso"
-ssoKeycloakContainerPort="5004"
-ssoKeycloakContainerUser="sso"
+ssoNetworkName="sso-net"
 
-ssoKeycloakDatabaseContainerName="${project}-sso-db"
-ssoKeycloakDatabaseContainerPassword="sso"
-ssoKeycloakDatabaseContainerPort="5003"
-ssoKeycloakDatabaseContainerUser="sso"
-ssoKeycloakDatabaseContainerDatabaseName="sso-db"
+docker \
+	network \
+		remove \
+			${ssoNetworkName}
 
-# docker \
-# 	run \
-# 		--rm \
-# 		-p ${ssoKeycloakDatabaseContainerPort}:5432 \
-# 		--name ${ssoKeycloakDatabaseContainerName} \
-# 		-e POSTGRES_DB=${ssoKeycloakDatabaseContainerDatabaseName} \
-# 		-e POSTGRES_USER=${ssoKeycloakDatabaseContainerUser} \
-# 		-e POSTGRES_PASSWORD=${ssoKeycloakDatabaseContainerPassword} \
-# 		postgres:latest \
-# &
-# pids="${pids} $!"
+docker \
+	network \
+		create \
+			--driver bridge \
+				${ssoNetworkName}
 
-# docker \
-# 	run \
-# 		--rm \
-# 		-p ${ssoKeycloakContainerPort}:8080 \
-# 		--name ${ssoKeycloakContainerName} \
-# 		-e DB_ADDR=http://localhost \
-# 		-e DB_PORT=${ssoKeycloakDatabaseContainerPort} \
-# 		-e DB_PASSWORD=${ssoKeycloakDatabaseContainerPassword} \
-# 		-e DB_USER=${ssoKeycloakDatabaseContainerUser} \
-# 		-e DB_VENDOR=POSTGRES \
-# 		-e KEYCLOAK_PASSWORD=${ssoKeycloakContainerPassword} \
-# 		-e KEYCLOAK_USER=${ssoKeycloakContainerUser} \
-# 		quay.io/keycloak/keycloak:latest \
-# &
-# pids="${pids} $!"
+ssoDatabaseContainerName="postgres"
+ssoDatabaseContainerPassword="sso-db"
+ssoDatabaseContainerPort="5432"
+ssoDatabaseContainerUser="sso-db"
+ssoDatabaseContainerDatabase="keycloak"
 
-# echo "The keycloak admin console will be available here: http://localhost:${ssoKeycloakContainerPort}/auth/admin"
+docker \
+	stop \
+		${ssoDatabaseContainerName}
+
+docker \
+	rm \
+		${ssoDatabaseContainerName}
+
+docker \
+	run \
+		--rm \
+		-p ${ssoDatabaseContainerPort}:5432 \
+		--name ${ssoDatabaseContainerName} \
+		--network ${ssoNetworkName} \
+		-e POSTGRES_DB=${ssoDatabaseContainerDatabase} \
+		-e POSTGRES_USER=${ssoDatabaseContainerUser} \
+		-e POSTGRES_PASSWORD=${ssoDatabaseContainerPassword} \
+		postgres:latest \
+&
+pids="${pids} $!"
+
+ssoContainerName="${project}-sso"
+ssoContainerPassword="sso"
+ssoContainerPort="5004"
+ssoContainerUser="sso"
+
+docker \
+	stop \
+		${ssoContainerName}
+
+docker \
+	rm \
+		${ssoContainerName}
+
+docker \
+	run \
+		--rm \
+		-p ${ssoContainerPort}:8080 \
+		--network ${ssoNetworkName} \
+		--name ${ssoContainerName} \
+		-e DB_VENDOR=POSTGRES \
+		-e DB_ADDR=${ssoDatabaseContainerName} \
+		-e DB_PORT=${ssoDatabaseContainerPort} \
+		-e DB_DATABASE=${ssoDatabaseContainerDatabase} \
+		-e DB_USER=${ssoDatabaseContainerUser} \
+		-e DB_PASSWORD=${ssoDatabaseContainerPassword} \
+		-e KEYCLOAK_USER=${ssoContainerUser} \
+		-e KEYCLOAK_PASSWORD=${ssoContainerPassword} \
+		quay.io/keycloak/keycloak:latest \
+			-b 0.0.0.0 \
+&
+pids="${pids} $!"
+
+# echo "The keycloak admin console will be available here: http://localhost:${ssoContainerPort}/auth/admin"
 
 andromedaContainerName="${project}-device-andromeda-db"
 andromedaContainerPassword="andromeda"
