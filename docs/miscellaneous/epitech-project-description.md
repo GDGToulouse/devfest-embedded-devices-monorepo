@@ -46,7 +46,7 @@ Epitech students:
 
 ### Organisation and tools
 
-- The project will be drived by the DevFest Toulouse's organizers.
+- The project will be driven by the DevFest Toulouse's organizers.
 - There will be Agile's methods and Clean Code's good practices (Kanban, Issues, Scoring, Code Reviews, Deploy First, Quality First, DRY / WET, IaC, ...).
 
 There will be teams:
