@@ -3,11 +3,8 @@
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../..`
 
-defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f2 | cut -d'"' -f2`
 pids=""
 rc=0
-
-project=${1:-"${defaultProject}"}
 
 trap 'sigintTrap' 2
 
@@ -19,13 +16,16 @@ sigintTrap() {
 	exit 2
 }
 
-${hereDir}/front/index.bash "${project}" &
+${hereDir}/sso/index.bash &
 pids="${pids} $!"
 
-${hereDir}/back/index.bash "${project}" &
+${hereDir}/front/index.bash &
 pids="${pids} $!"
 
-${hereDir}/dbs/index.bash "${project}" &
+${hereDir}/back/index.bash &
+pids="${pids} $!"
+
+${hereDir}/dbs/index.bash &
 pids="${pids} $!"
 
 for pid in ${pids}; do

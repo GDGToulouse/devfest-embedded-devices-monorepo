@@ -1,9 +1,27 @@
 {
-	"auth": {
-
-		"clientId": "",
-		"issuer": "",
-		"redirectUri": "",
-		"scope": ""
+	"keycloak": {
+		"options": {
+			"config": {
+				"clientId": "apps-embedded-devices-manager",
+				"realm": "dev-front",
+				"url": "http://localhost:5004/auth"
+			},
+			"initOptions": {
+				"onLoad": "check-sso"
+			},
+			"bearerExcludedUrls": ["/assets"],
+			"loadUserProfileAtStartUp": false
+		}
+	},
+	"roles": {
+		"guards": {
+			"keycloak": {
+				"canLoad": {
+					"isAuthenticationRequired": true,
+					"deniedList": [],
+					"redirectUri": "https://0.0.0.0:5002/"
+				}
+			}
+		}
 	}
 }

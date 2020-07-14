@@ -101,6 +101,18 @@
 						}
 					}
 				},{
+					"command": "lscpu",
+					"productionConfig": {
+						"time": {
+							"afterDelay": 0
+						},
+						"repeat": {
+							"time": {
+								"afterPeriod": 120000
+							}
+						}
+					}
+				},{
 					"command": "sensors",
 					"productionConfig": {
 						"time": {

@@ -3703,7 +3703,7 @@ base64-js@0.0.8:
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
   integrity sha1-EQHpVE9KdrG8OybUUsqW16NeeXg=
 
-base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.3.0:
+base64-js@1.3.1, base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
   integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
@@ -8919,6 +8919,11 @@ jkroso-type@1:
   resolved "https://registry.yarnpkg.com/jkroso-type/-/jkroso-type-1.1.1.tgz#bc4ced6d6c45fe0745282bafc86a9f8c4fc9ce61"
   integrity sha1-vEztbWxF/gdFKCuvyGqfjE/JzmE=
 
+js-sha256@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
+  integrity sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -9095,6 +9100,19 @@ karma-source-map-support@1.4.0:
   integrity sha512-RsBECncGO17KAoJCYXjv+ckIz+Ii9NCi+9enk+rq6XC81ezYkb4/RHE6CTXdA7IOJqoF3wcaLfVG0CPmE5ca6A==
   dependencies:
     source-map-support "^0.5.5"
+
+keycloak-angular@^7.3.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/keycloak-angular/-/keycloak-angular-7.3.1.tgz#1a6cc734d882bf7e567b2f3939120e899c5a324d"
+  integrity sha512-lU1ErzCOOmvwmfM0rAf6Nlf65CkG1EpnXpGpdaeViCUcJOdU+ChMcjez78Ekv5qUFkNZsNccs2m5xUaU/1bqlw==
+
+keycloak-js@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-10.0.2.tgz#f0cf5b942627c5221f1466552c40e4624503b77b"
+  integrity sha512-7nkg4Ob1khHGcNbuK36AMndKUEuIQFpNlWU9ygWs7nSBPCI9VZ8dJjjXfKJHm0ewgcqLFGPIJ6bxxRlfcQ6sLg==
+  dependencies:
+    base64-js "1.3.1"
+    js-sha256 "0.9.0"
 
 keyv@^3.0.0:
   version "3.1.0"

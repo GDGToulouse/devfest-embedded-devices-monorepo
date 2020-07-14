@@ -4,16 +4,28 @@ import {
 	createAction,
 	props
 	} from '@ngrx/store';
+import { KeycloakOptions } from 'keycloak-angular';
+
+export type Role = string;
 
 export const topic = 'api-get';
 
 export type Failure = HttpErrorResponse;
 export interface Response {
-	auth: {
-		clientId: string;
-		issuer: string;
-		redirectUri: string;
-		scope: string;
+	keycloak?: {
+		options?: KeycloakOptions;
+	};
+	roles: {
+		guards: {
+			keycloak: {
+				canLoad: {
+					isAuthenticationRequired: boolean;
+					allowedList?: Role[];
+					deniedList?: Role[];
+					redirectUri: string;
+				};
+			};
+		};
 	};
 }
 

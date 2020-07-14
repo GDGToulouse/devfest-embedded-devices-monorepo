@@ -26,7 +26,7 @@ export const queryParams$ = (keyList: string[]) =>
 					return queryParams;
 			  }, {})
 	);
-export const areKeyListInQueryParams$ = (keyList: string[]) => createSelector(getFeatureState$, ({ router }) => (router === undefined ? undefined : keyList.reduce((areKeyListIsInQueryParams, key) => areKeyListIsInQueryParams && Object.keys(router.state.queryParams).includes(key), true)));
+export const areKeyListInQueryParams$ = (keyList: string[]) => createSelector(getFeatureState$, ({ router }) => (router === undefined ? undefined : keyList.some((key) => Object.keys(router.state.queryParams).includes(key))));
 
 export const Selectors = {
 	getFeatureState$,

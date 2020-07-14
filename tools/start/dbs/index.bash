@@ -3,12 +3,8 @@
 hereDir=`dirname $0 | while read a; do cd $a && pwd && break; done `
 repoDir=`readlink --canonicalize ${hereDir}/../../..`
 
-defaultProject=`cat ${repoDir}/angular.json | grep defaultProject | cut -d':' -f2 | cut -d'"' -f2`
 pids=""
 rc=0
-currentDir=`pwd`
-
-project=${1:-"${defaultProject}"}
 
 trap 'sigintTrap' 2
 
@@ -20,7 +16,7 @@ sigintTrap() {
 	exit 2
 }
 
-cloudContainerName="${project}-cloud-db"
+cloudContainerName="cloud-db"
 cloudContainerPassword="cloud"
 cloudContainerPort="5000"
 cloudContainerUser="cloud"
@@ -115,81 +111,7 @@ for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-dev
 	fi
 done;
 
-ssoNetworkName="sso-net"
-
-docker \
-	network \
-		remove \
-			${ssoNetworkName}
-
-docker \
-	network \
-		create \
-			--driver bridge \
-				${ssoNetworkName}
-
-ssoDatabaseContainerName="postgres"
-ssoDatabaseContainerPassword="sso-db"
-ssoDatabaseContainerPort="5432"
-ssoDatabaseContainerUser="sso-db"
-ssoDatabaseContainerDatabase="keycloak"
-
-docker \
-	stop \
-		${ssoDatabaseContainerName}
-
-docker \
-	rm \
-		${ssoDatabaseContainerName}
-
-docker \
-	run \
-		--rm \
-		-p ${ssoDatabaseContainerPort}:5432 \
-		--name ${ssoDatabaseContainerName} \
-		--network ${ssoNetworkName} \
-		-e POSTGRES_DB=${ssoDatabaseContainerDatabase} \
-		-e POSTGRES_USER=${ssoDatabaseContainerUser} \
-		-e POSTGRES_PASSWORD=${ssoDatabaseContainerPassword} \
-		postgres:latest \
-&
-pids="${pids} $!"
-
-ssoContainerName="${project}-sso"
-ssoContainerPassword="sso"
-ssoContainerPort="5004"
-ssoContainerUser="sso"
-
-docker \
-	stop \
-		${ssoContainerName}
-
-docker \
-	rm \
-		${ssoContainerName}
-
-docker \
-	run \
-		--rm \
-		-p ${ssoContainerPort}:8080 \
-		--network ${ssoNetworkName} \
-		--name ${ssoContainerName} \
-		-e DB_VENDOR=POSTGRES \
-		-e DB_ADDR=${ssoDatabaseContainerName} \
-		-e DB_PORT=${ssoDatabaseContainerPort} \
-		-e DB_DATABASE=${ssoDatabaseContainerDatabase} \
-		-e DB_USER=${ssoDatabaseContainerUser} \
-		-e DB_PASSWORD=${ssoDatabaseContainerPassword} \
-		-e KEYCLOAK_USER=${ssoContainerUser} \
-		-e KEYCLOAK_PASSWORD=${ssoContainerPassword} \
-		quay.io/keycloak/keycloak:latest \
-			-b 0.0.0.0 \
-&
-pids="${pids} $!"
-
-# echo "The keycloak admin console will be available here: http://localhost:${ssoContainerPort}/auth/admin"
-
-andromedaContainerName="${project}-device-andromeda-db"
+andromedaContainerName="device-andromeda-db"
 andromedaContainerPassword="andromeda"
 andromedaContainerPort="8000"
 andromedaContainerUser="andromeda"
@@ -244,7 +166,7 @@ for dir in `ls -mR ${repoDir}/tools/couchdb/restore/dumps/libs/apps/embedded-dev
 done;
 
 
-aquariusContainerName="${project}-device-aquarius-db"
+aquariusContainerName="device-aquarius-db"
 aquariusContainerPassword="aquarius"
 aquariusContainerPort="8010"
 aquariusContainerUser="aquarius"

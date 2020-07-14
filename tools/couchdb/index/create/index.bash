@@ -10,13 +10,6 @@ password=${4:-"cloud"}
 port=${5:-"5000"}
 username=${6:-"cloud"}
 
-echo "data=${data}"
-echo "database=${database}"
-echo "host=${host}"
-echo "password=${password}"
-echo "port=${port}"
-echo "username=${username}"
-
 curl \
 	--verbose \
 	-H 'Content-Type: application/json' \
