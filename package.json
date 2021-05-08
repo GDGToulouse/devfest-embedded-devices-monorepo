@@ -122,7 +122,7 @@
 		"eslint": "6.8.0",
 		"jest": "25.2.3",
 		"jest-preset-angular": "8.1.2",
-		"ng-packagr": "^9.0.0",
+		"ng-packagr": "^10.1.1",
 		"pouchdb-server": "^4.2.0",
 		"prettier": "2.0.4",
 		"ts-jest": "25.2.1",
